@@ -44,7 +44,7 @@ class _WordState extends State<Word> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(15, 20, 15, 10),
+      padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus(); // 다른곳 클릭 시 키보드 off
@@ -74,6 +74,7 @@ class _WordState extends State<Word> {
             Expanded(
               flex: 1,
               child: Container(
+                width: 400,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.white,
@@ -112,6 +113,7 @@ class _WordState extends State<Word> {
                             decoration: const InputDecoration(
                               hintText: '단어를 입력해 주세요',
                               border: InputBorder.none,
+                              // suffixIcon:
                             ),
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
@@ -119,6 +121,18 @@ class _WordState extends State<Word> {
                             ),
                           ),
                         ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: _wordSearchController.text.isNotEmpty
+                            ? IconButton(
+                                onPressed: () {
+                                  _wordSearchController.clear();
+                                },
+                                splashColor: Colors.transparent,
+                                icon: const Icon(Icons.clear),
+                              )
+                            : null,
                       ),
                     ],
                   ),

@@ -3,6 +3,7 @@ import 'package:WordWord/models/word_model.dart';
 
 class WordInfo extends StatelessWidget {
   Item item;
+
   WordInfo({
     Key? key,
     required this.item,
@@ -26,7 +27,7 @@ class WordInfo extends StatelessWidget {
                 ),
               ),
               Text(
-                item.supNo ?? '0',
+                item.supNo ?? '',
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
@@ -53,6 +54,7 @@ class WordInfo extends StatelessWidget {
             item.sense?.definition ?? '',
             style: TextStyle(
               fontSize: 15,
+              //fontWeight: FontWeight.bold,
             ),
           ),
         ),

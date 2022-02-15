@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'screens/home_screen.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+import 'screens/home_screen.dart';
+import 'screens/storage_screen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); //?? hive??
+
+  await Hive.initFlutter();
+  await Hive.openBox('word_box');
   runApp(const MyApp());
 }
 
@@ -19,9 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           //primaryColor: Colors.brown,
           ),
-      home: Scaffold(
-        body: HomeScreen(),
-      ),
+      home: HomeScreen(),
     );
   }
 }
