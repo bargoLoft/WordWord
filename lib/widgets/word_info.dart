@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:WordWord/models/word_model.dart';
+import 'package:WordWord/main.dart';
+import 'package:WordWord/screens/storage_screen.dart';
+import 'package:WordWord/models/word.dart';
 
 class WordInfo extends StatelessWidget {
   Item item;
@@ -15,7 +18,7 @@ class WordInfo extends StatelessWidget {
       children: [
         Container(
           alignment: Alignment.topLeft,
-          margin: EdgeInsets.fromLTRB(20, 0, 15, 0),
+          padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

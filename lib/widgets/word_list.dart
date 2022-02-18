@@ -3,6 +3,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../widgets/word_info.dart';
 import '../providers/word_search.dart';
@@ -20,6 +22,7 @@ class Word extends StatefulWidget {
 class _WordState extends State<Word> {
   final _wordSearchController = TextEditingController();
   String inputText = '';
+
   @override
   void initState() {
     super.initState();
@@ -44,11 +47,9 @@ class _WordState extends State<Word> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
+      padding: EdgeInsets.fromLTRB(15, 0, 15, 5),
       child: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus(); // 다른곳 클릭 시 키보드 off
-        },
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
           children: [
             Expanded(
