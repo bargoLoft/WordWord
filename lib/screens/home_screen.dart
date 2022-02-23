@@ -12,11 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+  int _selectedIndex = 0;
   @override
   void dispose() {
     Hive.close();
@@ -31,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.grey.shade200,
       body: SafeArea(
         child: PageView(
+          scrollDirection: Axis.vertical,
           //physics: const ClampingScrollPhysics(),
           children: [
             Word(word: ''),
@@ -38,6 +35,34 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   type: BottomNavigationBarType.fixed,
+      //   backgroundColor: Colors.grey.shade500,
+      //   selectedItemColor: Colors.white,
+      //   unselectedItemColor: Colors.white.withOpacity(.60),
+      //   selectedFontSize: 14,
+      //   unselectedFontSize: 14,
+      //   currentIndex: _selectedIndex, //현재 선택된 Index
+      //   onTap: (int index) {
+      //     setState(() {
+      //       _selectedIndex = index;
+      //     });
+      //   },
+      //   items: [
+      //     BottomNavigationBarItem(
+      //       label: '다',
+      //       icon: Icon(Icons.search),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       label: '너',
+      //       icon: Icon(Icons.storage),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       label: '다너',
+      //       icon: Icon(Icons.info),
+      //     ),
+      //   ],
+      // ),
     );
   }
 }

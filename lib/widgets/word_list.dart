@@ -20,12 +20,17 @@ class Word extends StatefulWidget {
 }
 
 class _WordState extends State<Word> {
+  final _scrollController = ScrollController();
   final _wordSearchController = TextEditingController();
+  final _myFocusNode = FocusNode();
+
   String inputText = '';
+  double _logoOpacity = 0.7;
 
   @override
   void initState() {
     super.initState();
+
     //getWordData(widget.word).whenComplete(() => setState(() {}));
   }
 
@@ -47,27 +52,65 @@ class _WordState extends State<Word> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(15, 0, 15, 5),
+      padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
           children: [
             Expanded(
               flex: 10,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
+              child: Stack(children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                  ),
+                  child: Scrollbar(
+                    controller: _scrollController,
+                    showTrackOnHover: true,
+                    isAlwaysShown: false,
+                    child: ListView.builder(
+                        itemCount: widget.wordModel.channel?.total ?? 0,
+                        //shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) =>
+                            Dismissible(
+                              onDismissed: (direction) {
+                                if (direction == DismissDirection.endToStart) {
+                                  setState(() {});
+                                }
+                              },
+                              background: Container(
+                                margin: EdgeInsets.all(8),
+                                padding: EdgeInsets.all(8),
+                                color: Colors.green,
+                                alignment: Alignment.centerRight,
+                                child: Icon(
+                                  Icons.save,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              key: Key(
+                                  widget.wordModel.channel?.item![index].word ??
+                                      ''),
+                              child: WordInfo(
+                                item: widget.wordModel.channel?.item![index] ??
+                                    Item(),
+                              ),
+                            )),
+                  ),
                 ),
-                child: ListView.builder(
-                    itemCount: widget.wordModel.channel?.total ?? 0,
-                    //shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return WordInfo(
-                        item: widget.wordModel.channel?.item![index] ?? Item(),
-                      );
-                    }),
-              ),
+                IgnorePointer(
+                  child: Center(
+                    child: AnimatedOpacity(
+                        duration: Duration(milliseconds: 500),
+                        opacity: _logoOpacity,
+                        child: Image(
+                          image: AssetImage('assets/images/국립국어원_국_상하.jpg'),
+                        )),
+                  ),
+                ),
+              ]),
             ),
             const SizedBox(
               height: 10,
@@ -75,7 +118,6 @@ class _WordState extends State<Word> {
             Expanded(
               flex: 1,
               child: Container(
-                width: 400,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.white,
@@ -104,11 +146,13 @@ class _WordState extends State<Word> {
                             keyboardType: TextInputType.text,
                             textAlign: TextAlign.center,
                             autofocus: false,
+                            focusNode: _myFocusNode,
                             onSubmitted: (String text) {
                               inputText = text;
                               print('입력하신 단어는 $inputText 입니다.');
                               setState(() {
                                 getWordData(inputText);
+                                _logoOpacity = 0.0;
                               });
                             },
                             decoration: const InputDecoration(
@@ -129,6 +173,8 @@ class _WordState extends State<Word> {
                             ? IconButton(
                                 onPressed: () {
                                   _wordSearchController.clear();
+                                  FocusScope.of(context)
+                                      .requestFocus(_myFocusNode);
                                 },
                                 splashColor: Colors.transparent,
                                 icon: const Icon(Icons.clear),

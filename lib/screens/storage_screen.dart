@@ -25,13 +25,6 @@ class _StorageScreenState extends State<StorageScreen> {
           return buildContext(words);
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          //deleteTransaction();
-          //addWord('사과', 2, '명사', '아삭아삭한 사과');
-        },
-      ),
     );
   }
 
@@ -39,7 +32,7 @@ class _StorageScreenState extends State<StorageScreen> {
     if (words.isEmpty) {
       return const Center(
         child: Text(
-          'No word yet!',
+          '텅텅 비었다!',
           style: TextStyle(fontSize: 24),
         ),
       );

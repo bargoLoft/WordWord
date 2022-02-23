@@ -5,6 +5,13 @@ const String certKey = '3422';
 const String apiUrl = 'https://stdict.korean.go.kr/api/search.do';
 
 class WordSearch {
+  Future<dynamic> getWords(String query) async {
+    var wordData =
+        await getData('$apiUrl?key=$apiKey&num=50&req_type=json&q=$query');
+    print('api 완료');
+    return wordData;
+  }
+
   Future getData(String url) async {
     print('Calling url: $url');
     Response response = await get(Uri.parse(url));
@@ -14,12 +21,5 @@ class WordSearch {
     } else {
       print(response.statusCode);
     }
-  }
-
-  Future<dynamic> getWords(String query) async {
-    var wordData =
-        await getData('$apiUrl?key=$apiKey&num=50&req_type=json&q=$query');
-    print('api 완료');
-    return wordData;
   }
 }
