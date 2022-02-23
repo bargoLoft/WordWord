@@ -18,19 +18,19 @@ class _StorageScreenState extends State<StorageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ValueListenableBuilder<Box<Word>>(
+      body: ValueListenableBuilder<Box<wordtest>>(
         valueListenable: Boxes.getWords().listenable(),
         builder: (context, box, _) {
-          final words = box.values.toList().cast<Word>();
+          final words = box.values.toList().cast<wordtest>();
           return buildContext(words);
         },
       ),
     );
   }
 
-  Widget buildContext(List<Word> words) {
+  Widget buildContext(List<wordtest> words) {
     if (words.isEmpty) {
-      return const Center(
+      return Center(
         child: Text(
           '텅텅 비었다!',
           style: TextStyle(fontSize: 24),
@@ -42,17 +42,39 @@ class _StorageScreenState extends State<StorageScreen> {
           SizedBox(
             height: 24,
           ),
-          Text('단어의 수는 총 ?'),
+          Text('단어의 수는 총 ${words.length}'),
           SizedBox(
             height: 24,
           ),
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.all(8),
-              itemCount: words.length,
+              padding: const EdgeInsets.all(8),
+              itemCount: Boxes.getWords().length,
               itemBuilder: (BuildContext context, int index) {
-                final word = words[index];
-                return buildTransaction(context, word);
+                var word = words[index];
+                return Dismissible(
+                  key: UniqueKey(),
+                  background: Container(
+                    margin: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8),
+                    color: Colors.red,
+                    alignment: Alignment.centerRight,
+                    child: Icon(
+                      Icons.delete,
+                      size: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onDismissed: (direction) {
+                    if (direction == DismissDirection.endToStart) {
+                      setState(() {
+                        Boxes.getWords().delete(word.targetCode);
+                        //Boxes.getWords().deleteFromDisk();
+                      });
+                    }
+                  },
+                  child: buildTransaction(context, word),
+                );
               },
             ),
           ),
@@ -61,25 +83,59 @@ class _StorageScreenState extends State<StorageScreen> {
     }
   }
 
-  Widget buildTransaction(BuildContext context, Word word) {
+  Widget buildTransaction(BuildContext context, wordtest word) {
     return Card(
-      child: ExpansionTile(
-        title: Text(
-          word.word,
+      margin: EdgeInsets.all(8),
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  word.word,
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(width: 1),
+                Text(
+                  word.supNo.toString(),
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 1),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                '${word.pos}',
+                style: TextStyle(
+                  color: Colors.lightBlueAccent,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+            SizedBox(height: 3),
+            Text(
+              word.definition,
+              style: TextStyle(
+                fontSize: 15,
+                //fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
-        subtitle: Text(word.supNo.toString()),
-        trailing: Text(word.definition),
       ),
     );
   }
 
-  Future addWord(String name, int supNo, String pos, String definition) async {
-    final word = Word(name, supNo, pos, definition);
-    final box = Boxes.getWords();
-    box.add(word);
-  }
-
-  void deleteWord(Word word) {
+  void deleteWord(wordtest word) {
     final box = Boxes.getWords();
     word.delete();
   }

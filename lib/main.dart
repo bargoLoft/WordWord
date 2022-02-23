@@ -11,8 +11,8 @@ import 'screens/storage_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); //?? hive??
   await Hive.initFlutter();
-  Hive.registerAdapter(WordAdapter());
-  await Hive.openBox<Word>('words');
+  Hive.registerAdapter(wordtestAdapter());
+  await Hive.openBox<wordtest>('words');
 
   runApp(MyApp());
 }

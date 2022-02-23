@@ -9,6 +9,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../widgets/word_info.dart';
 import '../providers/word_search.dart';
 import '../models/word_model.dart';
+import '../models/word.dart';
+import 'package:WordWord/boxes.dart';
 
 class Word extends StatefulWidget {
   String word;
@@ -20,7 +22,7 @@ class Word extends StatefulWidget {
 }
 
 class _WordState extends State<Word> {
-  final _scrollController = ScrollController();
+  final _scrollController = ScrollController(initialScrollOffset: 50.0);
   final _wordSearchController = TextEditingController();
   final _myFocusNode = FocusNode();
 
@@ -76,6 +78,27 @@ class _WordState extends State<Word> {
                             Dismissible(
                               onDismissed: (direction) {
                                 if (direction == DismissDirection.endToStart) {
+                                  Boxes.getWords().put(
+                                    widget.wordModel.channel?.item![index]
+                                        .targetCode,
+                                    wordtest(
+                                      widget.wordModel.channel?.item![index]
+                                              .word ??
+                                          '',
+                                      int.parse(widget.wordModel.channel
+                                              ?.item![index].supNo ??
+                                          ''),
+                                      widget.wordModel.channel?.item![index]
+                                              .pos ??
+                                          '',
+                                      widget.wordModel.channel?.item![index]
+                                              .sense?.definition ??
+                                          '',
+                                      widget.wordModel.channel?.item![index]
+                                              .targetCode ??
+                                          '',
+                                    ),
+                                  );
                                   setState(() {});
                                 }
                               },
@@ -90,9 +113,10 @@ class _WordState extends State<Word> {
                                   color: Colors.white,
                                 ),
                               ),
-                              key: Key(
-                                  widget.wordModel.channel?.item![index].word ??
-                                      ''),
+                              key: UniqueKey(),
+                              // Key(widget.wordModel.channel?.item![index]
+                              //         .word ??
+                              //     ''),
                               child: WordInfo(
                                 item: widget.wordModel.channel?.item![index] ??
                                     Item(),

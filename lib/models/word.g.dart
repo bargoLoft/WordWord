@@ -6,28 +6,29 @@ part of 'word.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class WordAdapter extends TypeAdapter<Word> {
+class wordtestAdapter extends TypeAdapter<wordtest> {
   @override
-  final int typeId = 1;
+  final int typeId = 0;
 
   @override
-  Word read(BinaryReader reader) {
+  wordtest read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Word(
+    return wordtest(
       fields[0] as String,
       fields[1] as int,
       fields[2] as String,
       fields[3] as String,
+      fields[4] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Word obj) {
+  void write(BinaryWriter writer, wordtest obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.word)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class WordAdapter extends TypeAdapter<Word> {
       ..writeByte(2)
       ..write(obj.pos)
       ..writeByte(3)
-      ..write(obj.definition);
+      ..write(obj.definition)
+      ..writeByte(4)
+      ..write(obj.targetCode);
   }
 
   @override
@@ -44,7 +47,7 @@ class WordAdapter extends TypeAdapter<Word> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is WordAdapter &&
+      other is wordtestAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

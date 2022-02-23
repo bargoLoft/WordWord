@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'word.g.dart';
 
 @HiveType(typeId: 0)
-class Word extends HiveObject {
+class wordtest extends HiveObject {
   @HiveField(0)
   String word;
   @HiveField(1)
@@ -12,11 +12,14 @@ class Word extends HiveObject {
   String pos;
   @HiveField(3)
   String definition;
+  @HiveField(4)
+  String targetCode;
 
-  Word(
+  wordtest(
     this.word,
     this.supNo,
     this.pos,
     this.definition,
+    this.targetCode,
   );
 }
