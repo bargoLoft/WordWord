@@ -29,14 +29,16 @@ class WordInfo extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(width: 1),
-              Text(
-                item.supNo ?? '',
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
+              if (item.supNo == '0')
+                SizedBox(width: 1)
+              else
+                Text(
+                  item.supNo ?? '',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
             ],
           ),
         ),

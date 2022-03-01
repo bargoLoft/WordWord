@@ -12,7 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
   @override
   void dispose() {
     Hive.close();
@@ -31,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
           //physics: const ClampingScrollPhysics(),
           children: [
             Word(word: ''),
-            StorageScreen(),
+            const StorageScreen(),
           ],
         ),
       ),

@@ -22,17 +22,18 @@ class Word extends StatefulWidget {
 }
 
 class _WordState extends State<Word> {
-  final _scrollController = ScrollController(initialScrollOffset: 50.0);
+  final _scrollController = ScrollController();
   final _wordSearchController = TextEditingController();
   final _myFocusNode = FocusNode();
 
   String inputText = '';
   double _logoOpacity = 0.7;
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-
+    isLoading = false;
     //getWordData(widget.word).whenComplete(() => setState(() {}));
   }
 
@@ -47,6 +48,7 @@ class _WordState extends State<Word> {
     print('받아오고');
     setState(() {
       widget.wordModel = WordModel.fromJson(jsonDecode(wordJson));
+      isLoading = false;
     });
     print('변경');
   }
@@ -67,69 +69,87 @@ class _WordState extends State<Word> {
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.white,
                   ),
-                  child: Scrollbar(
-                    controller: _scrollController,
-                    showTrackOnHover: true,
-                    isAlwaysShown: false,
-                    child: ListView.builder(
-                        itemCount: widget.wordModel.channel?.total ?? 0,
-                        //shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) =>
-                            Dismissible(
-                              onDismissed: (direction) {
-                                if (direction == DismissDirection.endToStart) {
-                                  Boxes.getWords().put(
-                                    widget.wordModel.channel?.item![index]
-                                        .targetCode,
-                                    wordtest(
-                                      widget.wordModel.channel?.item![index]
-                                              .word ??
-                                          '',
-                                      int.parse(widget.wordModel.channel
-                                              ?.item![index].supNo ??
-                                          ''),
-                                      widget.wordModel.channel?.item![index]
-                                              .pos ??
-                                          '',
-                                      widget.wordModel.channel?.item![index]
-                                              .sense?.definition ??
-                                          '',
-                                      widget.wordModel.channel?.item![index]
-                                              .targetCode ??
-                                          '',
+                  child: isLoading == true
+                      ? Center(
+                          child: Center(
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              child: const CircularProgressIndicator(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Scrollbar(
+                          controller: _scrollController,
+                          child: ListView.builder(
+                              controller: _scrollController,
+                              itemCount: widget.wordModel.channel?.total ?? 0,
+                              //shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) =>
+                                  Dismissible(
+                                    onDismissed: (direction) {
+                                      if (direction ==
+                                          DismissDirection.endToStart) {
+                                        Boxes.getWords().put(
+                                          widget.wordModel.channel?.item![index]
+                                              .targetCode,
+                                          wordtest(
+                                            widget.wordModel.channel
+                                                    ?.item![index].word ??
+                                                '',
+                                            int.parse(widget.wordModel.channel
+                                                    ?.item![index].supNo ??
+                                                ''),
+                                            widget.wordModel.channel
+                                                    ?.item![index].pos ??
+                                                '',
+                                            widget
+                                                    .wordModel
+                                                    .channel
+                                                    ?.item![index]
+                                                    .sense
+                                                    ?.definition ??
+                                                '',
+                                            widget.wordModel.channel
+                                                    ?.item![index].targetCode ??
+                                                '',
+                                          ),
+                                        );
+                                        //setState(() {});
+                                      }
+                                    },
+                                    background: Container(
+                                      margin: EdgeInsets.all(8),
+                                      padding: EdgeInsets.all(8),
+                                      color: Colors.green,
+                                      alignment: Alignment.centerRight,
+                                      child: Icon(
+                                        Icons.save,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  );
-                                  setState(() {});
-                                }
-                              },
-                              background: Container(
-                                margin: EdgeInsets.all(8),
-                                padding: EdgeInsets.all(8),
-                                color: Colors.green,
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.save,
-                                  size: 20,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              key: UniqueKey(),
-                              // Key(widget.wordModel.channel?.item![index]
-                              //         .word ??
-                              //     ''),
-                              child: WordInfo(
-                                item: widget.wordModel.channel?.item![index] ??
-                                    Item(),
-                              ),
-                            )),
-                  ),
+                                    key: UniqueKey(),
+                                    // Key(widget.wordModel.channel?.item![index]
+                                    //         .word ??
+                                    //     ''),
+                                    child: WordInfo(
+                                      item: widget.wordModel.channel
+                                              ?.item![index] ??
+                                          Item(),
+                                    ),
+                                  )),
+                        ),
                 ),
                 IgnorePointer(
                   child: Center(
                     child: AnimatedOpacity(
-                        duration: Duration(milliseconds: 500),
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.linear,
                         opacity: _logoOpacity,
-                        child: Image(
+                        child: const Image(
                           image: AssetImage('assets/images/국립국어원_국_상하.jpg'),
                         )),
                   ),
@@ -147,7 +167,7 @@ class _WordState extends State<Word> {
                   color: Colors.white,
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                   child: Stack(
                     children: [
                       const Positioned.fill(
@@ -175,8 +195,9 @@ class _WordState extends State<Word> {
                               inputText = text;
                               print('입력하신 단어는 $inputText 입니다.');
                               setState(() {
-                                getWordData(inputText);
                                 _logoOpacity = 0.0;
+                                isLoading = true;
+                                getWordData(inputText);
                               });
                             },
                             decoration: const InputDecoration(

@@ -39,16 +39,22 @@ class _StorageScreenState extends State<StorageScreen> {
     } else {
       return Column(
         children: [
-          SizedBox(
-            height: 24,
+          SizedBox(height: 24),
+          Text(
+            '다너다너',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+            ),
           ),
-          Text('단어의 수는 총 ${words.length}'),
-          SizedBox(
-            height: 24,
-          ),
+          SizedBox(height: 10),
+          Align(
+              //alignment: Alignment.centerLeft,
+              child: Text('총 ${words.length}개의 단어')),
+          SizedBox(height: 10),
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.symmetric(horizontal: 4),
               itemCount: Boxes.getWords().length,
               itemBuilder: (BuildContext context, int index) {
                 var word = words[index];
@@ -85,7 +91,7 @@ class _StorageScreenState extends State<StorageScreen> {
 
   Widget buildTransaction(BuildContext context, wordtest word) {
     return Card(
-      margin: EdgeInsets.all(8),
+      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
       child: Padding(
         padding: EdgeInsets.all(10),
         child: Column(
@@ -100,17 +106,19 @@ class _StorageScreenState extends State<StorageScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 1),
-                Text(
-                  word.supNo.toString(),
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
+                if (word.supNo == 0)
+                  SizedBox(width: 1)
+                else
+                  Text(
+                    word.supNo.toString(),
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
               ],
             ),
-            SizedBox(height: 1),
+            SizedBox(height: 3),
             Container(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -121,12 +129,15 @@ class _StorageScreenState extends State<StorageScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 3),
-            Text(
-              word.definition,
-              style: TextStyle(
-                fontSize: 15,
-                //fontWeight: FontWeight.bold,
+            SizedBox(height: 5),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                word.definition,
+                style: TextStyle(
+                  fontSize: 15,
+                  //fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
