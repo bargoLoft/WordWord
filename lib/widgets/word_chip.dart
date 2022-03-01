@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:WordWord/screens/storage_screen.dart';
 
 class WordChip extends StatefulWidget {
-  String? word;
+  final String? word;
 
   WordChip({
     Key? key,
@@ -20,11 +19,8 @@ class _WordChipState extends State<WordChip> {
     return ChoiceChip(
 // avatar: Image.,
       label: Text('${widget.word}'),
-      labelPadding: EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 2,
-      ),
-      labelStyle: TextStyle(
+      labelPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      labelStyle: const TextStyle(
         fontSize: 20,
       ),
       selected: _isSelected,

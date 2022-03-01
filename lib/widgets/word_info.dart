@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:WordWord/models/word_model.dart';
-import 'package:WordWord/main.dart';
-import 'package:WordWord/screens/storage_screen.dart';
-import 'package:WordWord/models/word.dart';
 
 class WordInfo extends StatelessWidget {
-  Item item;
+  final Item item;
 
-  WordInfo({
+  const WordInfo({
     Key? key,
     required this.item,
   }) : super(key: key);
@@ -18,23 +15,23 @@ class WordInfo extends StatelessWidget {
       children: [
         Container(
           alignment: Alignment.topLeft,
-          padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+          padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 item.word ?? '',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               if (item.supNo == '0')
-                SizedBox(width: 1)
+                const SizedBox(width: 1)
               else
                 Text(
                   item.supNo ?? '',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                   ),
@@ -44,10 +41,10 @@ class WordInfo extends StatelessWidget {
         ),
         Container(
           alignment: Alignment.topLeft,
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
           child: Text(
             '${item.pos}',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.lightBlueAccent,
               fontSize: 15,
             ),
@@ -55,16 +52,16 @@ class WordInfo extends StatelessWidget {
         ),
         Container(
           alignment: Alignment.topLeft,
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           child: Text(
             item.sense?.definition ?? '',
-            style: TextStyle(
-              fontSize: 15,
+            style: const TextStyle(
+              fontSize: 13,
               //fontWeight: FontWeight.bold,
             ),
           ),
         ),
-        Divider(
+        const Divider(
           thickness: 1,
           indent: 20,
           endIndent: 20,

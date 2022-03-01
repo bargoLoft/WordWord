@@ -2,9 +2,6 @@ import 'dart:convert';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import '../widgets/word_info.dart';
 import '../providers/word_search.dart';
@@ -56,7 +53,7 @@ class _WordState extends State<Word> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
@@ -70,12 +67,12 @@ class _WordState extends State<Word> {
                     color: Colors.white,
                   ),
                   child: isLoading == true
-                      ? Center(
+                      ? const Center(
                           child: Center(
-                            child: Container(
+                            child: SizedBox(
                               width: 30,
                               height: 30,
-                              child: const CircularProgressIndicator(
+                              child: CircularProgressIndicator(
                                 color: Colors.grey,
                               ),
                             ),
@@ -121,11 +118,11 @@ class _WordState extends State<Word> {
                                       }
                                     },
                                     background: Container(
-                                      margin: EdgeInsets.all(8),
-                                      padding: EdgeInsets.all(8),
+                                      margin: const EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
                                       color: Colors.green,
                                       alignment: Alignment.centerRight,
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.save,
                                         size: 20,
                                         color: Colors.white,
@@ -167,7 +164,8 @@ class _WordState extends State<Word> {
                   color: Colors.white,
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                   child: Stack(
                     children: [
                       const Positioned.fill(

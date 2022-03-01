@@ -5,7 +5,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'models/word.dart';
 import 'screens/home_screen.dart';
-import 'screens/storage_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); //?? hive??
@@ -13,7 +12,7 @@ void main() async {
   Hive.registerAdapter(wordtestAdapter());
   await Hive.openBox<wordtest>('words');
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

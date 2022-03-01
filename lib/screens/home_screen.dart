@@ -1,4 +1,3 @@
-import 'package:WordWord/models/word_model.dart';
 import 'package:WordWord/screens/storage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';

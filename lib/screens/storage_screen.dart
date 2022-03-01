@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:WordWord/models/word.dart';
@@ -30,7 +29,7 @@ class _StorageScreenState extends State<StorageScreen> {
 
   Widget buildContext(List<wordtest> words) {
     if (words.isEmpty) {
-      return Center(
+      return const Center(
         child: Text(
           '텅텅 비었다!',
           style: TextStyle(fontSize: 24),
@@ -39,19 +38,19 @@ class _StorageScreenState extends State<StorageScreen> {
     } else {
       return Column(
         children: [
-          SizedBox(height: 24),
-          Text(
+          const SizedBox(height: 24),
+          const Text(
             '다너다너',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Align(
               //alignment: Alignment.centerLeft,
               child: Text('총 ${words.length}개의 단어')),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -61,11 +60,11 @@ class _StorageScreenState extends State<StorageScreen> {
                 return Dismissible(
                   key: UniqueKey(),
                   background: Container(
-                    margin: EdgeInsets.all(8),
-                    padding: EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     color: Colors.red,
                     alignment: Alignment.centerRight,
-                    child: Icon(
+                    child: const Icon(
                       Icons.delete,
                       size: 20,
                       color: Colors.white,
@@ -91,9 +90,9 @@ class _StorageScreenState extends State<StorageScreen> {
 
   Widget buildTransaction(BuildContext context, wordtest word) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             Row(
@@ -101,41 +100,41 @@ class _StorageScreenState extends State<StorageScreen> {
               children: [
                 Text(
                   word.word,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 if (word.supNo == 0)
-                  SizedBox(width: 1)
+                  const SizedBox(width: 1)
                 else
                   Text(
                     word.supNo.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
               ],
             ),
-            SizedBox(height: 3),
+            const SizedBox(height: 3),
             Container(
               alignment: Alignment.centerLeft,
               child: Text(
-                '${word.pos}',
-                style: TextStyle(
+                word.pos,
+                style: const TextStyle(
                   color: Colors.lightBlueAccent,
                   fontSize: 15,
                 ),
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Container(
               alignment: Alignment.centerLeft,
               child: Text(
                 word.definition,
-                style: TextStyle(
-                  fontSize: 15,
+                style: const TextStyle(
+                  fontSize: 13,
                   //fontWeight: FontWeight.bold,
                 ),
               ),
@@ -144,10 +143,5 @@ class _StorageScreenState extends State<StorageScreen> {
         ),
       ),
     );
-  }
-
-  void deleteWord(wordtest word) {
-    final box = Boxes.getWords();
-    word.delete();
   }
 }
