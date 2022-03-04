@@ -3,17 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../widgets/word_list.dart';
 
+int value = 0;
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  int getPage() {
+    return value;
+  }
+
+  void setPage(int page) {
+    value = page;
+  }
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late PageController _pageController;
+  @override
+  void initState() {
+    _pageController = PageController(
+      keepPage: true,
+      initialPage: widget.getPage(),
+    );
+    super.initState();
+  }
+
   @override
   void dispose() {
     Hive.close();
+    _pageController.dispose();
     //Hive.box('word_box').close();
     super.dispose();
   }
@@ -25,8 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.grey.shade200,
       body: SafeArea(
         child: PageView(
+          controller: _pageController,
           scrollDirection: Axis.vertical,
-          //physics: const ClampingScrollPhysics(),
+          physics: PageScrollPhysics(),
           children: [
             Word(word: ''),
             const StorageScreen(),

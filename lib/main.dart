@@ -7,7 +7,7 @@ import 'models/word.dart';
 import 'screens/home_screen.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); //?? hive??
+  WidgetsFlutterBinding.ensureInitialized(); // main에서 비동기 메소드 사용시 필요
   await Hive.initFlutter();
   Hive.registerAdapter(wordtestAdapter());
   await Hive.openBox<wordtest>('words');

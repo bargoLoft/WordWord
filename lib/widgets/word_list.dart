@@ -8,6 +8,7 @@ import '../providers/word_search.dart';
 import '../models/word_model.dart';
 import '../models/word.dart';
 import 'package:WordWord/boxes.dart';
+import '../screens/info_screen.dart';
 
 class Word extends StatefulWidget {
   String word;
@@ -18,7 +19,7 @@ class Word extends StatefulWidget {
   _WordState createState() => _WordState();
 }
 
-class _WordState extends State<Word> {
+class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
   final _scrollController = ScrollController();
   final _wordSearchController = TextEditingController();
   final _myFocusNode = FocusNode();
@@ -26,6 +27,8 @@ class _WordState extends State<Word> {
   String inputText = '';
   double _logoOpacity = 0.7;
   bool isLoading = true;
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -37,6 +40,8 @@ class _WordState extends State<Word> {
   @override
   void dispose() {
     super.dispose();
+    _myFocusNode.dispose();
+    _scrollController.dispose();
     _wordSearchController.dispose();
   }
 
@@ -44,7 +49,15 @@ class _WordState extends State<Word> {
     String wordJson = await WordSearch().getWords(query);
     print('받아오고');
     setState(() {
-      widget.wordModel = WordModel.fromJson(jsonDecode(wordJson));
+      if (wordJson.isNotEmpty) {
+        widget.wordModel = WordModel.fromJson(jsonDecode(wordJson));
+      } else {
+        const snackBar = SnackBar(
+          content: Text('검색 결과가 없습니다!'),
+          duration: Duration(seconds: 1),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
       isLoading = false;
     });
     print('변경');
@@ -53,13 +66,60 @@ class _WordState extends State<Word> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
           children: [
+            SizedBox(height: 5),
             Expanded(
-              flex: 10,
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all(EdgeInsets.zero),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const InfoScreen()));
+                      },
+                      child: const Icon(
+                        Icons.info_outlined,
+                        color: Colors.grey,
+                        size: 30,
+                      )),
+                  Text(
+                    '다너다너',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                    ),
+                  ),
+                  TextButton(
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all(EdgeInsets.zero),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const InfoScreen()));
+                      },
+                      child: const Icon(
+                        Icons.info_outlined,
+                        color: Colors.grey,
+                        size: 30,
+                      )),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Expanded(
+              flex: 20,
               child: Stack(children: [
                 Container(
                   decoration: BoxDecoration(
@@ -114,7 +174,7 @@ class _WordState extends State<Word> {
                                                 '',
                                           ),
                                         );
-                                        //setState(() {});
+                                        //setState(() {}); 저장시 없앨지
                                       }
                                     },
                                     background: Container(
@@ -157,7 +217,7 @@ class _WordState extends State<Word> {
               height: 10,
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),

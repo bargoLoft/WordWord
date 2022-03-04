@@ -19,7 +19,7 @@ class WordSearch {
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      print(response.statusCode);
+      print('에러코드 : ${response.statusCode}');
     }
   }
 }
