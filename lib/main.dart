@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -8,6 +10,7 @@ import 'screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // main에서 비동기 메소드 사용시 필요
+  HttpOverrides.global = MyHttpOverrides();
   await Hive.initFlutter();
   Hive.registerAdapter(wordtestAdapter());
   await Hive.openBox<wordtest>('words');
@@ -30,5 +33,14 @@ class MyApp extends StatelessWidget {
           ),
       home: const HomeScreen(),
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
