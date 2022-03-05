@@ -3,8 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ios_utsname_ext/extension.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class InfoScreen extends StatefulWidget {
   const InfoScreen({Key? key}) : super(key: key);
@@ -14,6 +17,9 @@ class InfoScreen extends StatefulWidget {
 }
 
 class _InfoScreenState extends State<InfoScreen> {
+  final blogUrl = 'https://blog.naver.com/qmak01';
+  final dicKoreanUrl = 'https://stdict.korean.go.kr/main/main.do';
+  final instaUrl = 'https://www.instagram.com/2cup_2/';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +47,37 @@ class _InfoScreenState extends State<InfoScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextButton(
                 onPressed: () {
+                  _openUrl(dicKoreanUrl);
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    Text(
+                      '표준 국어 대사전 사이트',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Image(
+                        //width: 20,
+                        height: 20,
+                        image: AssetImage('assets/images/DicKoreanLogo.png'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const Divider(
+              height: 1,
+              indent: 10,
+              endIndent: 10,
+            ),
+            //SizedBox(height: 100),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: TextButton(
+                onPressed: () {
                   _sendEmail();
                 },
                 child: const Text(
@@ -52,14 +89,84 @@ class _InfoScreenState extends State<InfoScreen> {
             const Divider(
               height: 1,
               indent: 10,
-              //color: Colors.black,
-            )
+              endIndent: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: TextButton(
+                onPressed: () {
+                  _openUrl(blogUrl);
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    Text(
+                      '개발자 블로그 구경하기',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Image(
+                        width: 20,
+                        height: 20,
+                        image: AssetImage('assets/images/NaverBlogIcon.png'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const Divider(
+              height: 1,
+              indent: 10,
+              endIndent: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: TextButton(
+                onPressed: () {
+                  _openUrl(instaUrl);
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    Text(
+                      '개발자 인스타 구경하기',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Image(
+                        //width: 20,
+                        height: 20,
+                        image: AssetImage('assets/images/InstaIcon.png'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            //Expanded(child: SizedBox(height: 0)),
+            Container(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Text(
+                        '본 사전은 표준국어대사전 OpenAPI를 통해 제작되었으며,\n모든 사전정보의 저작권은 국립국어원에 있습니다.\n\n언뜻 스친 단어를 담아\n사색하고 음미하는 시간이 되었으면 좋겠습니다.'),
+                  ],
+                ))
           ],
         ),
       ),
     );
   }
 
+  //url 메소
+  void _openUrl(String url) async {
+    await launch(url, forceWebView: false, forceSafariVC: false);
+  }
+
+  //메일 메소드들
   void _sendEmail() async {
     String body = await _getEmailBody();
 
@@ -75,6 +182,9 @@ class _InfoScreenState extends State<InfoScreen> {
 
     try {
       await FlutterEmailSender.send(email);
+      // String title = '메세지 전송 완료!';
+      // String message = '';
+      // _showErrorAlert(title: title, message: message);
     } catch (error) {
       String title =
           '기본 메일 앱을 사용할 수 없기 때문에 앱에서 바로 문의를 전송하기 어려운 상황입니다.\n\n아래 이메일로 연락주시면 답변드리겠습니다. \n\nqmak01@naver.com';

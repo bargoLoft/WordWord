@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: PageView(
           controller: _pageController,
           scrollDirection: Axis.vertical,
-          physics: PageScrollPhysics(),
+          physics: const PageScrollPhysics(),
           children: [
             Word(word: ''),
             const StorageScreen(),

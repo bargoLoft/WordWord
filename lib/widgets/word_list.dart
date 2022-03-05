@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../widgets/word_info.dart';
 import '../providers/word_search.dart';
@@ -73,7 +74,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
           children: [
             SizedBox(height: 5),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -88,15 +89,15 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                 builder: (context) => const InfoScreen()));
                       },
                       child: const Icon(
-                        Icons.info_outlined,
+                        Icons.list,
                         color: Colors.grey,
                         size: 30,
                       )),
-                  Text(
+                  const Text(
                     '다너다너',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
+                      //fontWeight: FontWeight.bold,
+                      fontSize: 25,
                     ),
                   ),
                   TextButton(
@@ -119,7 +120,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
             ),
             SizedBox(height: 10),
             Expanded(
-              flex: 20,
+              flex: 30,
               child: Stack(children: [
                 Container(
                   decoration: BoxDecoration(
@@ -217,7 +218,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
               height: 10,
             ),
             Expanded(
-              flex: 2,
+              flex: 3,
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -231,11 +232,9 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                       const Positioned.fill(
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            '🔍',
-                            style: TextStyle(
-                              fontSize: 24,
-                            ),
+                          child: Icon(
+                            FontAwesomeIcons.search,
+                            size: 18,
                           ),
                         ),
                       ),

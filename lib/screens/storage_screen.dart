@@ -42,7 +42,7 @@ class _StorageScreenState extends State<StorageScreen> {
           const Text(
             '다너다너',
             style: TextStyle(
-              fontWeight: FontWeight.bold,
+              //fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
           ),
