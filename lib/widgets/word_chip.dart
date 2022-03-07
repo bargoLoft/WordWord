@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class WordChip extends StatefulWidget {
   final String? word;
 
-  WordChip({
+  const WordChip({
     Key? key,
     required this.word,
   }) : super(key: key);

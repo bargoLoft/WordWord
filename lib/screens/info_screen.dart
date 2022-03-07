@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ios_utsname_ext/extension.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
+import 'package:WordWord/boxes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class InfoScreen extends StatefulWidget {
@@ -146,11 +148,33 @@ class _InfoScreenState extends State<InfoScreen> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: TextButton(
+                onPressed: () {
+                  Boxes.getWords().clear();
+                  const snackBar = SnackBar(
+                    content: Text('다너다너가 초기화 되었습니다!'),
+                    duration: Duration(seconds: 1),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    Text(
+                      '다너다너 초기화',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             //Expanded(child: SizedBox(height: 0)),
             Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Column(
-                  children: [
+                  children: const [
                     Text(
                         '본 사전은 표준국어대사전 OpenAPI를 통해 제작되었으며,\n모든 사전정보의 저작권은 국립국어원에 있습니다.\n\n언뜻 스친 단어를 담아\n사색하고 음미하는 시간이 되었으면 좋겠습니다.'),
                   ],
@@ -214,7 +238,7 @@ class _InfoScreenState extends State<InfoScreen> {
     Map<String, dynamic> deviceInfo = await _getDeviceInfo();
     Map<String, dynamic> appInfo = await _getAppInfo();
 
-    String body = '\n\n\n\n';
+    String body = '';
 
     body += "==========================\n";
     body += '아래 내용을 함께 보내주시면 큰 도움이 됩니다 \n';

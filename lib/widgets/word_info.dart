@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:WordWord/models/word_model.dart';
+import '../screens/word_info_screen.dart';
 
 class WordInfo extends StatelessWidget {
   final Item item;

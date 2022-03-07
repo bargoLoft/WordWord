@@ -4,16 +4,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../widgets/word_info.dart';
 import '../providers/word_search.dart';
-import '../models/word_model.dart';
+import '../models/word_model.dart' as search;
+import '../models/word_view.dart' as view;
 import '../models/word.dart';
 import 'package:WordWord/boxes.dart';
 import '../screens/info_screen.dart';
+import '../screens/word_info_screen.dart';
+import '../widgets/word_info.dart';
 
 class Word extends StatefulWidget {
   String word;
-  WordModel wordModel = WordModel();
+  search.WordModel wordModel = search.WordModel();
+  view.WordView wordView = view.WordView();
   Word({Key? key, required this.word}) : super(key: key);
 
   @override
@@ -48,10 +51,12 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
 
   Future<void> getWordData(String query) async {
     String wordJson = await WordSearch().getWords(query);
+    String wordJsonView = await WordViewSearch().getWords(query, '1');
     print('받아오고');
     setState(() {
-      if (wordJson.isNotEmpty) {
-        widget.wordModel = WordModel.fromJson(jsonDecode(wordJson));
+      if (wordJson.isNotEmpty && wordJsonView.isNotEmpty) {
+        widget.wordModel = search.WordModel.fromJson(jsonDecode(wordJson));
+        widget.wordView = view.WordView.fromJson(jsonDecode(wordJsonView));
       } else {
         const snackBar = SnackBar(
           content: Text('검색 결과가 없습니다!'),
@@ -72,7 +77,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
         onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
           children: [
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Expanded(
               flex: 2,
               child: Row(
@@ -193,10 +198,21 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                     // Key(widget.wordModel.channel?.item![index]
                                     //         .word ??
                                     //     ''),
-                                    child: WordInfo(
-                                      item: widget.wordModel.channel
-                                              ?.item![index] ??
-                                          Item(),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => WordView(
+                                                    item: widget.wordView
+                                                            .channel?.item ??
+                                                        view.Item())));
+                                      },
+                                      child: WordInfo(
+                                        item: widget.wordModel.channel
+                                                ?.item![index] ??
+                                            search.Item(),
+                                      ),
                                     ),
                                   )),
                         ),
