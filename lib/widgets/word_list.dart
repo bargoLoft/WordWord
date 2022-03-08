@@ -51,7 +51,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
 
   Future<void> getWordData(String query) async {
     String wordJson = await WordSearch().getWords(query);
-    String wordJsonView = await WordViewSearch().getWords(query, '1');
+    String wordJsonView = await WordViewSearch().getWords(query, '0');
     print('받아오고');
     setState(() {
       if (wordJson.isNotEmpty && wordJsonView.isNotEmpty) {
