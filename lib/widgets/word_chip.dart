@@ -17,6 +17,9 @@ class _WordChipState extends State<WordChip> {
   @override
   Widget build(BuildContext context) {
     return ChoiceChip(
+      elevation: 5,
+      selectedColor: Colors.white,
+      backgroundColor: Colors.white,
 // avatar: Image.,
       label: Text('${widget.word}'),
       labelPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),

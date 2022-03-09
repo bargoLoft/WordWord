@@ -1,3 +1,5 @@
+import 'package:WordWord/widgets/word_chip.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -14,6 +16,7 @@ class StorageScreen extends StatefulWidget {
 }
 
 class _StorageScreenState extends State<StorageScreen> {
+  int? groupValue = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,8 +54,24 @@ class _StorageScreenState extends State<StorageScreen> {
               //alignment: Alignment.centerLeft,
               child: Text('총 ${words.length}개의 단어')),
           const SizedBox(height: 10),
+          CupertinoSlidingSegmentedControl(
+            padding: const EdgeInsets.all(4),
+            groupValue: groupValue,
+            children: {
+              0: Text('리스트'),
+              1: Text('칩'),
+            },
+            onValueChanged: (groupValue) {
+              setState(() {
+                this.groupValue = groupValue as int?;
+              });
+            },
+          ),
+          const SizedBox(height: 5),
           Expanded(
             child: ListView.builder(
+              scrollDirection:
+                  groupValue == 0 ? Axis.vertical : Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 4),
               itemCount: Boxes.getWords().length,
               itemBuilder: (BuildContext context, int index) {
@@ -89,59 +108,63 @@ class _StorageScreenState extends State<StorageScreen> {
   }
 
   Widget buildTransaction(BuildContext context, wordtest word) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  word.word,
-                  style: const TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (word.supNo == 0)
-                  const SizedBox(width: 1)
-                else
+    if (groupValue == 0) {
+      return Card(
+        margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
-                    word.supNo.toString(),
+                    word.word,
                     style: const TextStyle(
-                      fontSize: 10,
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-              ],
-            ),
-            const SizedBox(height: 3),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                word.pos,
-                style: const TextStyle(
-                  color: Colors.lightBlueAccent,
-                  fontSize: 15,
+                  if (word.supNo == 0)
+                    const SizedBox(width: 1)
+                  else
+                    Text(
+                      word.supNo.toString(),
+                      style: const TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 3),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  word.pos,
+                  style: const TextStyle(
+                    color: Colors.lightBlueAccent,
+                    fontSize: 15,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                word.definition,
-                style: const TextStyle(
-                  fontSize: 13,
-                  //fontWeight: FontWeight.bold,
+              const SizedBox(height: 5),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  word.definition,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    //fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return WordChip(word: word.word);
+    }
   }
 }
