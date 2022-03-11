@@ -16,7 +16,7 @@ class WordInfo extends StatelessWidget {
       children: [
         Container(
           alignment: Alignment.topLeft,
-          padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+          padding: const EdgeInsets.fromLTRB(15, 15, 10, 0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -42,12 +42,12 @@ class WordInfo extends StatelessWidget {
         ),
         Container(
           alignment: Alignment.topLeft,
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           child: Text(
             '${item.pos}',
             style: const TextStyle(
               color: Colors.lightBlueAccent,
-              fontSize: 15,
+              fontSize: 13,
             ),
           ),
         ),
@@ -57,7 +57,7 @@ class WordInfo extends StatelessWidget {
           child: Text(
             item.sense?.definition ?? '',
             style: const TextStyle(
-              fontSize: 13,
+              fontSize: 15,
               //fontWeight: FontWeight.bold,
             ),
           ),

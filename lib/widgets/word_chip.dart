@@ -16,22 +16,25 @@ class _WordChipState extends State<WordChip> {
   bool _isSelected = false;
   @override
   Widget build(BuildContext context) {
-    return ChoiceChip(
-      elevation: 5,
-      selectedColor: Colors.white,
-      backgroundColor: Colors.white,
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: ChoiceChip(
+        elevation: 5,
+        selectedColor: Colors.white,
+        backgroundColor: Colors.grey.shade300,
 // avatar: Image.,
-      label: Text('${widget.word}'),
-      labelPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-      labelStyle: const TextStyle(
-        fontSize: 20,
+        label: Text('${widget.word}'),
+        labelPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+        labelStyle: const TextStyle(
+          fontSize: 20,
+        ),
+        selected: _isSelected,
+        onSelected: (newBoolValue) {
+          setState(() {
+            _isSelected = newBoolValue;
+          });
+        },
       ),
-      selected: _isSelected,
-      onSelected: (newBoolValue) {
-        setState(() {
-          _isSelected = newBoolValue;
-        });
-      },
     );
   }
 }

@@ -16,7 +16,7 @@ import '../widgets/word_info.dart';
 class Word extends StatefulWidget {
   String word;
   search.WordModel wordModel = search.WordModel();
-  view.WordView wordView = view.WordView();
+  List<view.WordView> wordView = [];
   Word({Key? key, required this.word}) : super(key: key);
 
   @override
@@ -49,14 +49,12 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
     _wordSearchController.dispose();
   }
 
-  Future<void> getWordData(String query) async {
+  Future<void> getWordSearchData(String query) async {
     String wordJson = await WordSearch().getWords(query);
-    String wordJsonView = await WordViewSearch().getWords(query, '0');
     print('받아오고');
     setState(() {
-      if (wordJson.isNotEmpty && wordJsonView.isNotEmpty) {
+      if (wordJson.isNotEmpty) {
         widget.wordModel = search.WordModel.fromJson(jsonDecode(wordJson));
-        widget.wordView = view.WordView.fromJson(jsonDecode(wordJsonView));
       } else {
         const snackBar = SnackBar(
           content: Text('검색 결과가 없습니다!'),
@@ -66,7 +64,24 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
       }
       isLoading = false;
     });
+    List total = widget.wordModel.channel?.total == 1
+        ? [0]
+        : List.generate(widget.wordModel.channel?.total ?? 0, (i) => i + 1);
+    for (var e in total) {
+      view.WordView tmp = await getWordViewData(query, e.toString());
+      widget.wordView.add(tmp);
+    }
     print('변경');
+  }
+
+  Future<view.WordView> getWordViewData(String? query, String num) async {
+    String wordJsonView = await WordViewSearch().getWords(query!, num);
+    print('받아오고');
+    view.WordView wordViewData =
+        view.WordView.fromJson(jsonDecode(wordJsonView));
+    //isLoading = false;
+    print('변경');
+    return wordViewData;
   }
 
   @override
@@ -93,17 +108,16 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                             MaterialPageRoute(
                                 builder: (context) => const InfoScreen()));
                       },
-                      child: const Icon(
+                      child: Icon(
                         Icons.list,
-                        color: Colors.grey,
+                        color: Colors.grey.shade200,
                         size: 30,
                       )),
-                  const Text(
-                    '다너다너',
-                    style: TextStyle(
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 25,
+                  const Image(
+                    image: AssetImage(
+                      'assets/images/다너다너1.png',
                     ),
+                    height: 100,
                   ),
                   TextButton(
                       style: ButtonStyle(
@@ -123,7 +137,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                 ],
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Expanded(
               flex: 30,
               child: Stack(children: [
@@ -204,9 +218,8 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) => WordView(
-                                                    item: widget.wordView
-                                                            .channel?.item ??
-                                                        view.Item())));
+                                                    item: widget.wordView[index]
+                                                        .channel?.item)));
                                       },
                                       child: WordInfo(
                                         item: widget.wordModel.channel
@@ -224,7 +237,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                         curve: Curves.linear,
                         opacity: _logoOpacity,
                         child: const Image(
-                          image: AssetImage('assets/images/국립국어원_국_상하.jpg'),
+                          image: AssetImage('assets/images/다너다너.png'),
                         )),
                   ),
                 ),
@@ -270,7 +283,8 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                               setState(() {
                                 _logoOpacity = 0.0;
                                 isLoading = true;
-                                getWordData(inputText);
+                                widget.wordView.clear();
+                                getWordSearchData(inputText);
                               });
                             },
                             decoration: const InputDecoration(

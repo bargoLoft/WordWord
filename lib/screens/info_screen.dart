@@ -51,22 +51,9 @@ class _InfoScreenState extends State<InfoScreen> {
                 onPressed: () {
                   _openUrl(dicKoreanUrl);
                 },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text(
-                      '표준 국어 대사전 사이트',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                      child: Image(
-                        //width: 20,
-                        height: 20,
-                        image: AssetImage('assets/images/DicKoreanLogo.png'),
-                      ),
-                    ),
-                  ],
+                child: const Text(
+                  '표준 국어 대사전 바로가기',
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
             ),
@@ -93,60 +80,57 @@ class _InfoScreenState extends State<InfoScreen> {
               indent: 10,
               endIndent: 10,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: TextButton(
-                onPressed: () {
-                  _openUrl(blogUrl);
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text(
-                      '개발자 블로그 구경하기',
-                      style: TextStyle(fontSize: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: TextButton(
+                    onPressed: () {
+                      _openUrl(blogUrl);
+                    },
+                    child: Row(
+                      children: const [
+                        Text(
+                          '개발자 블로그',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Image(
+                            width: 20,
+                            height: 20,
+                            image:
+                                AssetImage('assets/images/NaverBlogIcon.png'),
+                          ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                      child: Image(
-                        width: 20,
-                        height: 20,
-                        image: AssetImage('assets/images/NaverBlogIcon.png'),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    minimumSize: const Size(20, 20),
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  onPressed: () {
+                    _openUrl(instaUrl);
+                  },
+                  child: const Image(
+                    //alignment: Alignment.centerLeft,
+                    width: 20,
+                    height: 20,
+                    image: AssetImage('assets/images/InstaIcon.png'),
+                  ),
+                ),
+              ],
             ),
             const Divider(
               height: 1,
               indent: 10,
               endIndent: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: TextButton(
-                onPressed: () {
-                  _openUrl(instaUrl);
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text(
-                      '개발자 인스타 구경하기',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                      child: Image(
-                        //width: 20,
-                        height: 20,
-                        image: AssetImage('assets/images/InstaIcon.png'),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -159,14 +143,9 @@ class _InfoScreenState extends State<InfoScreen> {
                   );
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text(
-                      '다너다너 초기화',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ],
+                child: Text(
+                  '다너다너 초기화',
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
             ),

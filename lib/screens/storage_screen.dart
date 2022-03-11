@@ -1,6 +1,7 @@
 import 'package:WordWord/widgets/word_chip.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:WordWord/models/word.dart';
@@ -58,8 +59,8 @@ class _StorageScreenState extends State<StorageScreen> {
             padding: const EdgeInsets.all(4),
             groupValue: groupValue,
             children: {
-              0: Text('리스트'),
-              1: Text('칩'),
+              0: Icon(FontAwesomeIcons.listUl),
+              1: Icon(FontAwesomeIcons.minus),
             },
             onValueChanged: (groupValue) {
               setState(() {
@@ -70,6 +71,8 @@ class _StorageScreenState extends State<StorageScreen> {
           const SizedBox(height: 5),
           Expanded(
             child: ListView.builder(
+              primary: true,
+              shrinkWrap: true,
               scrollDirection:
                   groupValue == 0 ? Axis.vertical : Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -143,7 +146,7 @@ class _StorageScreenState extends State<StorageScreen> {
                 child: Text(
                   word.pos,
                   style: const TextStyle(
-                    color: Colors.lightBlueAccent,
+                    color: Colors.grey,
                     fontSize: 15,
                   ),
                 ),
