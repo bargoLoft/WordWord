@@ -84,6 +84,8 @@ class WordInfo {
   List<PronunciationInfo>? pronunciationInfo;
   String? wordUnit;
   String? word;
+  String? origin;
+  List<RelationInfo>? relationInfo;
   List<OriginalLanguageInfo>? originalLanguageInfo;
   String? wordType;
   List<PosInfo>? posInfo;
@@ -93,6 +95,8 @@ class WordInfo {
       this.pronunciationInfo,
       this.wordUnit,
       this.word,
+      this.origin,
+      this.relationInfo,
       this.originalLanguageInfo,
       this.wordType,
       this.posInfo});
@@ -112,6 +116,13 @@ class WordInfo {
     }
     wordUnit = json['word_unit'];
     word = json['word'];
+    origin = json['origin'];
+    if (json['relation_info'] != null) {
+      relationInfo = <RelationInfo>[];
+      json['relation_info'].forEach((v) {
+        relationInfo!.add(new RelationInfo.fromJson(v));
+      });
+    }
     if (json['original_language_info'] != null) {
       originalLanguageInfo = <OriginalLanguageInfo>[];
       json['original_language_info'].forEach((v) {
@@ -138,6 +149,7 @@ class WordInfo {
     }
     data['word_unit'] = this.wordUnit;
     data['word'] = this.word;
+    data['origin'] = this.origin;
     if (this.originalLanguageInfo != null) {
       data['original_language_info'] =
           this.originalLanguageInfo!.map((v) => v.toJson()).toList();
@@ -209,6 +221,25 @@ class PronunciationInfo {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['pronunciation'] = this.pronunciation;
+    return data;
+  }
+}
+
+class RelationInfo {
+  String? relationWord;
+  String? wordType;
+
+  RelationInfo({this.relationWord, this.wordType});
+
+  RelationInfo.fromJson(Map<String, dynamic> json) {
+    relationWord = json['word'];
+    wordType = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['word'] = this.relationWord;
+    data['type'] = this.wordType;
     return data;
   }
 }

@@ -71,103 +71,103 @@ class _StorageScreenState extends State<StorageScreen> {
           const SizedBox(height: 5),
           Expanded(
             child: ListView.builder(
-              primary: true,
-              shrinkWrap: true,
-              scrollDirection:
-                  groupValue == 0 ? Axis.vertical : Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              itemCount: Boxes.getWords().length,
-              itemBuilder: (BuildContext context, int index) {
-                var word = words[index];
-                return Dismissible(
-                  key: UniqueKey(),
-                  background: Container(
-                    margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.all(8),
-                    color: Colors.red,
-                    alignment: Alignment.centerRight,
-                    child: const Icon(
-                      Icons.delete,
-                      size: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                  onDismissed: (direction) {
-                    if (direction == DismissDirection.endToStart) {
-                      setState(() {
-                        Boxes.getWords().delete(word.targetCode);
-                        //Boxes.getWords().deleteFromDisk();
-                      });
-                    }
-                  },
-                  child: buildTransaction(context, word),
-                );
-              },
-            ),
+                //physics: const NeverScrollableScrollPhysics(),
+                //primary: true,
+                shrinkWrap: true,
+                scrollDirection:
+                    groupValue == 0 ? Axis.vertical : Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                itemCount: Boxes.getWords().length,
+                itemBuilder: (BuildContext context, int index) {
+                  var word = words[index];
+                  if (groupValue == 0) {
+                    return Dismissible(
+                      key: UniqueKey(),
+                      background: Container(
+                        margin: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        child: const Icon(
+                          Icons.delete,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                      onDismissed: (direction) {
+                        if (direction == DismissDirection.endToStart) {
+                          setState(() {
+                            Boxes.getWords().delete(word.targetCode);
+                            //Boxes.getWords().deleteFromDisk();
+                          });
+                        }
+                      },
+                      child: buildListCard(context, word),
+                    );
+                  } else {
+                    return WordChip(word: word.word);
+                  }
+                }),
           ),
         ],
       );
     }
   }
 
-  Widget buildTransaction(BuildContext context, wordtest word) {
-    if (groupValue == 0) {
-      return Card(
-        margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+  Widget buildListCard(BuildContext context, wordtest word) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  word.word,
+                  style: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (word.supNo == 0)
+                  const SizedBox(width: 1)
+                else
                   Text(
-                    word.word,
+                    word.supNo.toString(),
                     style: const TextStyle(
-                      fontSize: 30,
+                      fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  if (word.supNo == 0)
-                    const SizedBox(width: 1)
-                  else
-                    Text(
-                      word.supNo.toString(),
-                      style: const TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 3),
-              Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  word.pos,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 15,
-                  ),
+              ],
+            ),
+            const SizedBox(height: 3),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                word.pos,
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 15,
                 ),
               ),
-              const SizedBox(height: 5),
-              Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  word.definition,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    //fontWeight: FontWeight.bold,
-                  ),
+            ),
+            const SizedBox(height: 5),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                word.definition,
+                style: const TextStyle(
+                  fontSize: 13,
+                  //fontWeight: FontWeight.bold,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
-    } else {
-      return WordChip(word: word.word);
-    }
+      ),
+    );
   }
 }

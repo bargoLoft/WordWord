@@ -237,7 +237,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                         curve: Curves.linear,
                         opacity: _logoOpacity,
                         child: const Image(
-                          image: AssetImage('assets/images/다너다너.png'),
+                          image: AssetImage('assets/images/다너다너3.png'),
                         )),
                   ),
                 ),

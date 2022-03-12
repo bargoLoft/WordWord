@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
@@ -136,14 +137,36 @@ class _InfoScreenState extends State<InfoScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextButton(
                 onPressed: () {
-                  Boxes.getWords().clear();
-                  const snackBar = SnackBar(
-                    content: Text('다너다너가 초기화 되었습니다!'),
-                    duration: Duration(seconds: 1),
+                  showCupertinoDialog(
+                    context: context,
+                    builder: (context) {
+                      return CupertinoAlertDialog(
+                        title: const Text('다너다너 초기화'),
+                        content: const Text('다너다너를 초기화 하시겠습니까?'),
+                        actions: [
+                          CupertinoDialogAction(
+                            child: const Text('네'),
+                            onPressed: () {
+                              Boxes.getWords().clear();
+                              Navigator.pop(context);
+                              const snackBar = SnackBar(
+                                content: Text('다너다너가 초기화 되었습니다!'),
+                                duration: Duration(seconds: 1),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            },
+                          ),
+                          CupertinoDialogAction(
+                              child: const Text('아니요'),
+                              onPressed: () => Navigator.pop(context))
+                        ],
+                      );
+                    },
+                    barrierDismissible: true,
                   );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 },
-                child: Text(
+                child: const Text(
                   '다너다너 초기화',
                   style: TextStyle(fontSize: 20),
                 ),
