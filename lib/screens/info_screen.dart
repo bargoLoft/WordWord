@@ -22,6 +22,7 @@ class InfoScreen extends StatefulWidget {
 class _InfoScreenState extends State<InfoScreen> {
   final blogUrl = 'https://blog.naver.com/qmak01';
   final dicKoreanUrl = 'https://stdict.korean.go.kr/main/main.do';
+  final dicUrimalUrl = 'https://opendict.korean.go.kr/main';
   final instaUrl = 'https://www.instagram.com/2cup_2/';
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,24 @@ class _InfoScreenState extends State<InfoScreen> {
                   _openUrl(dicKoreanUrl);
                 },
                 child: const Text(
-                  '표준 국어 대사전 바로가기',
+                  '표준국어대사전 바로가기',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            ),
+            const Divider(
+              height: 1,
+              indent: 10,
+              endIndent: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: TextButton(
+                onPressed: () {
+                  _openUrl(dicKoreanUrl);
+                },
+                child: const Text(
+                  '우리말 샘 바로가기',
                   style: TextStyle(fontSize: 20),
                 ),
               ),
