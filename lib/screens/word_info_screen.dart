@@ -101,7 +101,8 @@ class _WordViewState extends State<WordView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '⌜⌟ ${sense.definition}',
+                                //⌜⌟
+                                '${sense.definition}',
                                 style: TextStyle(fontSize: 15),
                               ),
                               for (var example in sense?.exampleInfo ?? [])
