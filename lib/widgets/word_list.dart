@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart';
 
 import '../providers/word_search.dart';
 import '../models/word_model.dart' as search;
@@ -84,6 +86,33 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
     return wordViewData;
   }
 
+  Future<void> getWordRandomViewData(String num) async {
+    String wordJsonView = await WordRandomViewSearch().getWords(num);
+    print('받아오고');
+    view.WordView wordViewData =
+        view.WordView.fromJson(jsonDecode(wordJsonView));
+    if (wordViewData.channel == null || wordViewData.channel?.total == 0) {
+      var num2 = Random().nextInt(422879);
+      await getWordRandomViewData(num2.toString());
+    } else {
+      String str =
+          _textReplace(wordViewData.channel?.item?.wordInfo?.word ?? '');
+      getWordSearchData(str);
+    }
+  }
+
+  String _textReplace(String str) {
+    str = str.replaceAll('-', '');
+    str = str.replaceAll('^', '');
+    return str;
+  }
+  //
+  // Future refresh() async {
+  //   setState(() async {
+  //     await getWordSearchData('우리');
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -102,20 +131,27 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                       style: ButtonStyle(
                         padding: MaterialStateProperty.all(EdgeInsets.zero),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const InfoScreen()));
+                      onPressed: () async {
+                        setState(() {
+                          isLoading = true;
+                          _logoOpacity = 0.0;
+                          widget.wordView.clear();
+                        });
+                        await getWordRandomViewData(Random()
+                            .nextInt(422879)
+                            .toString()); // 등록단어 수 422879
+                        setState(() {
+                          isLoading = false;
+                        });
                       },
-                      child: Icon(
-                        Icons.list,
-                        color: Colors.grey.shade200,
-                        size: 30,
+                      child: const Icon(
+                        FontAwesomeIcons.random,
+                        color: Colors.grey,
+                        size: 20,
                       )),
                   const Image(
                     image: AssetImage(
-                      'assets/images/다너다너1.png',
+                      'assets/images/다너다너6.png',
                     ),
                     height: 100,
                   ),

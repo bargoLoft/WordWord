@@ -1,7 +1,7 @@
 import 'package:WordWord/screens/storage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import '../widgets/word_list.dart';
+import 'package:WordWord/widgets/word_list.dart';
 
 int value = 0;
 

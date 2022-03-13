@@ -57,11 +57,7 @@ class _WordViewState extends State<WordView> {
                       ],
                     ),
                     if (widget.item?.wordInfo?.pronunciationInfo != null)
-                      const Divider(
-                        height: 10,
-                        indent: 10,
-                        endIndent: 10,
-                      ),
+                      const Divider(height: 10),
                     if (widget.item?.wordInfo?.pronunciationInfo != null)
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -76,7 +72,7 @@ class _WordViewState extends State<WordView> {
                         ],
                       ),
                     if (widget.item?.wordInfo?.conjuInfo != null)
-                      const Divider(height: 10, indent: 10, endIndent: 10),
+                      const Divider(height: 10),
                     if (widget.item?.wordInfo?.conjuInfo != null)
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -90,7 +86,7 @@ class _WordViewState extends State<WordView> {
                             ),
                         ],
                       ),
-                    const Divider(height: 10, indent: 10, endIndent: 10),
+                    const Divider(height: 10),
                     Text(
                       '⌜${widget.item?.wordInfo?.posInfo?.first.pos ?? ''}⌟',
                       style: TextStyle(fontSize: 18),
@@ -106,7 +102,7 @@ class _WordViewState extends State<WordView> {
                             children: [
                               Text(
                                 '⌜⌟ ${sense.definition}',
-                                style: TextStyle(fontSize: 17),
+                                style: TextStyle(fontSize: 15),
                               ),
                               for (var example in sense?.exampleInfo ?? [])
                                 Row(
@@ -118,11 +114,7 @@ class _WordViewState extends State<WordView> {
                                     ),
                                   ],
                                 ),
-                              const Divider(
-                                height: 10,
-                                indent: 5,
-                                endIndent: 5,
-                              )
+                              const Divider(height: 10)
                             ],
                           ),
                       ],
