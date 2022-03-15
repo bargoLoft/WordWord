@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart';
 
 import '../providers/word_search.dart';
 import '../models/word_model.dart' as search;
@@ -116,16 +115,15 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+      padding: const EdgeInsets.fromLTRB(7, 0, 7, 10),
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
           children: [
-            const SizedBox(height: 5),
-            Expanded(
-              flex: 2,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.04,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TextButton(
                       style: ButtonStyle(
@@ -153,7 +151,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                     image: AssetImage(
                       'assets/images/다너다너6.png',
                     ),
-                    height: 100,
+                    height: 30,
                   ),
                   TextButton(
                       style: ButtonStyle(
@@ -175,7 +173,6 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
             ),
             const SizedBox(height: 10),
             Expanded(
-              flex: 30,
               child: Stack(children: [
                 Container(
                   decoration: BoxDecoration(
@@ -197,6 +194,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                       : Scrollbar(
                           controller: _scrollController,
                           child: ListView.builder(
+                              padding: EdgeInsets.zero,
                               controller: _scrollController,
                               itemCount: widget.wordModel.channel?.total ?? 0,
                               //shrinkWrap: true,
@@ -280,77 +278,75 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
               ]),
             ),
             const SizedBox(
-              height: 10,
+              height: 7,
             ),
-            Expanded(
-              flex: 3,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
-                ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                  child: Stack(
-                    children: [
-                      const Positioned.fill(
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Icon(
-                            FontAwesomeIcons.search,
-                            size: 18,
+            Container(
+              height: MediaQuery.of(context).size.height * 0.06,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                child: Stack(
+                  children: [
+                    const Positioned.fill(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Icon(
+                          FontAwesomeIcons.search,
+                          size: 18,
+                        ),
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: TextField(
+                          //제출시 검색되게
+                          controller: _wordSearchController,
+                          keyboardType: TextInputType.text,
+                          textAlign: TextAlign.center,
+                          autofocus: false,
+                          focusNode: _myFocusNode,
+                          onSubmitted: (String text) {
+                            inputText = text;
+                            print('입력하신 단어는 $inputText 입니다.');
+                            setState(() {
+                              _logoOpacity = 0.0;
+                              isLoading = true;
+                              widget.wordView.clear();
+                              getWordSearchData(inputText);
+                            });
+                          },
+                          decoration: const InputDecoration(
+                            hintText: '단어를 입력해 주세요',
+                            border: InputBorder.none,
+                            // suffixIcon:
+                          ),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
                           ),
                         ),
                       ),
-                      Positioned.fill(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: TextField(
-                            //제출시 검색되게
-                            controller: _wordSearchController,
-                            keyboardType: TextInputType.text,
-                            textAlign: TextAlign.center,
-                            autofocus: false,
-                            focusNode: _myFocusNode,
-                            onSubmitted: (String text) {
-                              inputText = text;
-                              print('입력하신 단어는 $inputText 입니다.');
-                              setState(() {
-                                _logoOpacity = 0.0;
-                                isLoading = true;
-                                widget.wordView.clear();
-                                getWordSearchData(inputText);
-                              });
-                            },
-                            decoration: const InputDecoration(
-                              hintText: '단어를 입력해 주세요',
-                              border: InputBorder.none,
-                              // suffixIcon:
-                            ),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: _wordSearchController.text.isNotEmpty
-                            ? IconButton(
-                                onPressed: () {
-                                  _wordSearchController.clear();
-                                  FocusScope.of(context)
-                                      .requestFocus(_myFocusNode);
-                                },
-                                splashColor: Colors.transparent,
-                                icon: const Icon(Icons.clear),
-                              )
-                            : null,
-                      ),
-                    ],
-                  ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: _wordSearchController.text.isNotEmpty
+                          ? IconButton(
+                              onPressed: () {
+                                _wordSearchController.clear();
+                                FocusScope.of(context)
+                                    .requestFocus(_myFocusNode);
+                              },
+                              splashColor: Colors.transparent,
+                              icon: const Icon(Icons.clear),
+                            )
+                          : null,
+                    ),
+                  ],
                 ),
               ),
             ),

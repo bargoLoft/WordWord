@@ -7,10 +7,7 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:ios_utsname_ext/extension.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:WordWord/boxes.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class InfoScreen extends StatefulWidget {
   const InfoScreen({Key? key}) : super(key: key);

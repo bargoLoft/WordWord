@@ -58,7 +58,7 @@ class _StorageScreenState extends State<StorageScreen> {
           CupertinoSlidingSegmentedControl(
             padding: const EdgeInsets.all(4),
             groupValue: groupValue,
-            children: {
+            children: const {
               0: Icon(FontAwesomeIcons.listUl),
               1: Icon(FontAwesomeIcons.minus),
             },

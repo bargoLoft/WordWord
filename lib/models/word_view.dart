@@ -5,13 +5,13 @@ class WordView {
 
   WordView.fromJson(Map<String, dynamic> json) {
     channel =
-        json['channel'] != null ? new Channel.fromJson(json['channel']) : null;
+        json['channel'] != null ? Channel.fromJson(json['channel']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.channel != null) {
-      data['channel'] = this.channel!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (channel != null) {
+      data['channel'] = channel!.toJson();
     }
     return data;
   }
@@ -37,21 +37,21 @@ class Channel {
     total = json['total'];
     title = json['title'];
     description = json['description'];
-    item = json['item'] != null ? new Item.fromJson(json['item']) : null;
+    item = json['item'] != null ? Item.fromJson(json['item']) : null;
     link = json['link'];
     lastbuilddate = json['lastbuilddate'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['total'] = this.total;
-    data['title'] = this.title;
-    data['description'] = this.description;
-    if (this.item != null) {
-      data['item'] = this.item!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['total'] = total;
+    data['title'] = title;
+    data['description'] = description;
+    if (item != null) {
+      data['item'] = item!.toJson();
     }
-    data['link'] = this.link;
-    data['lastbuilddate'] = this.lastbuilddate;
+    data['link'] = link;
+    data['lastbuilddate'] = lastbuilddate;
     return data;
   }
 }
@@ -64,16 +64,15 @@ class Item {
 
   Item.fromJson(Map<String, dynamic> json) {
     targetCode = json['target_code'];
-    wordInfo = json['word_info'] != null
-        ? new WordInfo.fromJson(json['word_info'])
-        : null;
+    wordInfo =
+        json['word_info'] != null ? WordInfo.fromJson(json['word_info']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['target_code'] = this.targetCode;
-    if (this.wordInfo != null) {
-      data['word_info'] = this.wordInfo!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['target_code'] = targetCode;
+    if (wordInfo != null) {
+      data['word_info'] = wordInfo!.toJson();
     }
     return data;
   }
@@ -105,13 +104,13 @@ class WordInfo {
     if (json['conju_info'] != null) {
       conjuInfo = <ConjuInfo>[];
       json['conju_info'].forEach((v) {
-        conjuInfo!.add(new ConjuInfo.fromJson(v));
+        conjuInfo!.add(ConjuInfo.fromJson(v));
       });
     }
     if (json['pronunciation_info'] != null) {
       pronunciationInfo = <PronunciationInfo>[];
       json['pronunciation_info'].forEach((v) {
-        pronunciationInfo!.add(new PronunciationInfo.fromJson(v));
+        pronunciationInfo!.add(PronunciationInfo.fromJson(v));
       });
     }
     wordUnit = json['word_unit'];
@@ -120,43 +119,43 @@ class WordInfo {
     if (json['relation_info'] != null) {
       relationInfo = <RelationInfo>[];
       json['relation_info'].forEach((v) {
-        relationInfo!.add(new RelationInfo.fromJson(v));
+        relationInfo!.add(RelationInfo.fromJson(v));
       });
     }
     if (json['original_language_info'] != null) {
       originalLanguageInfo = <OriginalLanguageInfo>[];
       json['original_language_info'].forEach((v) {
-        originalLanguageInfo!.add(new OriginalLanguageInfo.fromJson(v));
+        originalLanguageInfo!.add(OriginalLanguageInfo.fromJson(v));
       });
     }
     wordType = json['word_type'];
     if (json['pos_info'] != null) {
       posInfo = <PosInfo>[];
       json['pos_info'].forEach((v) {
-        posInfo!.add(new PosInfo.fromJson(v));
+        posInfo!.add(PosInfo.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.conjuInfo != null) {
-      data['conju_info'] = this.conjuInfo!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (conjuInfo != null) {
+      data['conju_info'] = conjuInfo!.map((v) => v.toJson()).toList();
     }
-    if (this.pronunciationInfo != null) {
+    if (pronunciationInfo != null) {
       data['pronunciation_info'] =
-          this.pronunciationInfo!.map((v) => v.toJson()).toList();
+          pronunciationInfo!.map((v) => v.toJson()).toList();
     }
-    data['word_unit'] = this.wordUnit;
-    data['word'] = this.word;
-    data['origin'] = this.origin;
-    if (this.originalLanguageInfo != null) {
+    data['word_unit'] = wordUnit;
+    data['word'] = word;
+    data['origin'] = origin;
+    if (originalLanguageInfo != null) {
       data['original_language_info'] =
-          this.originalLanguageInfo!.map((v) => v.toJson()).toList();
+          originalLanguageInfo!.map((v) => v.toJson()).toList();
     }
-    data['word_type'] = this.wordType;
-    if (this.posInfo != null) {
-      data['pos_info'] = this.posInfo!.map((v) => v.toJson()).toList();
+    data['word_type'] = wordType;
+    if (posInfo != null) {
+      data['pos_info'] = posInfo!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -169,14 +168,14 @@ class ConjuInfo {
 
   ConjuInfo.fromJson(Map<String, dynamic> json) {
     conjugationInfo = json['conjugation_info'] != null
-        ? new ConjugationInfo.fromJson(json['conjugation_info'])
+        ? ConjugationInfo.fromJson(json['conjugation_info'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.conjugationInfo != null) {
-      data['conjugation_info'] = this.conjugationInfo!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (conjugationInfo != null) {
+      data['conjugation_info'] = conjugationInfo!.toJson();
     }
     return data;
   }
@@ -192,19 +191,19 @@ class ConjugationInfo {
     if (json['pronunciation_info'] != null) {
       pronunciationInfo = <PronunciationInfo>[];
       json['pronunciation_info'].forEach((v) {
-        pronunciationInfo!.add(new PronunciationInfo.fromJson(v));
+        pronunciationInfo!.add(PronunciationInfo.fromJson(v));
       });
     }
     conjugation = json['conjugation'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.pronunciationInfo != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (pronunciationInfo != null) {
       data['pronunciation_info'] =
-          this.pronunciationInfo!.map((v) => v.toJson()).toList();
+          pronunciationInfo!.map((v) => v.toJson()).toList();
     }
-    data['conjugation'] = this.conjugation;
+    data['conjugation'] = conjugation;
     return data;
   }
 }
@@ -219,8 +218,8 @@ class PronunciationInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['pronunciation'] = this.pronunciation;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['pronunciation'] = pronunciation;
     return data;
   }
 }
@@ -237,9 +236,9 @@ class RelationInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['word'] = this.relationWord;
-    data['type'] = this.wordType;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['word'] = relationWord;
+    data['type'] = wordType;
     return data;
   }
 }
@@ -256,9 +255,9 @@ class OriginalLanguageInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['original_language'] = this.originalLanguage;
-    data['language_type'] = this.languageType;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['original_language'] = originalLanguage;
+    data['language_type'] = languageType;
     return data;
   }
 }
@@ -275,20 +274,20 @@ class PosInfo {
     if (json['comm_pattern_info'] != null) {
       commPatternInfo = <CommPatternInfo>[];
       json['comm_pattern_info'].forEach((v) {
-        commPatternInfo!.add(new CommPatternInfo.fromJson(v));
+        commPatternInfo!.add(CommPatternInfo.fromJson(v));
       });
     }
     pos = json['pos'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['pos_code'] = this.posCode;
-    if (this.commPatternInfo != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['pos_code'] = posCode;
+    if (commPatternInfo != null) {
       data['comm_pattern_info'] =
-          this.commPatternInfo!.map((v) => v.toJson()).toList();
+          commPatternInfo!.map((v) => v.toJson()).toList();
     }
-    data['pos'] = this.pos;
+    data['pos'] = pos;
     return data;
   }
 }
@@ -304,16 +303,16 @@ class CommPatternInfo {
     if (json['sense_info'] != null) {
       senseInfo = <SenseInfo>[];
       json['sense_info'].forEach((v) {
-        senseInfo!.add(new SenseInfo.fromJson(v));
+        senseInfo!.add(SenseInfo.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['comm_pattern_code'] = this.commPatternCode;
-    if (this.senseInfo != null) {
-      data['sense_info'] = this.senseInfo!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['comm_pattern_code'] = commPatternCode;
+    if (senseInfo != null) {
+      data['sense_info'] = senseInfo!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -339,7 +338,7 @@ class SenseInfo {
     if (json['example_info'] != null) {
       exampleInfo = <ExampleInfo>[];
       json['example_info'].forEach((v) {
-        exampleInfo!.add(new ExampleInfo.fromJson(v));
+        exampleInfo!.add(ExampleInfo.fromJson(v));
       });
     }
     definitionOriginal = json['definition_original'];
@@ -347,14 +346,14 @@ class SenseInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['definition'] = this.definition;
-    data['type'] = this.type;
-    if (this.exampleInfo != null) {
-      data['example_info'] = this.exampleInfo!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['definition'] = definition;
+    data['type'] = type;
+    if (exampleInfo != null) {
+      data['example_info'] = exampleInfo!.map((v) => v.toJson()).toList();
     }
-    data['definition_original'] = this.definitionOriginal;
-    data['sense_code'] = this.senseCode;
+    data['definition_original'] = definitionOriginal;
+    data['sense_code'] = senseCode;
     return data;
   }
 }
@@ -369,8 +368,8 @@ class ExampleInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['example'] = this.example;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['example'] = example;
     return data;
   }
 }
