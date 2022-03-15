@@ -77,11 +77,11 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
 
   Future<view.WordView> getWordViewData(String? query, String num) async {
     String wordJsonView = await WordViewSearch().getWords(query!, num);
-    print('받아오고');
+    print('view받아오고');
     view.WordView wordViewData =
         view.WordView.fromJson(jsonDecode(wordJsonView));
     //isLoading = false;
-    print('변경');
+    print('view변경');
     return wordViewData;
   }
 
@@ -115,15 +115,15 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(7, 0, 7, 10),
+      padding: MediaQuery.of(context).viewPadding,
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.04,
+            Container(
+              height: MediaQuery.of(context).size.height * 0.05,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
                       style: ButtonStyle(
@@ -166,17 +166,16 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                       child: const Icon(
                         Icons.info_outlined,
                         color: Colors.grey,
-                        size: 30,
+                        size: 25,
                       )),
                 ],
               ),
             ),
-            const SizedBox(height: 10),
             Expanded(
               child: Stack(children: [
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(15),
                     color: Colors.white,
                   ),
                   child: isLoading == true
@@ -192,6 +191,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                           ),
                         )
                       : Scrollbar(
+                          isAlwaysShown: true,
                           controller: _scrollController,
                           child: ListView.builder(
                               padding: EdgeInsets.zero,
@@ -205,7 +205,8 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                           DismissDirection.endToStart) {
                                         Boxes.getWords().put(
                                           widget.wordModel.channel?.item![index]
-                                              .targetCode,
+                                                  .targetCode ??
+                                              0,
                                           wordtest(
                                             widget.wordModel.channel
                                                     ?.item![index].word ??
@@ -281,9 +282,9 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
               height: 7,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.06,
+              height: MediaQuery.of(context).size.height * 0.07,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(15),
                 color: Colors.white,
               ),
               child: Padding(

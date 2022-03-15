@@ -40,76 +40,79 @@ class _StorageScreenState extends State<StorageScreen> {
         ),
       );
     } else {
-      return Column(
-        children: [
-          const SizedBox(height: 24),
-          const Text(
-            '다너다너',
-            style: TextStyle(
-              //fontWeight: FontWeight.bold,
-              fontSize: 30,
+      return Padding(
+        padding: MediaQuery.of(context).viewPadding,
+        child: Column(
+          children: [
+            const SizedBox(height: 24),
+            const Text(
+              '다너다너',
+              style: TextStyle(
+                //fontWeight: FontWeight.bold,
+                fontSize: 30,
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Align(
-              //alignment: Alignment.centerLeft,
-              child: Text('총 ${words.length}개의 단어')),
-          const SizedBox(height: 10),
-          CupertinoSlidingSegmentedControl(
-            padding: const EdgeInsets.all(4),
-            groupValue: groupValue,
-            children: const {
-              0: Icon(FontAwesomeIcons.listUl),
-              1: Icon(FontAwesomeIcons.minus),
-            },
-            onValueChanged: (groupValue) {
-              setState(() {
-                this.groupValue = groupValue as int?;
-              });
-            },
-          ),
-          const SizedBox(height: 5),
-          Expanded(
-            child: ListView.builder(
-                //physics: const NeverScrollableScrollPhysics(),
-                //primary: true,
-                shrinkWrap: true,
-                scrollDirection:
-                    groupValue == 0 ? Axis.vertical : Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                itemCount: Boxes.getWords().length,
-                itemBuilder: (BuildContext context, int index) {
-                  var word = words[index];
-                  if (groupValue == 0) {
-                    return Dismissible(
-                      key: UniqueKey(),
-                      background: Container(
-                        margin: const EdgeInsets.all(8),
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.red,
-                        alignment: Alignment.centerRight,
-                        child: const Icon(
-                          Icons.delete,
-                          size: 20,
-                          color: Colors.white,
+            const SizedBox(height: 10),
+            Align(
+                //alignment: Alignment.centerLeft,
+                child: Text('총 ${words.length}개의 단어')),
+            const SizedBox(height: 10),
+            CupertinoSlidingSegmentedControl(
+              padding: const EdgeInsets.all(4),
+              groupValue: groupValue,
+              children: const {
+                0: Icon(FontAwesomeIcons.listUl),
+                1: Icon(FontAwesomeIcons.minus),
+              },
+              onValueChanged: (groupValue) {
+                setState(() {
+                  this.groupValue = groupValue as int?;
+                });
+              },
+            ),
+            const SizedBox(height: 5),
+            Expanded(
+              child: ListView.builder(
+                  //physics: const NeverScrollableScrollPhysics(),
+                  //primary: true,
+                  shrinkWrap: true,
+                  scrollDirection:
+                      groupValue == 0 ? Axis.vertical : Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  itemCount: Boxes.getWords().length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var word = words[index];
+                    if (groupValue == 0) {
+                      return Dismissible(
+                        key: UniqueKey(),
+                        background: Container(
+                          margin: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
+                          color: Colors.red,
+                          alignment: Alignment.centerRight,
+                          child: const Icon(
+                            Icons.delete,
+                            size: 20,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      onDismissed: (direction) {
-                        if (direction == DismissDirection.endToStart) {
-                          setState(() {
-                            Boxes.getWords().delete(word.targetCode);
-                            //Boxes.getWords().deleteFromDisk();
-                          });
-                        }
-                      },
-                      child: buildListCard(context, word),
-                    );
-                  } else {
-                    return WordChip(word: word.word);
-                  }
-                }),
-          ),
-        ],
+                        onDismissed: (direction) {
+                          if (direction == DismissDirection.endToStart) {
+                            setState(() {
+                              Boxes.getWords().delete(word.targetCode);
+                              //Boxes.getWords().deleteFromDisk();
+                            });
+                          }
+                        },
+                        child: buildListCard(context, word),
+                      );
+                    } else {
+                      return WordChip(word: word.word);
+                    }
+                  }),
+            ),
+          ],
+        ),
       );
     }
   }

@@ -105,14 +105,9 @@ class _WordViewState extends State<WordView> {
                               style: const TextStyle(fontSize: 15),
                             ),
                             for (var example in sense?.exampleInfo ?? [])
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    ' - ${example.example}',
-                                    style: const TextStyle(fontSize: 15),
-                                  ),
-                                ],
+                              Text(
+                                ' - ${example.example}',
+                                style: const TextStyle(fontSize: 15),
                               ),
                             const Divider(height: 10)
                           ],

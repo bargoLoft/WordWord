@@ -42,19 +42,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey.shade200,
-      body: Padding(
-        padding: MediaQuery.of(context).viewPadding,
-        child: PageView(
-          controller: _pageController,
-          scrollDirection: Axis.vertical,
-          //physics: const PageScrollPhysics(),
-          children: [
-            Word(word: ''),
-            const StorageScreen(),
-          ],
-        ),
+      body: PageView(
+        controller: _pageController,
+        scrollDirection: Axis.vertical,
+        physics: const PageScrollPhysics(),
+        children: [
+          Word(word: ''),
+          const StorageScreen(),
+        ],
       ),
       // bottomNavigationBar: BottomNavigationBar(
       //   type: BottomNavigationBarType.fixed,
