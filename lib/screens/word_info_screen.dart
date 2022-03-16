@@ -1,5 +1,6 @@
 import 'package:WordWord/models/word_view.dart';
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class WordView extends StatefulWidget {
   final Item? item;
@@ -36,7 +37,7 @@ class _WordViewState extends State<WordView> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -49,10 +50,19 @@ class _WordViewState extends State<WordView> {
                             fontSize: 35, fontWeight: FontWeight.bold),
                       ),
                       if (widget.item?.wordInfo?.originalLanguageInfo != null)
-                        Text(
-                          '(${widget.item?.wordInfo?.originalLanguageInfo?.first.originalLanguage})', //영어, 한자표기
-                          style: const TextStyle(fontSize: 25),
-                        ), //
+                        Row(
+                          children: [
+                            const Text('(', style: TextStyle(fontSize: 20)),
+                            for (var original in widget
+                                    .item?.wordInfo?.originalLanguageInfo ??
+                                [])
+                              AutoSizeText(
+                                '${original.originalLanguage}',
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                            const Text(')', style: TextStyle(fontSize: 20)),
+                          ],
+                        ),
                     ],
                   ),
                   if (widget.item?.wordInfo?.pronunciationInfo != null)
@@ -86,10 +96,16 @@ class _WordViewState extends State<WordView> {
                       ],
                     ),
                   const Divider(height: 10),
-                  Text(
-                    '⌜${widget.item?.wordInfo?.posInfo?.first.pos ?? ''}⌟',
-                    style: const TextStyle(fontSize: 18),
-                  ), // 품사
+                  if (widget.item?.wordInfo?.posInfo?.first.pos != '품사 없음')
+                    Text(
+                      '⌜${widget.item?.wordInfo?.posInfo?.first.pos ?? ''}⌟',
+                      style: const TextStyle(fontSize: 15),
+                    ), //
+                  if (widget.item?.wordInfo?.posInfo?.first.commPatternInfo
+                          ?.first.patternInfo !=
+                      null) // 품사
+                    Text(
+                        '【${widget.item?.wordInfo?.posInfo?.first.commPatternInfo?.first.patternInfo?.first.pattern}】'),
                   const SizedBox(height: 3),
                   Column(
                     children: [
@@ -99,6 +115,11 @@ class _WordViewState extends State<WordView> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            if (sense?.catInfo != null)
+                              Text(
+                                '⌜${sense?.catInfo.first.cat ?? ''}⌟ ',
+                                style: const TextStyle(fontSize: 15),
+                              ),
                             Text(
                               //⌜⌟
                               '${sense.definition}',

@@ -293,12 +293,20 @@ class PosInfo {
 }
 
 class CommPatternInfo {
+  List<PatternInfo>? patternInfo;
   String? commPatternCode;
   List<SenseInfo>? senseInfo;
 
-  CommPatternInfo({this.commPatternCode, this.senseInfo});
+  CommPatternInfo({this.commPatternCode, this.senseInfo, this.patternInfo});
 
   CommPatternInfo.fromJson(Map<String, dynamic> json) {
+    if (json['pattern_info'] != null) {
+      patternInfo = <PatternInfo>[];
+      json['pattern_info'].forEach((v) {
+        patternInfo!.add(PatternInfo.fromJson(v));
+      });
+    }
+
     commPatternCode = json['comm_pattern_code'];
     if (json['sense_info'] != null) {
       senseInfo = <SenseInfo>[];
@@ -310,6 +318,9 @@ class CommPatternInfo {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    if (patternInfo != null) {
+      data['pattern_info'] = patternInfo!.map((v) => v.toJson()).toList();
+    }
     data['comm_pattern_code'] = commPatternCode;
     if (senseInfo != null) {
       data['sense_info'] = senseInfo!.map((v) => v.toJson()).toList();
@@ -318,8 +329,25 @@ class CommPatternInfo {
   }
 }
 
+class PatternInfo {
+  String? pattern;
+
+  PatternInfo({this.pattern});
+
+  PatternInfo.fromJson(Map<String, dynamic> json) {
+    pattern = json['pattern'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['pattern'] = pattern;
+    return data;
+  }
+}
+
 class SenseInfo {
   String? definition;
+  List<CatInfo>? catInfo;
   String? type;
   List<ExampleInfo>? exampleInfo;
   String? definitionOriginal;
@@ -329,12 +357,19 @@ class SenseInfo {
       {this.definition,
       this.type,
       this.exampleInfo,
+      this.catInfo,
       this.definitionOriginal,
       this.senseCode});
 
   SenseInfo.fromJson(Map<String, dynamic> json) {
     definition = json['definition'];
     type = json['type'];
+    if (json['cat_info'] != null) {
+      catInfo = <CatInfo>[];
+      json['cat_info'].forEach((v) {
+        catInfo!.add(CatInfo.fromJson(v));
+      });
+    }
     if (json['example_info'] != null) {
       exampleInfo = <ExampleInfo>[];
       json['example_info'].forEach((v) {
@@ -354,6 +389,22 @@ class SenseInfo {
     }
     data['definition_original'] = definitionOriginal;
     data['sense_code'] = senseCode;
+    return data;
+  }
+}
+
+class CatInfo {
+  String? cat;
+
+  CatInfo({this.cat});
+
+  CatInfo.fromJson(Map<String, dynamic> json) {
+    cat = json['cat'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['cat'] = cat;
     return data;
   }
 }

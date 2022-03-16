@@ -10,6 +10,7 @@ import 'screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // main에서 비동기 메소드 사용시 필요
+
   HttpOverrides.global = MyHttpOverrides();
   await Hive.initFlutter();
   Hive.registerAdapter(wordtestAdapter());

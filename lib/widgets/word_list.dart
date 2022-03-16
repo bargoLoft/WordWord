@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -63,15 +64,21 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
+    });
+    setState(() {
       isLoading = false;
     });
+
     List total = widget.wordModel.channel?.total == 1
         ? [0]
         : List.generate(widget.wordModel.channel?.total ?? 0, (i) => i + 1);
     for (var e in total) {
-      view.WordView tmp = await getWordViewData(query, e.toString());
-      widget.wordView.add(tmp);
+      final tmp = getWordViewData(query, e.toString());
+      tmp.then((value) => widget.wordView.add(value)); // async하게 변경
+      //view.WordView tmp = await getWordViewData(query, e.toString());
+      //widget.wordView.add(tmp);
     }
+
     print('변경');
   }
 
@@ -120,11 +127,13 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
         onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
           children: [
+            const CustomDivider(),
             Container(
-              height: MediaQuery.of(context).size.height * 0.05,
+              height: MediaQuery.of(context).size.height * 0.07,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  //Text('${MediaQuery.of(context).viewPadding.bottom}${MediaQuery.of(context).viewPadding.top}'),
                   TextButton(
                       style: ButtonStyle(
                         padding: MaterialStateProperty.all(EdgeInsets.zero),
@@ -139,7 +148,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                             .nextInt(422879)
                             .toString()); // 등록단어 수 422879
                         setState(() {
-                          isLoading = false;
+                          //isLoading = false;
                         });
                       },
                       child: const Icon(
@@ -171,6 +180,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                 ],
               ),
             ),
+            const CustomDivider(),
             Expanded(
               child: Stack(children: [
                 Container(
@@ -179,14 +189,11 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                     color: Colors.white,
                   ),
                   child: isLoading == true
-                      ? const Center(
+                      ? Center(
                           child: Center(
-                            child: SizedBox(
-                              width: 30,
-                              height: 30,
-                              child: CircularProgressIndicator(
-                                color: Colors.grey,
-                              ),
+                            child: CupertinoActivityIndicator(
+                              animating: isLoading,
+                              radius: 20,
                             ),
                           ),
                         )
@@ -271,16 +278,17 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.linear,
                         opacity: _logoOpacity,
-                        child: const Image(
-                          image: AssetImage('assets/images/다너다너3.png'),
+                        child: Image(
+                          image: const AssetImage(
+                              'assets/images/mainlogo256256*4.0.png'),
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          width: MediaQuery.of(context).size.height * 0.2,
                         )),
                   ),
                 ),
               ]),
             ),
-            const SizedBox(
-              height: 7,
-            ),
+            const CustomDivider(),
             Container(
               height: MediaQuery.of(context).size.height * 0.07,
               decoration: BoxDecoration(
@@ -291,6 +299,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                 padding:
                     const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                 child: Stack(
+                  alignment: AlignmentDirectional.centerStart,
                   children: [
                     const Positioned.fill(
                       child: Align(
@@ -351,9 +360,25 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                 ),
               ),
             ),
+            const CustomDivider(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class CustomDivider extends StatelessWidget {
+  const CustomDivider({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Divider(
+      height: 1,
+      thickness: 0.3,
+      color: Colors.grey,
     );
   }
 }
