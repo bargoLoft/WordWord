@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:http/http.dart';
+import '../models/word_view.dart';
 
 const String apiKey = 'B0DB7FCD59EDC9A6BC5C941FC93232ED';
 const String certKey = '3422';
@@ -34,6 +37,13 @@ class WordViewSearch {
     return wordData;
   }
 
+  Future<dynamic> getWordsTargetCode(String targetCode) async {
+    var wordData = await getData(
+        '$apiViewUrl?key=$apiKey&type_search=view&req_type=json&method=TARGET_CODE&q=$targetCode');
+    print('apiView 완료');
+    return wordData;
+  }
+
   //https://stdict.korean.go.kr/api/view.do?certkey_no=3422&key=B0DB7FCD59EDC9A6BC5C941FC93232ED&type_search=view&req_type=json&method=WORD_INFO&q=나무1
   Future getData(String url) async {
     print('Calling url: $url');
@@ -65,4 +75,19 @@ class WordSearch {
       print('에러코드 : ${response.statusCode}');
     }
   }
+}
+
+Future<WordView> getWordViewData(
+    {String? query, String? num, String? targetCode}) async {
+  String wordJsonView;
+  if (num != null) {
+    wordJsonView = await WordViewSearch().getWords(query!, num);
+  } else {
+    wordJsonView = await WordViewSearch().getWordsTargetCode(targetCode!);
+  }
+  print('view받아오고');
+  WordView wordViewData = WordView.fromJson(jsonDecode(wordJsonView));
+  //isLoading = false;
+  print('view변경');
+  return wordViewData;
 }

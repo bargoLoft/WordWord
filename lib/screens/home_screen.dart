@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:WordWord/screens/storage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:WordWord/widgets/word_list.dart';
+// import 'package:device_info_plus/device_info_plus.dart';
 
 int value = 0;
 
@@ -42,7 +45,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    if (Platform.isAndroid) {
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+          statusBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark));
+    } else if (Platform.isIOS) {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    }
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,

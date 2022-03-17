@@ -296,8 +296,13 @@ class CommPatternInfo {
   List<PatternInfo>? patternInfo;
   String? commPatternCode;
   List<SenseInfo>? senseInfo;
+  List<GrammarInfo>? grammarInfo;
 
-  CommPatternInfo({this.commPatternCode, this.senseInfo, this.patternInfo});
+  CommPatternInfo(
+      {this.commPatternCode,
+      this.senseInfo,
+      this.patternInfo,
+      this.grammarInfo});
 
   CommPatternInfo.fromJson(Map<String, dynamic> json) {
     if (json['pattern_info'] != null) {
@@ -314,6 +319,12 @@ class CommPatternInfo {
         senseInfo!.add(SenseInfo.fromJson(v));
       });
     }
+    if (json['grammar_info'] != null) {
+      grammarInfo = <GrammarInfo>[];
+      json['grammar_info'].forEach((v) {
+        grammarInfo!.add(new GrammarInfo.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -324,6 +335,9 @@ class CommPatternInfo {
     data['comm_pattern_code'] = commPatternCode;
     if (senseInfo != null) {
       data['sense_info'] = senseInfo!.map((v) => v.toJson()).toList();
+    }
+    if (this.grammarInfo != null) {
+      data['grammar_info'] = this.grammarInfo!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -345,24 +359,58 @@ class PatternInfo {
   }
 }
 
+class GrammarInfo {
+  String? grammar;
+
+  GrammarInfo({this.grammar});
+
+  GrammarInfo.fromJson(Map<String, dynamic> json) {
+    grammar = json['grammar'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['grammar'] = grammar;
+    return data;
+  }
+}
+
 class SenseInfo {
+  List<SenseGrammarInfo>? senseGrammarInfo;
   String? definition;
+  List<SensePatternInfo>? sensePatternInfo;
   List<CatInfo>? catInfo;
   String? type;
   List<ExampleInfo>? exampleInfo;
   String? definitionOriginal;
   int? senseCode;
+  List<LexicalInfo>? lexicalInfo;
 
   SenseInfo(
-      {this.definition,
+      {this.senseGrammarInfo,
+      this.definition,
+      this.sensePatternInfo,
       this.type,
       this.exampleInfo,
       this.catInfo,
       this.definitionOriginal,
-      this.senseCode});
+      this.senseCode,
+      this.lexicalInfo});
 
   SenseInfo.fromJson(Map<String, dynamic> json) {
+    if (json['sense_grammar_info'] != null) {
+      senseGrammarInfo = <SenseGrammarInfo>[];
+      json['sense_grammar_info'].forEach((v) {
+        senseGrammarInfo!.add(SenseGrammarInfo.fromJson(v));
+      });
+    }
     definition = json['definition'];
+    if (json['sense_pattern_info'] != null) {
+      sensePatternInfo = <SensePatternInfo>[];
+      json['sense_pattern_info'].forEach((v) {
+        sensePatternInfo!.add(SensePatternInfo.fromJson(v));
+      });
+    }
     type = json['type'];
     if (json['cat_info'] != null) {
       catInfo = <CatInfo>[];
@@ -378,17 +426,66 @@ class SenseInfo {
     }
     definitionOriginal = json['definition_original'];
     senseCode = json['sense_code'];
+    if (json['lexical_info'] != null) {
+      lexicalInfo = <LexicalInfo>[];
+      json['lexical_info'].forEach((v) {
+        lexicalInfo!.add(LexicalInfo.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    if (senseGrammarInfo != null) {
+      data['sense_grammar_info'] =
+          senseGrammarInfo!.map((v) => v.toJson()).toList();
+    }
     data['definition'] = definition;
+    if (sensePatternInfo != null) {
+      data['sense_pattern_info'] =
+          sensePatternInfo!.map((v) => v.toJson()).toList();
+    }
     data['type'] = type;
     if (exampleInfo != null) {
       data['example_info'] = exampleInfo!.map((v) => v.toJson()).toList();
     }
     data['definition_original'] = definitionOriginal;
     data['sense_code'] = senseCode;
+    if (lexicalInfo != null) {
+      data['lexical_info'] = lexicalInfo!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class SenseGrammarInfo {
+  String? grammar;
+
+  SenseGrammarInfo({this.grammar});
+
+  SenseGrammarInfo.fromJson(Map<String, dynamic> json) {
+    grammar = json['grammar'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['grammar'] = grammar;
+    return data;
+  }
+}
+
+class SensePatternInfo {
+  String? pattern;
+
+  SensePatternInfo({this.pattern});
+
+  SensePatternInfo.fromJson(Map<String, dynamic> json) {
+    pattern = json['pattern'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['pattern'] = pattern;
     return data;
   }
 }
@@ -421,6 +518,35 @@ class ExampleInfo {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['example'] = example;
+    return data;
+  }
+}
+
+class LexicalInfo {
+  String? unit;
+  String? link;
+  String? word;
+  String? type;
+  String? linkTargetCode;
+
+  LexicalInfo(
+      {this.unit, this.link, this.word, this.type, this.linkTargetCode});
+
+  LexicalInfo.fromJson(Map<String, dynamic> json) {
+    unit = json['unit'];
+    link = json['link '];
+    word = json['word'];
+    type = json['type'];
+    linkTargetCode = json['link_target_code '];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['unit'] = unit;
+    data['link '] = link;
+    data['word'] = word;
+    data['type'] = type;
+    data['link_target_code '] = linkTargetCode;
     return data;
   }
 }

@@ -1,20 +1,36 @@
+import 'dart:async';
+
 import 'package:WordWord/models/word_view.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:WordWord/providers/word_search.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-class WordView extends StatefulWidget {
+class WordViewInfo extends StatefulWidget {
   final Item? item;
-  const WordView({
+  const WordViewInfo({
     required this.item,
     Key? key,
   }) : super(key: key);
 
   @override
-  State<WordView> createState() => _WordViewState();
+  State<WordViewInfo> createState() => _WordViewInfoState();
 }
 
-class _WordViewState extends State<WordView> {
-  @override
+class _WordViewInfoState extends State<WordViewInfo> {
+  final Completer<WebViewController> webController =
+      Completer<WebViewController>();
+
+  Widget webView(String url) {
+    return WebView(
+      initialUrl: url,
+      onWebViewCreated: (WebViewController _controller) async {
+        webController.isCompleted ? '' : webController.complete(_controller);
+      },
+      javascriptMode: JavascriptMode.unrestricted,
+    );
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Scrollbar(
@@ -96,52 +112,143 @@ class _WordViewState extends State<WordView> {
                       ],
                     ),
                   const Divider(height: 10),
+
                   if (widget.item?.wordInfo?.posInfo?.first.pos != '품사 없음')
                     Text(
                       '⌜${widget.item?.wordInfo?.posInfo?.first.pos ?? ''}⌟',
                       style: const TextStyle(fontSize: 15),
                     ), //
-                  if (widget.item?.wordInfo?.posInfo?.first.commPatternInfo
-                          ?.first.patternInfo !=
-                      null) // 품사
-                    Text(
-                        '【${widget.item?.wordInfo?.posInfo?.first.commPatternInfo?.first.patternInfo?.first.pattern}】'),
-                  const SizedBox(height: 3),
-                  Column(
-                    children: [
-                      for (var sense in widget.item?.wordInfo?.posInfo?.first
-                              .commPatternInfo?.first.senseInfo ??
-                          [])
+                  if (widget.item?.wordInfo?.posInfo?.first.pos != '품사 없음')
+                    const SizedBox(height: 3),
+                  for (var comm in widget
+                          .item?.wordInfo?.posInfo?.first.commPatternInfo ??
+                      [])
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (comm.patternInfo != null) // 품사
+                          Text('【${comm.patternInfo?.first.pattern}】'),
+                        if (comm.patternInfo != null) // 품
+                          const SizedBox(height: 3),
+                        if (comm.grammarInfo != null) // grammar
+                          Text('(${comm.grammarInfo?.first.grammar})'),
+                        if (comm.grammarInfo != null) const SizedBox(height: 3),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (sense?.catInfo != null)
-                              Text(
-                                '⌜${sense?.catInfo.first.cat ?? ''}⌟ ',
-                                style: const TextStyle(fontSize: 15),
+                            for (var sense in comm.senseInfo ?? [])
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      if (sense?.catInfo != null)
+                                        Text(
+                                          '⌜${sense?.catInfo.first.cat ?? ''}⌟ ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2,
+                                        ),
+                                      if (sense?.sensePatternInfo != null)
+                                        Text(
+                                          '⌜${sense?.sensePatternInfo.first.pattern ?? ''}⌟ ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2,
+                                        ),
+                                      if (sense?.senseGrammarInfo != null)
+                                        Text(
+                                          '(${sense?.senseGrammarInfo.first.grammar ?? ''}) ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2,
+                                        ),
+                                    ],
+                                  ),
+                                  Text(
+                                    //⌜⌟
+                                    '${sense.definition}',
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                  if (sense?.lexicalInfo != null)
+                                    Row(
+                                      children: [
+                                        Text('≒'),
+                                        for (var lexical
+                                            in sense?.lexicalInfo ?? [])
+                                          GestureDetector(
+                                            onTap: () async {
+                                              // Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //         builder: (context) => webView(
+                                              //             sense?.lexicalInfo?.first.link)));
+                                              String url = lexical.link;
+                                              int start = url.indexOf('=') + 1;
+                                              int last = url.indexOf('&');
+                                              String targetCode =
+                                                  url.substring(start, last);
+
+                                              WordView wordView =
+                                                  await getWordViewData(
+                                                      targetCode: targetCode);
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WordViewInfo(
+                                                              item: wordView
+                                                                  .channel
+                                                                  ?.item)));
+                                            },
+                                            child: RichText(
+                                                text: TextSpan(
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1,
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                  text: '${lexical.word}',
+                                                  style: const TextStyle(
+                                                      decoration: TextDecoration
+                                                          .underline),
+                                                ),
+                                                const TextSpan(text: ' '),
+                                              ],
+                                            )),
+                                          ),
+                                      ],
+                                    ),
+                                  for (var example in sense?.exampleInfo ?? [])
+                                    Text(
+                                      ' - ${example.example}',
+                                      style: const TextStyle(fontSize: 15),
+                                    ),
+                                  const SizedBox(height: 4),
+                                  // const Divider(
+                                  //   //color: Colors.black,
+                                  //   //thickness: 1,
+                                  //   height: 10,
+                                  // )
+                                ],
                               ),
-                            Text(
-                              //⌜⌟
-                              '${sense.definition}',
-                              style: const TextStyle(fontSize: 15),
-                            ),
-                            for (var example in sense?.exampleInfo ?? [])
-                              Text(
-                                ' - ${example.example}',
-                                style: const TextStyle(fontSize: 15),
-                              ),
-                            const Divider(height: 10)
+                            // const Divider(
+                            //   color: Colors.black,
+                            //   //thickness: 1,
+                            //   height: 10,
+                            // )
                           ],
                         ),
-                    ],
-                  ),
-                  // if (widget.item?.wordInfo?.origin != null)
-                  //   Text('어원 : ${widget.item?.wordInfo?.origin ?? ''}'),
+                        // if (widget.item?.wordInfo?.origin != null)
+                        //   Text('어원 : ${widget.item?.wordInfo?.origin ?? ''}'),
+                      ],
+                    ),
                   if (widget.item?.wordInfo?.relationInfo != null)
                     const Text('관용구/속담'),
                   for (var relation
                       in widget.item?.wordInfo?.relationInfo ?? [])
-                    Text(' - ${relation.relationWord ?? ''}'),
+                    Text(' - ${relation.relationWord ?? ''}')
                 ],
               ),
             ),

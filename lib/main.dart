@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: '다너다너',
       theme: ThemeData(
-          //primaryColor: Colors.brown,
+          //primaryColor: Colors.black,
           ),
       home: const HomeScreen(),
     );

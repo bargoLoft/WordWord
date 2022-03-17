@@ -18,7 +18,7 @@ import '../widgets/word_info.dart';
 class Word extends StatefulWidget {
   String word;
   search.WordModel wordModel = search.WordModel();
-  List<view.WordView> wordView = [];
+  List<view.WordView?> wordView = List.generate(47, (index) => null);
   Word({Key? key, required this.word}) : super(key: key);
 
   @override
@@ -72,24 +72,18 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
     List total = widget.wordModel.channel?.total == 1
         ? [0]
         : List.generate(widget.wordModel.channel?.total ?? 0, (i) => i + 1);
-    for (var e in total) {
-      final tmp = getWordViewData(query, e.toString());
-      tmp.then((value) => widget.wordView.add(value)); // async하게 변경
+    for (var num in total) {
+      var index = num;
+      final tmp = getWordViewData(query: query, num: index.toString());
+      tmp.then((value) {
+        widget.wordModel.channel?.total == 1
+            ? widget.wordView[index] = value
+            : widget.wordView[index - 1] = value;
+      }); // async하게 변경, 인덱스대로 넣기
       //view.WordView tmp = await getWordViewData(query, e.toString());
       //widget.wordView.add(tmp);
     }
-
     print('변경');
-  }
-
-  Future<view.WordView> getWordViewData(String? query, String num) async {
-    String wordJsonView = await WordViewSearch().getWords(query!, num);
-    print('view받아오고');
-    view.WordView wordViewData =
-        view.WordView.fromJson(jsonDecode(wordJsonView));
-    //isLoading = false;
-    print('view변경');
-    return wordViewData;
   }
 
   Future<void> getWordRandomViewData(String num) async {
@@ -142,7 +136,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                         setState(() {
                           isLoading = true;
                           _logoOpacity = 0.0;
-                          widget.wordView.clear();
+                          //widget.wordView.clear();
                         });
                         await getWordRandomViewData(Random()
                             .nextInt(422879)
@@ -259,9 +253,12 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => WordView(
-                                                    item: widget.wordView[index]
-                                                        .channel?.item)));
+                                                builder: (context) =>
+                                                    WordViewInfo(
+                                                        item: widget
+                                                            .wordView[index]
+                                                            ?.channel
+                                                            ?.item)));
                                       },
                                       child: WordInfo(
                                         item: widget.wordModel.channel
@@ -326,7 +323,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                             setState(() {
                               _logoOpacity = 0.0;
                               isLoading = true;
-                              widget.wordView.clear();
+                              //widget.wordView.clear();
                               getWordSearchData(inputText);
                             });
                           },
