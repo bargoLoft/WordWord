@@ -124,23 +124,23 @@ class _InfoScreenState extends State<InfoScreen> {
                     ),
                   ),
                 ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    minimumSize: const Size(20, 20),
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  onPressed: () {
-                    _openUrl(instaUrl);
-                  },
-                  child: const Image(
-                    //alignment: Alignment.centerLeft,
-                    width: 20,
-                    height: 20,
-                    image: AssetImage('assets/images/InstaIcon.png'),
-                  ),
-                ),
+                // TextButton(
+                //   style: TextButton.styleFrom(
+                //     minimumSize: const Size(20, 20),
+                //     alignment: Alignment.centerLeft,
+                //     padding: EdgeInsets.zero,
+                //     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                //   ),
+                //   onPressed: () {
+                //     _openUrl(instaUrl);
+                //   },
+                //   child: const Image(
+                //     //alignment: Alignment.centerLeft,
+                //     width: 20,
+                //     height: 20,
+                //     image: AssetImage('assets/images/InstaIcon.png'),
+                //   ),
+                // ),
               ],
             ),
             const Divider(
