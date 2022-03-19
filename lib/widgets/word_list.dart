@@ -250,15 +250,28 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                     //     ''),
                                     child: GestureDetector(
                                       onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    WordViewInfo(
-                                                        item: widget
-                                                            .wordView[index]
-                                                            ?.channel
-                                                            ?.item)));
+                                        if (widget.wordView[index]?.channel
+                                                ?.item?.wordInfo?.word ==
+                                            widget.wordModel.channel?.item
+                                                ?.first.word) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      WordViewInfo(
+                                                          item: widget
+                                                              .wordView[index]
+                                                              ?.channel
+                                                              ?.item)));
+                                        } else {
+                                          const snackBar = SnackBar(
+                                            content: Text(
+                                                '현재 국립국어원 Open API의 문제로\n 사진 자료가 있는 단어는 상세검색이 되지 않습니다.!'),
+                                            duration: Duration(seconds: 3),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                        }
                                       },
                                       child: WordInfo(
                                         item: widget.wordModel.channel

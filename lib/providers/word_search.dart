@@ -33,7 +33,12 @@ class WordViewSearch {
   Future<dynamic> getWords(String query, String num) async {
     var wordData = await getData(
         '$apiViewUrl?key=$apiKey&type_search=view&req_type=json&method=WORD_INFO&q=$query$num');
-    print('apiView 완료');
+    if (wordData != null) {
+      print('apiView 완료');
+      //print('$wordData 완료');
+    } else {
+      print('null error');
+    }
     return wordData;
   }
 
@@ -82,8 +87,10 @@ Future<WordView> getWordViewData(
   String wordJsonView;
   if (num != null) {
     wordJsonView = await WordViewSearch().getWords(query!, num);
+    print('view num');
   } else {
     wordJsonView = await WordViewSearch().getWordsTargetCode(targetCode!);
+    print('view targetcode');
   }
   print('view받아오고');
   WordView wordViewData = WordView.fromJson(jsonDecode(wordJsonView));
