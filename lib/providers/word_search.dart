@@ -65,7 +65,7 @@ class WordViewSearch {
 class WordSearch {
   Future<dynamic> getWords(String query) async {
     var wordData = await getData(
-        '$apiSearchUrl?key=$apiKey&num=50&req_type=json&q=$query');
+        '$apiSearchUrl?key=$apiKey&num=50&req_type=json&advanced=y&q=$query');
     print('apiSearch 완료');
     return wordData;
   }

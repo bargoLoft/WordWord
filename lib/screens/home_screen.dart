@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:WordWord/widgets/word_list.dart';
-// import 'package:device_info_plus/device_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 int value = 0;
 
@@ -26,6 +26,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late PageController _pageController;
+  late SharedPreferences preference;
   @override
   void initState() {
     _pageController = PageController(
@@ -33,6 +34,12 @@ class _HomeScreenState extends State<HomeScreen> {
       initialPage: widget.getPage(),
     );
     super.initState();
+
+    init();
+  }
+
+  Future init() async {
+    preference = await SharedPreferences.getInstance();
   }
 
   @override

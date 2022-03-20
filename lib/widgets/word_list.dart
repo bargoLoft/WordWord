@@ -123,7 +123,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
           children: [
             const CustomDivider(),
             Container(
-              height: MediaQuery.of(context).size.height * 0.07,
+              height: MediaQuery.of(context).size.height * 0.065,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -150,12 +150,11 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                         color: Colors.grey,
                         size: 20,
                       )),
-                  const Image(
-                    image: AssetImage(
-                      'assets/images/다너다너6.png',
-                    ),
-                    height: 30,
-                  ),
+                  Image(
+                      image: const AssetImage(
+                        'assets/images/toplogo_6464*4.0.png',
+                      ),
+                      height: MediaQuery.of(context).size.height * 0.02),
                   TextButton(
                       style: ButtonStyle(
                         padding: MaterialStateProperty.all(EdgeInsets.zero),
@@ -386,8 +385,8 @@ class CustomDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Divider(
-      height: 1,
-      thickness: 0.3,
+      height: 0.1,
+      thickness: 0.5,
       color: Colors.grey,
     );
   }

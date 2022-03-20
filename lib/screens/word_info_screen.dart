@@ -4,6 +4,7 @@ import 'package:WordWord/models/word_view.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:WordWord/providers/word_search.dart';
+import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WordViewInfo extends StatefulWidget {
@@ -31,6 +32,7 @@ class _WordViewInfoState extends State<WordViewInfo> {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Scrollbar(
@@ -165,9 +167,10 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                         ),
                                     ],
                                   ),
-                                  Text(
-                                    //⌜⌟
+                                  SelectableText(
                                     '${sense.definition}',
+                                    toolbarOptions: const ToolbarOptions(
+                                        copy: true, selectAll: true),
                                     style:
                                         Theme.of(context).textTheme.bodyText1,
                                   ),
