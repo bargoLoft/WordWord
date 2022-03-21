@@ -174,6 +174,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
               ),
             ),
             const CustomDivider(),
+            const SizedBox(height: 3),
             Expanded(
               child: Stack(children: [
                 Container(

@@ -110,6 +110,7 @@ class _WordViewInfoState extends State<WordViewInfo> {
                           Text(
                             '${conju.conjugationInfo.conjugation}[${conju.conjugationInfo.pronunciationInfo.first.pronunciation}] ',
                             style: const TextStyle(fontSize: 16),
+                            //overflow: TextOverflow.fade,
                           ),
                       ],
                     ),

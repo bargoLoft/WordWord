@@ -12,53 +12,57 @@ class WordInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+      elevation: 0.4,
+      margin: const EdgeInsets.fromLTRB(5, 0, 3, 5),
       child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
+        padding: const EdgeInsets.all(7),
+        child: Row(
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.word ?? '',
+            Text(
+              item.word ?? '',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            if (item.supNo == '0')
+              const SizedBox(width: 1)
+            else
+              Container(
+                height: 25,
+                alignment: Alignment.topLeft,
+                child: Text(
+                  item.supNo ?? '',
                   style: const TextStyle(
-                    fontSize: 30,
+                    fontSize: 10,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                if (item.supNo == '0')
-                  const SizedBox(width: 1)
-                else
-                  Text(
-                    item.supNo ?? '',
-                    style: const TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 3),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                item.pos ?? '',
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 15,
-                ),
               ),
+            // const SizedBox(height: 3),
+            // Container(
+            //   alignment: Alignment.centerLeft,
+            //   child: Text(
+            //     item.pos ?? '',
+            //     style: const TextStyle(
+            //       color: Colors.grey,
+            //       fontSize: 15,
+            //     ),
+            //   ),
+            // ),
+            const SizedBox(
+              width: 5,
             ),
-            const SizedBox(height: 5),
-            Container(
-              alignment: Alignment.centerLeft,
+            Flexible(
               child: Text(
                 item.sense?.definition ?? '',
                 style: const TextStyle(
-                  fontSize: 13,
+                  fontSize: 20,
                   //fontWeight: FontWeight.bold,
                 ),
+                maxLines: 3,
+                softWrap: false,
+                overflow: TextOverflow.fade,
               ),
             ),
           ],
