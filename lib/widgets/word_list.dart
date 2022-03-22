@@ -6,13 +6,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:hive_flutter/hive_flutter.dart';
 import '../providers/word_search.dart';
 import '../models/word_model.dart' as search;
 import '../models/word_view.dart' as view;
 import '../models/word.dart';
+import '../models/recent_word.dart';
 import 'package:WordWord/boxes.dart';
 import '../screens/info_screen.dart';
 import '../screens/word_info_screen.dart';
+import '../screens/recent_screen.dart';
 import '../widgets/word_info.dart';
 
 class Word extends StatefulWidget {
@@ -67,6 +70,14 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
     });
     setState(() {
       isLoading = false;
+      RecentWordBoxes.getWords().put(
+        widget.wordModel.channel?.item?.first.targetCode,
+        RecentWord(
+          widget.wordModel.channel?.item!.first.word ?? '',
+          widget.wordModel.channel?.lastbuilddate ?? '',
+          widget.wordModel.channel?.item?.first.targetCode ?? '',
+        ),
+      );
     });
 
     List total = widget.wordModel.channel?.total == 1
@@ -204,7 +215,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                     onDismissed: (direction) {
                                       if (direction ==
                                           DismissDirection.endToStart) {
-                                        Boxes.getWords().put(
+                                        WordBoxes.getWords().put(
                                           widget.wordModel.channel?.item![index]
                                                   .targetCode ??
                                               0,
@@ -311,15 +322,6 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                 child: Stack(
                   alignment: AlignmentDirectional.centerStart,
                   children: [
-                    const Positioned.fill(
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Icon(
-                          FontAwesomeIcons.search,
-                          size: 18,
-                        ),
-                      ),
-                    ),
                     Positioned.fill(
                       child: Align(
                         alignment: Alignment.center,
@@ -351,6 +353,24 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                           ),
                         ),
                       ),
+                    ),
+                    Positioned.fill(
+                      child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const RecentWordList()),
+                              );
+                            },
+                            icon: const Icon(
+                              FontAwesomeIcons.magnifyingGlass,
+                              size: 18,
+                            ),
+                          )),
                     ),
                     Align(
                       alignment: Alignment.centerRight,

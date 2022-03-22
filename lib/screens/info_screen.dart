@@ -160,9 +160,12 @@ class _InfoScreenState extends State<InfoScreen> {
                         content: const Text('다너다너를 초기화 하시겠습니까?'),
                         actions: [
                           CupertinoDialogAction(
-                            child: const Text('네'),
+                            child: const Text(
+                              '네',
+                              style: TextStyle(color: Colors.red), // 왜 적용 안되지
+                            ),
                             onPressed: () {
-                              Boxes.getWords().clear();
+                              WordBoxes.getWords().clear();
                               Navigator.pop(context);
                               const snackBar = SnackBar(
                                 content: Text('다너다너가 초기화 되었습니다!'),

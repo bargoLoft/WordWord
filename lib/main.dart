@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:WordWord/boxes.dart';
+import 'package:WordWord/models/recent_word.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,7 +16,9 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
   await Hive.initFlutter();
   Hive.registerAdapter(wordtestAdapter());
+  Hive.registerAdapter(RecentWordAdapter());
   await Hive.openBox<wordtest>('words');
+  await Hive.openBox<RecentWord>('RecentWords');
 
   runApp(const MyApp());
 }

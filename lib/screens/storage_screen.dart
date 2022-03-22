@@ -22,7 +22,7 @@ class _StorageScreenState extends State<StorageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ValueListenableBuilder<Box<wordtest>>(
-        valueListenable: Boxes.getWords().listenable(),
+        valueListenable: WordBoxes.getWords().listenable(),
         builder: (context, box, _) {
           final words = box.values.toList().cast<wordtest>();
           return buildContext(words);
@@ -79,7 +79,7 @@ class _StorageScreenState extends State<StorageScreen> {
                   scrollDirection:
                       groupValue == 0 ? Axis.vertical : Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 4),
-                  itemCount: Boxes.getWords().length,
+                  itemCount: WordBoxes.getWords().length,
                   itemBuilder: (BuildContext context, int index) {
                     var word = words[index];
                     if (groupValue == 0) {
@@ -99,7 +99,7 @@ class _StorageScreenState extends State<StorageScreen> {
                         onDismissed: (direction) {
                           if (direction == DismissDirection.endToStart) {
                             setState(() {
-                              Boxes.getWords().delete(word.targetCode);
+                              WordBoxes.getWords().delete(word.targetCode);
                               //Boxes.getWords().deleteFromDisk();
                             });
                           }
