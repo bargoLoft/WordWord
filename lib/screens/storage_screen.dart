@@ -1,3 +1,4 @@
+import 'package:WordWord/screens/word_info_screen.dart';
 import 'package:WordWord/widgets/word_chip.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:WordWord/models/word.dart';
 import 'package:WordWord/boxes.dart';
+
+import '../models/word_view.dart';
+import '../providers/word_search.dart';
 
 //import 'package:WordWord/widgets/word_chip.dart';
 
@@ -83,28 +87,39 @@ class _StorageScreenState extends State<StorageScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     var word = words[index];
                     if (groupValue == 0) {
-                      return Dismissible(
-                        key: UniqueKey(),
-                        background: Container(
-                          margin: const EdgeInsets.all(8),
-                          padding: const EdgeInsets.all(8),
-                          color: Colors.red,
-                          alignment: Alignment.centerRight,
-                          child: const Icon(
-                            Icons.delete,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                        ),
-                        onDismissed: (direction) {
-                          if (direction == DismissDirection.endToStart) {
-                            setState(() {
-                              WordBoxes.getWords().delete(word.targetCode);
-                              //Boxes.getWords().deleteFromDisk();
-                            });
-                          }
+                      return GestureDetector(
+                        onTap: () async {
+                          WordView wordView = await getWordViewData(
+                              targetCode: words[index].targetCode);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WordViewInfo(
+                                      item: wordView.channel?.item)));
                         },
-                        child: buildListCard(context, word),
+                        child: Dismissible(
+                          key: UniqueKey(),
+                          background: Container(
+                            margin: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
+                            color: Colors.red,
+                            alignment: Alignment.centerRight,
+                            child: const Icon(
+                              Icons.delete,
+                              size: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                          onDismissed: (direction) {
+                            if (direction == DismissDirection.endToStart) {
+                              setState(() {
+                                WordBoxes.getWords().delete(word.targetCode);
+                                //Boxes.getWords().deleteFromDisk();
+                              });
+                            }
+                          },
+                          child: buildListCard(context, word),
+                        ),
                       );
                     } else {
                       return WordChip(word: word.word);

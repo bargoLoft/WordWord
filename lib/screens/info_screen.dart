@@ -171,6 +171,7 @@ class _InfoScreenState extends State<InfoScreen> {
                               //style: TextStyle(color: Colors.red), // 왜 적용 안되지
                             ),
                             onPressed: () {
+                              RecentWordBoxes.getWords().clear();
                               WordBoxes.getWords().clear();
                               Navigator.pop(context);
                               const snackBar = SnackBar(

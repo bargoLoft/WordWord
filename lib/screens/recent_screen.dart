@@ -43,7 +43,7 @@ class _RecentWordListState extends State<RecentWordList> {
       body: ValueListenableBuilder<Box<RecentWord>>(
         valueListenable: RecentWordBoxes.getWords().listenable(),
         builder: (context, box, _) {
-          final words = box.values.toList().cast<RecentWord>();
+          var words = box.values.toList().cast<RecentWord>();
           words.sort((a, b) => a.time.compareTo(b.time));
           return words.isEmpty
               ? const Center(

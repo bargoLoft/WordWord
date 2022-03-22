@@ -70,14 +70,16 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
     });
     setState(() {
       isLoading = false;
-      RecentWordBoxes.getWords().put(
-        widget.wordModel.channel?.item?.first.targetCode,
-        RecentWord(
-          widget.wordModel.channel?.item!.first.word ?? '',
-          widget.wordModel.channel?.lastbuilddate ?? '',
-          widget.wordModel.channel?.item?.first.targetCode ?? '',
-        ),
-      );
+      if (widget.wordModel.channel?.item?.first.targetCode != null) {
+        RecentWordBoxes.getWords().put(
+          widget.wordModel.channel?.item?.first.targetCode,
+          RecentWord(
+            widget.wordModel.channel?.item!.first.word ?? '',
+            widget.wordModel.channel?.lastbuilddate ?? '',
+            widget.wordModel.channel?.item?.first.targetCode ?? '',
+          ),
+        );
+      }
     });
 
     List total = widget.wordModel.channel?.total == 1
