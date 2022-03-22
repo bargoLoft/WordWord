@@ -14,6 +14,12 @@ class RecentWordList extends StatefulWidget {
 }
 
 class _RecentWordListState extends State<RecentWordList> {
+  String _textReplace(String str) {
+    str = str.replaceAll('-', '');
+    str = str.replaceAll('^', '');
+    return str;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,63 +45,73 @@ class _RecentWordListState extends State<RecentWordList> {
         builder: (context, box, _) {
           final words = box.values.toList().cast<RecentWord>();
           words.sort((a, b) => a.time.compareTo(b.time));
-          return ListView.builder(
-            itemCount: box.keys.length,
-            itemBuilder: (context, index) => Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                  child: GestureDetector(
-                    onTap: () {
-                      //_logoOpacity = 0.0;
-                      //isLoading = true;
-                      //widget.wordView.clear();
-                      //getWordSearchData(words[words.length - index - 1].word);
-                      Navigator.pop(context);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          words[words.length - index - 1].word,
-                          style: const TextStyle(fontSize: 23),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              DateFormat('yyyy-MM-dd')
-                                  .format(DateTime.parse(
-                                      words[words.length - index - 1]
-                                          .time
-                                          .substring(0, 8)))
-                                  .toString(),
-                              style: const TextStyle(fontSize: 17),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                RecentWordBoxes.getWords().delete(
-                                    words[words.length - index - 1].targetCode);
-                                //_wordSearchController.clear();
-                                //FocusScope.of(context).requestFocus(_myFocusNode);
-                              },
-                              splashColor: Colors.transparent,
-                              icon: const Icon(
-                                Icons.clear,
-                                size: 20,
+          return words.isEmpty
+              ? const Center(
+                  child: Text(
+                  '최근 검색어 내역이 없습니다.',
+                  style: TextStyle(fontSize: 20),
+                ))
+              : ListView.builder(
+                  itemCount: box.keys.length,
+                  itemBuilder: (context, index) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 3),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(
+                                context,
+                                _textReplace(
+                                    words[words.length - index - 1].word));
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                words[words.length - index - 1].word,
+                                style: const TextStyle(
+                                    fontSize: 22, fontWeight: FontWeight.bold),
                               ),
-                            )
-                          ],
+                              Row(
+                                children: [
+                                  Text(
+                                    DateFormat('yyyy-MM-dd')
+                                        .format(DateTime.parse(
+                                            words[words.length - index - 1]
+                                                .time
+                                                .substring(0, 8)))
+                                        .toString(),
+                                    style: const TextStyle(fontSize: 17),
+                                  ),
+                                  IconButton(
+                                    constraints: BoxConstraints.tight(
+                                        const Size(30, 40)),
+                                    splashRadius: 1,
+                                    iconSize: 20,
+                                    alignment: Alignment.centerRight,
+                                    padding: EdgeInsets.zero,
+                                    onPressed: () {
+                                      RecentWordBoxes.getWords().delete(
+                                          words[words.length - index - 1]
+                                              .targetCode);
+                                      //_wordSearchController.clear();
+                                      //FocusScope.of(context).requestFocus(_myFocusNode);
+                                    },
+                                    splashColor: Colors.transparent,
+                                    icon: const Icon(Icons.clear),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                      const CustomDivider(),
+                    ],
                   ),
-                ),
-                const CustomDivider(),
-              ],
-            ),
-          );
+                );
         },
       ),
     );

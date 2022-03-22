@@ -252,7 +252,7 @@ class _WordViewInfoState extends State<WordViewInfo> {
                     const Text('관용구/속담'),
                   for (var relation
                       in widget.item?.wordInfo?.relationInfo ?? [])
-                    Text(' - ${relation.relationWord ?? ''}')
+                    SelectableText(' - ${relation.relationWord ?? ''}')
                 ],
               ),
             ),

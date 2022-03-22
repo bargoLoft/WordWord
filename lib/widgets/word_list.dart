@@ -133,7 +133,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
         child: Column(
           children: [
             const CustomDivider(),
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.065,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -317,8 +317,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                 color: Colors.white,
               ),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
                 child: Stack(
                   alignment: AlignmentDirectional.centerStart,
                   children: [
@@ -358,13 +357,19 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                       child: Align(
                           alignment: Alignment.centerLeft,
                           child: IconButton(
-                            onPressed: () {
-                              Navigator.push(
+                            padding: EdgeInsets.zero,
+                            onPressed: () async {
+                              final result = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         const RecentWordList()),
                               );
+                              if (result != null) {
+                                _logoOpacity = 0.0;
+                                isLoading = true;
+                                getWordSearchData(result);
+                              }
                             },
                             icon: const Icon(
                               FontAwesomeIcons.magnifyingGlass,

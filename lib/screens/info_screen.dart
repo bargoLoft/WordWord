@@ -21,6 +21,8 @@ class _InfoScreenState extends State<InfoScreen> {
   final dicKoreanUrl = 'https://stdict.korean.go.kr/main/main.do';
   final dicUrimalUrl = 'https://opendict.korean.go.kr/main';
   final instaUrl = 'https://www.instagram.com/2cup_2/';
+
+  Color textColor = Colors.green;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +35,7 @@ class _InfoScreenState extends State<InfoScreen> {
               alignment: Alignment.topLeft,
               child: TextButton(
                 style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(textColor),
                   padding: MaterialStateProperty.all(EdgeInsets.zero),
                 ),
                 onPressed: () {
@@ -50,9 +53,9 @@ class _InfoScreenState extends State<InfoScreen> {
                 onPressed: () {
                   _openUrl(dicKoreanUrl);
                 },
-                child: const Text(
+                child: Text(
                   '표준국어대사전 바로가기',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 20, color: textColor),
                 ),
               ),
             ),
@@ -67,9 +70,9 @@ class _InfoScreenState extends State<InfoScreen> {
                 onPressed: () {
                   _openUrl(dicKoreanUrl);
                 },
-                child: const Text(
+                child: Text(
                   '우리말 샘 바로가기',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 20, color: textColor),
                 ),
               ),
             ),
@@ -85,9 +88,9 @@ class _InfoScreenState extends State<InfoScreen> {
                 onPressed: () {
                   _sendEmail();
                 },
-                child: const Text(
+                child: Text(
                   '건의사항 보내기',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 20, color: textColor),
                 ),
               ),
             ),
@@ -106,12 +109,12 @@ class _InfoScreenState extends State<InfoScreen> {
                       _openUrl(blogUrl);
                     },
                     child: Row(
-                      children: const [
+                      children: [
                         Text(
                           '개발자 블로그',
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 20, color: textColor),
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.all(5),
                           child: Image(
                             width: 20,
@@ -156,13 +159,16 @@ class _InfoScreenState extends State<InfoScreen> {
                     context: context,
                     builder: (context) {
                       return CupertinoAlertDialog(
-                        title: const Text('다너다너 초기화'),
+                        title: const Text(
+                          '다너다너 초기화',
+                          style: TextStyle(fontSize: 20, color: Colors.red),
+                        ),
                         content: const Text('다너다너를 초기화 하시겠습니까?'),
                         actions: [
                           CupertinoDialogAction(
                             child: const Text(
                               '네',
-                              style: TextStyle(color: Colors.red), // 왜 적용 안되지
+                              //style: TextStyle(color: Colors.red), // 왜 적용 안되지
                             ),
                             onPressed: () {
                               WordBoxes.getWords().clear();
@@ -184,9 +190,9 @@ class _InfoScreenState extends State<InfoScreen> {
                     barrierDismissible: true,
                   );
                 },
-                child: const Text(
+                child: Text(
                   '다너다너 초기화',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 20, color: textColor),
                 ),
               ),
             ),
