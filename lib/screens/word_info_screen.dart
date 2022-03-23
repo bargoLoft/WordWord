@@ -178,7 +178,7 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                   if (sense?.lexicalInfo != null)
                                     Row(
                                       children: [
-                                        Text('≒'),
+                                        const Text('≒'),
                                         for (var lexical
                                             in sense?.lexicalInfo ?? [])
                                           GestureDetector(
@@ -227,14 +227,15 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                   for (var example in sense?.exampleInfo ?? [])
                                     Text(
                                       ' - ${example.example}',
-                                      style: const TextStyle(fontSize: 15),
+                                      style:
+                                          Theme.of(context).textTheme.bodyText1,
                                     ),
-                                  const SizedBox(height: 4),
-                                  // const Divider(
-                                  //   //color: Colors.black,
-                                  //   //thickness: 1,
-                                  //   height: 10,
-                                  // )
+                                  //const SizedBox(height: 10),
+                                  const Divider(
+                                    color: Colors.grey,
+                                    //thickness: 1,
+                                    height: 10,
+                                  )
                                 ],
                               ),
                             // const Divider(

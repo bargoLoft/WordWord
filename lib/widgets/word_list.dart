@@ -216,7 +216,9 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                   Dismissible(
                                     onDismissed: (direction) {
                                       if (direction ==
-                                          DismissDirection.endToStart) {
+                                              DismissDirection.endToStart ||
+                                          direction ==
+                                              DismissDirection.startToEnd) {
                                         WordBoxes.getWords().put(
                                           widget.wordModel.channel?.item![index]
                                                   .targetCode ??
@@ -240,6 +242,9 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                                 '',
                                             widget.wordModel.channel
                                                     ?.item![index].targetCode ??
+                                                '',
+                                            widget.wordModel.channel
+                                                    ?.lastbuilddate ??
                                                 '',
                                           ),
                                         );

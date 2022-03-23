@@ -19,7 +19,7 @@ class RecentWordAdapter extends TypeAdapter<RecentWord> {
     return RecentWord(
       fields[0] as String,
       fields[1] as String,
-      fields[4] ?? '' as String,
+      fields[4] as String,
     );
   }
 

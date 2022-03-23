@@ -22,6 +22,17 @@ class StorageScreen extends StatefulWidget {
 
 class _StorageScreenState extends State<StorageScreen> {
   int? groupValue = 0;
+  final _valueList = ['최근순', '가나다순', '품사순'];
+  var _dropdownValue = '최근순';
+
+  void dropdownCallback(String? selectedValue) {
+    if (selectedValue is String) {
+      setState(() {
+        _dropdownValue = selectedValue;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +40,18 @@ class _StorageScreenState extends State<StorageScreen> {
         valueListenable: WordBoxes.getWords().listenable(),
         builder: (context, box, _) {
           final words = box.values.toList().cast<wordtest>();
+          switch (_dropdownValue) {
+            case '최근순':
+              words.sort((a, b) => a.saveTime.compareTo(b.saveTime));
+              break; // 추가한 순
+            case '품사순':
+              words.sort((a, b) => a.pos.compareTo(b.pos)); // 품사
+              break;
+            case '가나다순':
+              words.sort((a, b) => a.word.compareTo(b.word)); // ㄱㄴㄷ
+              break;
+          }
+
           return buildContext(words);
         },
       ),
@@ -61,25 +84,41 @@ class _StorageScreenState extends State<StorageScreen> {
                 //alignment: Alignment.centerLeft,
                 child: Text('총 ${words.length}개의 단어')),
             const SizedBox(height: 10),
-            CupertinoSlidingSegmentedControl(
-              padding: const EdgeInsets.all(4),
-              groupValue: groupValue,
-              children: const {
-                0: Icon(FontAwesomeIcons.listUl),
-                1: Icon(FontAwesomeIcons.minus),
-              },
-              onValueChanged: (groupValue) {
-                setState(() {
-                  this.groupValue = groupValue as int?;
-                });
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                DropdownButton(
+                    items: _valueList.map((value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    value: _dropdownValue,
+                    onChanged: dropdownCallback),
+                Center(
+                  child: CupertinoSlidingSegmentedControl(
+                    padding: const EdgeInsets.all(4),
+                    groupValue: groupValue,
+                    children: const {
+                      0: Icon(FontAwesomeIcons.listUl),
+                      1: Icon(FontAwesomeIcons.minus),
+                    },
+                    onValueChanged: (groupValue) {
+                      setState(() {
+                        this.groupValue = groupValue as int?;
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 5),
             Expanded(
               child: ListView.builder(
                   //physics: const NeverScrollableScrollPhysics(),
                   //primary: true,
-                  shrinkWrap: true,
+                  //shrinkWrap: true,
                   scrollDirection:
                       groupValue == 0 ? Axis.vertical : Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 4),

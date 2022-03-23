@@ -22,13 +22,14 @@ class wordtestAdapter extends TypeAdapter<wordtest> {
       fields[2] as String,
       fields[3] as String,
       fields[4] as String,
+      fields[5] ?? '' as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, wordtest obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.word)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class wordtestAdapter extends TypeAdapter<wordtest> {
       ..writeByte(3)
       ..write(obj.definition)
       ..writeByte(4)
-      ..write(obj.targetCode);
+      ..write(obj.targetCode)
+      ..writeByte(5)
+      ..write(obj.saveTime);
   }
 
   @override
