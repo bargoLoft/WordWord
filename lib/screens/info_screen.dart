@@ -68,7 +68,7 @@ class _InfoScreenState extends State<InfoScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextButton(
                 onPressed: () {
-                  _openUrl(dicKoreanUrl);
+                  _openUrl(dicUrimalUrl);
                 },
                 child: Text(
                   '우리말 샘 바로가기',

@@ -84,34 +84,37 @@ class _StorageScreenState extends State<StorageScreen> {
                 //alignment: Alignment.centerLeft,
                 child: Text('총 ${words.length}개의 단어')),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                DropdownButton(
-                    items: _valueList.map((value) {
-                      return DropdownMenuItem(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    value: _dropdownValue,
-                    onChanged: dropdownCallback),
-                Center(
-                  child: CupertinoSlidingSegmentedControl(
-                    padding: const EdgeInsets.all(4),
-                    groupValue: groupValue,
-                    children: const {
-                      0: Icon(FontAwesomeIcons.listUl),
-                      1: Icon(FontAwesomeIcons.minus),
-                    },
-                    onValueChanged: (groupValue) {
-                      setState(() {
-                        this.groupValue = groupValue as int?;
-                      });
-                    },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DropdownButton(
+                      items: _valueList.map((value) {
+                        return DropdownMenuItem(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      value: _dropdownValue,
+                      onChanged: dropdownCallback),
+                  Center(
+                    child: CupertinoSlidingSegmentedControl(
+                      padding: const EdgeInsets.all(4),
+                      groupValue: groupValue,
+                      children: const {
+                        0: Icon(FontAwesomeIcons.listUl),
+                        1: Icon(FontAwesomeIcons.minus),
+                      },
+                      onValueChanged: (groupValue) {
+                        setState(() {
+                          this.groupValue = groupValue as int?;
+                        });
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 5),
             Expanded(
