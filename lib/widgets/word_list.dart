@@ -308,7 +308,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                         opacity: _logoOpacity,
                         child: Image(
                           image: const AssetImage(
-                              'assets/images/mainlogo256256*4.0.png'),
+                              'assets/launcher_icon/mainlogo_6464*4.0_downsize.png'),
                           height: MediaQuery.of(context).size.height * 0.2,
                           width: MediaQuery.of(context).size.height * 0.2,
                         )),
