@@ -285,7 +285,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                           const snackBar = SnackBar(
                                             content: Text(
                                                 '현재 국립국어원 Open API의 문제로\n 사진 자료가 있는 단어는 상세검색이 되지 않습니다.!'),
-                                            duration: Duration(seconds: 3),
+                                            duration: Duration(seconds: 1),
                                           );
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(snackBar);
