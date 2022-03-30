@@ -34,8 +34,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: '다너다너',
       theme: ThemeData(
-          //primaryColor: Colors.black,
-          ),
+        fontFamily: 'KoPubBatang',
+        //primaryColor: Colors.black,
+      ),
       home: const HomeScreen(),
     );
   }

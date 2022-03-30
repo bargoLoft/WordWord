@@ -123,7 +123,7 @@ class _StorageScreenState extends State<StorageScreen> {
                   //primary: true,
                   //shrinkWrap: true,
                   scrollDirection:
-                      groupValue == 0 ? Axis.vertical : Axis.horizontal,
+                      groupValue == 0 ? Axis.vertical : Axis.vertical,
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   itemCount: WordBoxes.getWords().length,
                   itemBuilder: (BuildContext context, int index) {
@@ -181,6 +181,7 @@ class _StorageScreenState extends State<StorageScreen> {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
+            //sticky header 적용하기, 날짜, ㄱㄴㄷ, 품
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
