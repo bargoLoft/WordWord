@@ -69,7 +69,6 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
       }
     });
     setState(() {
-      isLoading = false;
       if (widget.wordModel.channel?.item?.first.targetCode != null) {
         RecentWordBoxes.getWords().put(
           widget.wordModel.channel?.item?.first.targetCode,
@@ -81,7 +80,6 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
         );
       }
     });
-
     List total = widget.wordModel.channel?.total == 1
         ? [0]
         : List.generate(widget.wordModel.channel?.total ?? 0, (i) => i + 1);
@@ -96,6 +94,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
       //view.WordView tmp = await getWordViewData(query, e.toString());
       //widget.wordView.add(tmp);
     }
+    isLoading = false; // null 반환 대비 아래로 이동
     print('변경');
   }
 
@@ -355,7 +354,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                           ),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: 18,
                           ),
                         ),
                       ),

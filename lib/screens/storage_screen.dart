@@ -81,8 +81,23 @@ class _StorageScreenState extends State<StorageScreen> {
             ),
             const SizedBox(height: 10),
             Align(
-                //alignment: Alignment.centerLeft,
-                child: Text('총 ${words.length}개의 단어')),
+              //alignment: Alignment.centerLeft,
+              child: RichText(
+                text: TextSpan(
+                    text: '총 ',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: '${words.length}개',
+                          style: const TextStyle(color: Colors.green)),
+                      TextSpan(
+                          text: '의 단어',
+                          style: const TextStyle(color: Colors.black)),
+                    ]),
+              ),
+            ),
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -90,14 +105,15 @@ class _StorageScreenState extends State<StorageScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   DropdownButton(
-                      items: _valueList.map((value) {
-                        return DropdownMenuItem(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      value: _dropdownValue,
-                      onChanged: dropdownCallback),
+                    items: _valueList.map((value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    value: _dropdownValue,
+                    onChanged: dropdownCallback,
+                  ),
                   Center(
                     child: CupertinoSlidingSegmentedControl(
                       padding: const EdgeInsets.all(4),
@@ -188,7 +204,7 @@ class _StorageScreenState extends State<StorageScreen> {
                 Text(
                   word.word,
                   style: const TextStyle(
-                    fontSize: 30,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -211,7 +227,7 @@ class _StorageScreenState extends State<StorageScreen> {
                 word.pos,
                 style: const TextStyle(
                   color: Colors.grey,
-                  fontSize: 15,
+                  fontSize: 13,
                 ),
               ),
             ),
@@ -221,7 +237,7 @@ class _StorageScreenState extends State<StorageScreen> {
               child: Text(
                 word.definition,
                 style: const TextStyle(
-                  fontSize: 13,
+                  fontSize: 15,
                   //fontWeight: FontWeight.bold,
                 ),
               ),

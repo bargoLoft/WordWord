@@ -231,11 +231,7 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                           Theme.of(context).textTheme.bodyText1,
                                     ),
                                   //const SizedBox(height: 10),
-                                  const Divider(
-                                    color: Colors.grey,
-                                    //thickness: 1,
-                                    height: 10,
-                                  )
+                                  const Divider(color: Colors.grey, height: 10),
                                 ],
                               ),
                             // const Divider(
@@ -245,8 +241,10 @@ class _WordViewInfoState extends State<WordViewInfo> {
                             // )
                           ],
                         ),
-                        // if (widget.item?.wordInfo?.origin != null)
-                        //   Text('어원 : ${widget.item?.wordInfo?.origin ?? ''}'),
+                        if (widget.item?.wordInfo?.origin != null)
+                          Text('어원 : ${widget.item?.wordInfo?.origin ?? ''}'),
+                        if (widget.item?.wordInfo?.origin != null)
+                          const Divider(color: Colors.grey, height: 10)
                       ],
                     ),
                   if (widget.item?.wordInfo?.relationInfo != null)
