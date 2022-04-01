@@ -220,27 +220,32 @@ class _StorageScreenState extends State<StorageScreen> {
                   ),
               ],
             ),
-            const SizedBox(height: 3),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                word.pos,
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 13,
-                ),
-              ),
-            ),
+
             const SizedBox(height: 5),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                word.definition,
-                style: const TextStyle(
-                  fontSize: 15,
-                  //fontWeight: FontWeight.bold,
+            Row(
+              children: [
+                const SizedBox(height: 3),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    word.pos,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 13,
+                    ),
+                  ),
                 ),
-              ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    word.definition,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      //fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
