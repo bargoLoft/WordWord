@@ -70,56 +70,55 @@ class _WordViewInfoState extends State<WordViewInfo> {
                       if (widget.item?.wordInfo?.originalLanguageInfo != null)
                         Row(
                           children: [
-                            const Text('(', style: TextStyle(fontSize: 20)),
+                            const Text('(', style: TextStyle(fontSize: 30)),
                             for (var original in widget
                                     .item?.wordInfo?.originalLanguageInfo ??
                                 [])
                               AutoSizeText(
                                 '${original.originalLanguage}',
-                                style: const TextStyle(fontSize: 20),
+                                style: const TextStyle(fontSize: 30),
                               ),
-                            const Text(')', style: TextStyle(fontSize: 20)),
+                            const Text(')', style: TextStyle(fontSize: 30)),
                           ],
                         ),
                     ],
                   ),
-                  if (widget.item?.wordInfo?.pronunciationInfo != null)
-                    const Divider(height: 10),
-                  if (widget.item?.wordInfo?.pronunciationInfo != null)
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text('발음 ', style: TextStyle(fontSize: 16)),
-                        for (var pronunciation
-                            in widget.item?.wordInfo?.pronunciationInfo ?? [])
-                          Text(
-                            '[${pronunciation.pronunciation}]',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                      ],
-                    ),
-                  if (widget.item?.wordInfo?.conjuInfo != null)
-                    const Divider(height: 10),
-                  if (widget.item?.wordInfo?.conjuInfo != null)
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text('활용 ', style: TextStyle(fontSize: 16)),
-                        for (var conju
-                            in widget.item?.wordInfo?.conjuInfo ?? [])
-                          Text(
-                            '${conju.conjugationInfo.conjugation}[${conju.conjugationInfo.pronunciationInfo.first.pronunciation}] ',
-                            style: const TextStyle(fontSize: 16),
-                            //overflow: TextOverflow.fade,
-                          ),
-                      ],
-                    ),
-                  const Divider(height: 10),
+                  // if (widget.item?.wordInfo?.pronunciationInfo != null)
+                  //   const Divider(height: 10),
+                  // if (widget.item?.wordInfo?.pronunciationInfo != null)
+                  //   Row(
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     children: [
+                  //       const Text('발음 ', style: TextStyle(fontSize: 16)),
+                  //       for (var pronunciation
+                  //           in widget.item?.wordInfo?.pronunciationInfo ?? [])
+                  //         Text(
+                  //           '[${pronunciation.pronunciation}]',
+                  //           style: const TextStyle(fontSize: 16),
+                  //         ),
+                  //     ],
+                  //   ),
+                  // if (widget.item?.wordInfo?.conjuInfo != null)
+                  //   const Divider(height: 10),
+                  // if (widget.item?.wordInfo?.conjuInfo != null)
+                  //   Row(
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     children: [
+                  //       const Text('활용 ', style: TextStyle(fontSize: 16)),
+                  //       for (var conju
+                  //           in widget.item?.wordInfo?.conjuInfo ?? [])
+                  //         Text(
+                  //           '${conju.conjugationInfo.conjugation}[${conju.conjugationInfo.pronunciationInfo.first.pronunciation}] ',
+                  //           style: const TextStyle(fontSize: 16),
+                  //           //overflow: TextOverflow.fade,
+                  //         ),
+                  //     ],
+                  //   ),
+                  // const Divider(height: 1),
 
                   if (widget.item?.wordInfo?.posInfo?.first.pos != '품사 없음')
                     Text(
-                      '⌜${widget.item?.wordInfo?.posInfo?.first.pos ?? ''}⌟',
-                      style: const TextStyle(fontSize: 15),
+                      '${widget.item?.wordInfo?.posInfo?.first.pos ?? ''}',
                     ), //
                   if (widget.item?.wordInfo?.posInfo?.first.pos != '품사 없음')
                     const SizedBox(height: 3),
@@ -147,24 +146,15 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                     children: [
                                       if (sense?.catInfo != null)
                                         Text(
-                                          '⌜${sense?.catInfo.first.cat ?? ''}⌟ ',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2,
+                                          '『${sense?.catInfo.first.cat ?? ''}』 ',
                                         ),
                                       if (sense?.sensePatternInfo != null)
                                         Text(
                                           '⌜${sense?.sensePatternInfo.first.pattern ?? ''}⌟ ',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2,
                                         ),
                                       if (sense?.senseGrammarInfo != null)
                                         Text(
                                           '(${sense?.senseGrammarInfo.first.grammar ?? ''}) ',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2,
                                         ),
                                     ],
                                   ),
@@ -172,8 +162,8 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                     '${sense.definition}',
                                     toolbarOptions: const ToolbarOptions(
                                         copy: true, selectAll: true),
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   if (sense?.lexicalInfo != null)
                                     Row(
@@ -224,14 +214,16 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                           ),
                                       ],
                                     ),
+                                  if (sense?.exampleInfo != null)
+                                    const SizedBox(height: 5),
                                   for (var example in sense?.exampleInfo ?? [])
                                     Text(
-                                      ' - ${example.example}',
+                                      ' • ${example.example}',
                                       style:
                                           Theme.of(context).textTheme.bodyText1,
                                     ),
                                   //const SizedBox(height: 10),
-                                  const Divider(color: Colors.grey, height: 10),
+                                  //const Divider(color: Colors.grey, height: 10),
                                 ],
                               ),
                             // const Divider(
@@ -241,17 +233,17 @@ class _WordViewInfoState extends State<WordViewInfo> {
                             // )
                           ],
                         ),
-                        if (widget.item?.wordInfo?.origin != null)
-                          Text('어원 : ${widget.item?.wordInfo?.origin ?? ''}'),
-                        if (widget.item?.wordInfo?.origin != null)
-                          const Divider(color: Colors.grey, height: 10)
                       ],
                     ),
                   if (widget.item?.wordInfo?.relationInfo != null)
                     const Text('관용구/속담'),
                   for (var relation
                       in widget.item?.wordInfo?.relationInfo ?? [])
-                    SelectableText(' - ${relation.relationWord ?? ''}')
+                    SelectableText(' - ${relation.relationWord ?? ''}'),
+                  if (widget.item?.wordInfo?.origin != null)
+                    Text('어원 : ${widget.item?.wordInfo?.origin ?? ''}'),
+                  if (widget.item?.wordInfo?.origin != null)
+                    const Divider(color: Colors.grey, height: 10)
                 ],
               ),
             ),

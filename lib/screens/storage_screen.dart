@@ -196,6 +196,7 @@ class _StorageScreenState extends State<StorageScreen> {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //sticky header 적용하기, 날짜, ㄱㄴㄷ, 품
             Row(
@@ -222,31 +223,34 @@ class _StorageScreenState extends State<StorageScreen> {
             ),
 
             const SizedBox(height: 5),
-            Row(
-              children: [
-                const SizedBox(height: 3),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    word.pos,
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    word.definition,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      //fontWeight: FontWeight.bold,
-                    ),
+            RichText(
+                text: TextSpan(
+              text: word.pos,
+              style: const TextStyle(
+                color: Colors.grey,
+                fontFamily: 'KoPubBatang',
+                fontSize: 15,
+              ),
+              children: <TextSpan>[
+                TextSpan(
+                  text: ' ${word.definition}',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: Colors.black,
                   ),
                 ),
               ],
-            ),
+            )),
+            // Container(
+            //   alignment: Alignment.centerLeft,
+            //   child: Text(
+            //     word.definition,
+            //     style: const TextStyle(
+            //       fontSize: 15,
+            //       //fontWeight: FontWeight.bold,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:WordWord/boxes.dart';
 import 'package:WordWord/models/recent_word.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
-
+import 'package:provider/provider.dart';
+import './models/app_model.dart';
 import 'models/word.dart';
 import 'screens/home_screen.dart';
 
@@ -20,7 +20,12 @@ void main() async {
   await Hive.openBox<wordtest>('words');
   await Hive.openBox<RecentWord>('RecentWords');
 
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppModel(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
