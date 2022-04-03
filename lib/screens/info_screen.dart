@@ -55,7 +55,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 },
                 child: Text(
                   '표준국어대사전 바로가기',
-                  style: TextStyle(fontSize: 20, color: textColor),
+                  style: TextStyle(fontSize: 17, color: textColor),
                 ),
               ),
             ),
@@ -72,7 +72,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 },
                 child: Text(
                   '우리말 샘 바로가기',
-                  style: TextStyle(fontSize: 20, color: textColor),
+                  style: TextStyle(fontSize: 17, color: textColor),
                 ),
               ),
             ),
@@ -90,7 +90,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 },
                 child: Text(
                   '건의사항 보내기',
-                  style: TextStyle(fontSize: 20, color: textColor),
+                  style: TextStyle(fontSize: 17, color: textColor),
                 ),
               ),
             ),
@@ -112,13 +112,13 @@ class _InfoScreenState extends State<InfoScreen> {
                       children: [
                         Text(
                           '개발자 블로그',
-                          style: TextStyle(fontSize: 20, color: textColor),
+                          style: TextStyle(fontSize: 17, color: textColor),
                         ),
                         const Padding(
                           padding: EdgeInsets.all(5),
                           child: Image(
-                            width: 20,
-                            height: 20,
+                            width: 17,
+                            height: 17,
                             image:
                                 AssetImage('assets/images/NaverBlogIcon.png'),
                           ),
@@ -161,7 +161,7 @@ class _InfoScreenState extends State<InfoScreen> {
                       return CupertinoAlertDialog(
                         title: const Text(
                           '다너다너 초기화',
-                          style: TextStyle(fontSize: 20, color: Colors.red),
+                          style: TextStyle(fontSize: 17, color: Colors.red),
                         ),
                         content: const Text('다너다너를 초기화 하시겠습니까?'),
                         actions: [
@@ -193,7 +193,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 },
                 child: Text(
                   '다너다너 초기화',
-                  style: TextStyle(fontSize: 20, color: textColor),
+                  style: TextStyle(fontSize: 17, color: textColor),
                 ),
               ),
             ),

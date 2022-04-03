@@ -22,9 +22,8 @@ class StorageScreen extends StatefulWidget {
 
 class _StorageScreenState extends State<StorageScreen> {
   int? groupValue = 0;
-  final _valueList = ['최근순', '가나다순', '품사순'];
-  var _dropdownValue = '최근순';
-
+  final _valueList = ['가나다순', '최신순', '품사순'];
+  var _dropdownValue = '가나다순';
   void dropdownCallback(String? selectedValue) {
     if (selectedValue is String) {
       setState(() {
@@ -41,14 +40,14 @@ class _StorageScreenState extends State<StorageScreen> {
         builder: (context, box, _) {
           final words = box.values.toList().cast<wordtest>();
           switch (_dropdownValue) {
+            case '가나다순':
+              words.sort((a, b) => a.word.compareTo(b.word)); // ㄱㄴㄷ
+              break;
             case '최근순':
               words.sort((a, b) => a.saveTime.compareTo(b.saveTime));
               break; // 추가한 순
             case '품사순':
               words.sort((a, b) => a.pos.compareTo(b.pos)); // 품사
-              break;
-            case '가나다순':
-              words.sort((a, b) => a.word.compareTo(b.word)); // ㄱㄴㄷ
               break;
           }
 
@@ -71,7 +70,7 @@ class _StorageScreenState extends State<StorageScreen> {
         padding: MediaQuery.of(context).viewPadding,
         child: Column(
           children: [
-            const SizedBox(height: 24),
+            const SizedBox(height: 10),
             const Text(
               '다너다너',
               style: TextStyle(
@@ -113,6 +112,7 @@ class _StorageScreenState extends State<StorageScreen> {
                     }).toList(),
                     value: _dropdownValue,
                     onChanged: dropdownCallback,
+                    elevation: 10,
                   ),
                   Center(
                     child: CupertinoSlidingSegmentedControl(

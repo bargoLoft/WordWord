@@ -55,7 +55,7 @@ class _WordViewInfoState extends State<WordViewInfo> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -70,15 +70,20 @@ class _WordViewInfoState extends State<WordViewInfo> {
                       if (widget.item?.wordInfo?.originalLanguageInfo != null)
                         Row(
                           children: [
-                            const Text('(', style: TextStyle(fontSize: 30)),
+                            const Text('(',
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.grey)),
                             for (var original in widget
                                     .item?.wordInfo?.originalLanguageInfo ??
                                 [])
                               AutoSizeText(
                                 '${original.originalLanguage}',
-                                style: const TextStyle(fontSize: 30),
+                                style: const TextStyle(
+                                    fontSize: 25, color: Colors.grey),
                               ),
-                            const Text(')', style: TextStyle(fontSize: 30)),
+                            const Text(')',
+                                style: TextStyle(
+                                    fontSize: 25, color: Colors.grey)),
                           ],
                         ),
                     ],
@@ -219,10 +224,8 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                   for (var example in sense?.exampleInfo ?? [])
                                     Text(
                                       ' • ${example.example}',
-                                      style:
-                                          Theme.of(context).textTheme.bodyText1,
                                     ),
-                                  //const SizedBox(height: 10),
+                                  const SizedBox(height: 10),
                                   //const Divider(color: Colors.grey, height: 10),
                                 ],
                               ),
@@ -243,7 +246,7 @@ class _WordViewInfoState extends State<WordViewInfo> {
                   if (widget.item?.wordInfo?.origin != null)
                     Text('어원 : ${widget.item?.wordInfo?.origin ?? ''}'),
                   if (widget.item?.wordInfo?.origin != null)
-                    const Divider(color: Colors.grey, height: 10)
+                    const Divider(color: Colors.grey, height: 10),
                 ],
               ),
             ),

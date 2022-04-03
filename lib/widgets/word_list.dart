@@ -154,7 +154,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      padding: EdgeInsets.zero,
+                      // padding: EdgeInsets.all(15),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -162,50 +162,39 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                         );
                       },
                       icon: const Icon(
-                        Icons.settings,
+                        Icons.settings_outlined,
                         size: 25,
                         color: Colors.grey,
                       ),
                     ),
-                    //Text('${MediaQuery.of(context).viewPadding.bottom}${MediaQuery.of(context).viewPadding.top}'),
-                    TextButton(
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all(EdgeInsets.zero),
-                        ),
-                        onPressed: () async {
-                          setState(() {
-                            isLoading = true;
-                            _logoOpacity = 0.0;
-                            //widget.wordView.clear();
-                          });
-                          await getWordRandomViewData(Random()
-                              .nextInt(422879)
-                              .toString()); // 등록단어 수 422879
-                          setState(() {
-                            //isLoading = false;
-                          });
-                        },
-                        child: const Icon(
-                          FontAwesomeIcons.random,
-                          color: Colors.grey,
-                          size: 20,
-                        )),
-                    Image(
-                        image: const AssetImage(
-                          'assets/images/toplogo_6464*4.0.png',
-                        ),
-                        height: MediaQuery.of(context).size.height * 0.02),
-                    TextButton(
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all(EdgeInsets.zero),
-                        ),
+                    GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          isLoading = true;
+                          _logoOpacity = 0.0;
+                          //widget.wordView.clear();
+                        });
+                        await getWordRandomViewData(Random()
+                            .nextInt(422879)
+                            .toString()); // 등록단어 수 422879
+                        setState(() {
+                          //isLoading = false;
+                        });
+                      },
+                      child: Image(
+                          image: const AssetImage(
+                            'assets/images/toplogo_6464*4.0.png',
+                          ),
+                          height: MediaQuery.of(context).size.height * 0.02),
+                    ),
+                    IconButton(
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const InfoScreen()));
                         },
-                        child: const Icon(
+                        icon: const Icon(
                           Icons.info_outlined,
                           color: Colors.grey,
                           size: 25,

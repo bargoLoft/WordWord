@@ -72,7 +72,7 @@ class _RecentWordListState extends State<RecentWordList> {
                               Text(
                                 words[words.length - index - 1].word,
                                 style: const TextStyle(
-                                    fontSize: 22, fontWeight: FontWeight.bold),
+                                    fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                               Row(
                                 children: [
@@ -83,7 +83,7 @@ class _RecentWordListState extends State<RecentWordList> {
                                                 .time
                                                 .substring(0, 8)))
                                         .toString(),
-                                    style: const TextStyle(fontSize: 17),
+                                    style: const TextStyle(fontSize: 15),
                                   ),
                                   IconButton(
                                     constraints: BoxConstraints.tight(
