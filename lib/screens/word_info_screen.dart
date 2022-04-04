@@ -244,9 +244,9 @@ class _WordViewInfoState extends State<WordViewInfo> {
                       in widget.item?.wordInfo?.relationInfo ?? [])
                     SelectableText(' - ${relation.relationWord ?? ''}'),
                   if (widget.item?.wordInfo?.origin != null)
-                    Text('어원 : ${widget.item?.wordInfo?.origin ?? ''}'),
-                  if (widget.item?.wordInfo?.origin != null)
                     const Divider(color: Colors.grey, height: 10),
+                  if (widget.item?.wordInfo?.origin != null)
+                    Text('어원 : ${widget.item?.wordInfo?.origin ?? ''}'),
                 ],
               ),
             ),
