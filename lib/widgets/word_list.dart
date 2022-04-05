@@ -271,6 +271,9 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                                   '',
                                             ),
                                           );
+                                          print(widget.wordModel.channel
+                                                  ?.lastbuilddate ??
+                                              '');
                                           //setState(() {}); 저장시 없앨지
                                         }
                                       },

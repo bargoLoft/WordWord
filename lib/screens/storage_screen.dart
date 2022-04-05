@@ -24,6 +24,7 @@ class _StorageScreenState extends State<StorageScreen> {
   int? groupValue = 0;
   final _valueList = ['가나다순', '최신순', '품사순'];
   var _dropdownValue = '가나다순';
+
   void dropdownCallback(String? selectedValue) {
     if (selectedValue is String) {
       setState(() {
@@ -38,13 +39,14 @@ class _StorageScreenState extends State<StorageScreen> {
       body: ValueListenableBuilder<Box<wordtest>>(
         valueListenable: WordBoxes.getWords().listenable(),
         builder: (context, box, _) {
-          final words = box.values.toList().cast<wordtest>();
+          var words = box.values.toList().cast<wordtest>();
           switch (_dropdownValue) {
             case '가나다순':
               words.sort((a, b) => a.word.compareTo(b.word)); // ㄱㄴㄷ
               break;
-            case '최근순':
-              words.sort((a, b) => a.saveTime.compareTo(b.saveTime));
+            case '최신순':
+              words.sort((b, a) => a.saveTime.compareTo(b.saveTime));
+              print(words);
               break; // 추가한 순
             case '품사순':
               words.sort((a, b) => a.pos.compareTo(b.pos)); // 품사
@@ -84,16 +86,15 @@ class _StorageScreenState extends State<StorageScreen> {
               child: RichText(
                 text: TextSpan(
                     text: '총 ',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                     ),
                     children: <TextSpan>[
                       TextSpan(
                           text: '${words.length}개',
                           style: const TextStyle(color: Colors.green)),
-                      TextSpan(
-                          text: '의 단어',
-                          style: const TextStyle(color: Colors.black)),
+                      const TextSpan(
+                          text: '의 단어', style: TextStyle(color: Colors.black)),
                     ]),
               ),
             ),
@@ -169,9 +170,11 @@ class _StorageScreenState extends State<StorageScreen> {
                             ),
                           ),
                           onDismissed: (direction) {
-                            if (direction == DismissDirection.endToStart) {
+                            if (direction == DismissDirection.endToStart ||
+                                direction == DismissDirection.startToEnd) {
                               setState(() {
                                 WordBoxes.getWords().delete(word.targetCode);
+                                //WordBoxes.getWords().get('word');
                                 //Boxes.getWords().deleteFromDisk();
                               });
                             }
