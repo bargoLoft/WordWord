@@ -508,16 +508,20 @@ class CatInfo {
 
 class ExampleInfo {
   String? example;
+  String? source;
 
-  ExampleInfo({this.example});
+  ExampleInfo({this.example, this.source});
 
   ExampleInfo.fromJson(Map<String, dynamic> json) {
     example = json['example'];
+    source = json['source'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['example'] = example;
+    data['source'] = source;
+
     return data;
   }
 }

@@ -37,7 +37,7 @@ class _SettingState extends State<Setting> {
             elevation: 1,
           ),
           body: Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
               children: [
                 Row(

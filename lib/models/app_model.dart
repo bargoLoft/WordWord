@@ -5,6 +5,7 @@ import '../screens/setting_screen.dart';
 
 class AppModel extends ChangeNotifier {
   bool autoFocus = false;
+  //final mediaQuery = MediaQuery.of(context);
 
   void setAutoFocus(bool focus) async {
     final prefs = await SharedPreferences.getInstance();

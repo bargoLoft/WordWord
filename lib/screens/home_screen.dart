@@ -27,16 +27,34 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late PageController _pageController;
   late SharedPreferences preference;
+
+  //bool _isVisible = false;
   @override
   void initState() {
     _pageController = PageController(
       keepPage: true,
       initialPage: widget.getPage(),
     );
+
     super.initState();
 
     init();
   }
+  //
+  // animateIcon() {
+  //   Future.delayed(const Duration(milliseconds: 500), () {
+  //     setState(() {
+  //       _isVisible = !_isVisible;
+  //     });
+  //   });
+  // }
+  //
+  // autoNavigate() {
+  //   Future.delayed(const Duration(seconds: 3), () {
+  //     Navigator.push(
+  //         context, MaterialPageRoute(builder: (context) => HomeScreen()));
+  //   });
+  // }
 
   Future init() async {
     preference = await SharedPreferences.getInstance();

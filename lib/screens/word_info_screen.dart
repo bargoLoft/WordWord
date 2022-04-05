@@ -65,8 +65,13 @@ class _WordViewInfoState extends State<WordViewInfo> {
                       Text(
                         '${widget.item?.wordInfo?.word}', //단어이름
                         style: const TextStyle(
-                            fontSize: 35, fontWeight: FontWeight.bold),
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                          //    letterSpacing: 4.0
+                        ),
                       ),
+                      if (widget.item?.wordInfo?.originalLanguageInfo != null)
+                        const SizedBox(width: 2),
                       if (widget.item?.wordInfo?.originalLanguageInfo != null)
                         Row(
                           children: [
@@ -168,7 +173,9 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                     toolbarOptions: const ToolbarOptions(
                                         copy: true, selectAll: true),
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.w600),
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.6,
+                                    ),
                                   ),
                                   if (sense?.lexicalInfo != null)
                                     Row(
@@ -222,8 +229,18 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                   if (sense?.exampleInfo != null)
                                     const SizedBox(height: 5),
                                   for (var example in sense?.exampleInfo ?? [])
-                                    Text(
-                                      ' • ${example.example}',
+                                    RichText(
+                                      text: TextSpan(
+                                          text: ' • ${example.example}',
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                              fontFamily: 'KoPubBatang'),
+                                          children: <TextSpan>[
+                                            if (example.source != null)
+                                              TextSpan(
+                                                  text: ' ≪${example.source}≫')
+                                          ]),
                                     ),
                                   const SizedBox(height: 10),
                                   //const Divider(color: Colors.grey, height: 10),

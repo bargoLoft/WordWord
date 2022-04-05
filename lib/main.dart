@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 import './models/app_model.dart';
 import 'models/word.dart';
 import 'screens/home_screen.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // main에서 비동기 메소드 사용시 필요
@@ -36,14 +38,25 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp]); //세로방향 변경 방지
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: '다너다너',
-      theme: ThemeData(
-        fontFamily: 'KoPubBatang',
-        //primaryColor: Colors.black,
-      ),
-      home: const HomeScreen(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: '다너다너',
+        theme: ThemeData(
+          fontFamily: 'KoPubBatang',
+          //primaryColor: Colors.black,
+        ),
+        home: AnimatedSplashScreen(
+          duration: 100,
+          splash: const Hero(
+            tag: 'logo',
+            child:
+                Image(image: AssetImage('assets/launcher_icon/mainLogo.png')),
+          ),
+          splashTransition: SplashTransition.scaleTransition,
+          curve: Curves.fastLinearToSlowEaseIn,
+          pageTransitionType: PageTransitionType.fade,
+          splashIconSize: 80,
+          nextScreen: const HomeScreen(),
+        ));
   }
 }
 

@@ -34,7 +34,7 @@ class Word extends StatefulWidget {
 
 class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
   final _scrollController = ScrollController();
-  final _wordSearchController = TextEditingController();
+  final TextEditingController _wordSearchController = TextEditingController();
   final _myFocusNode = FocusNode();
   bool _autoFocus = false;
 
@@ -161,10 +161,10 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                           MaterialPageRoute(builder: (context) => Setting()),
                         );
                       },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.settings_outlined,
                         size: 25,
-                        color: Colors.grey,
+                        color: Colors.grey.shade400,
                       ),
                     ),
                     GestureDetector(
@@ -194,9 +194,9 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                               MaterialPageRoute(
                                   builder: (context) => const InfoScreen()));
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.info_outlined,
-                          color: Colors.grey,
+                          color: Colors.grey.shade400,
                           size: 25,
                         )),
                   ],
@@ -227,7 +227,10 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                 padding: EdgeInsets.zero,
                                 controller: _scrollController,
                                 itemCount: widget.wordModel.channel?.total ?? 0,
-                                //shrinkWrap: true,
+                                // separatorBuilder:
+                                //     (BuildContext context, int index) =>
+                                //         const CustomDivider(),
+                                // shrinkWrap: true,
                                 itemBuilder: (BuildContext context,
                                         int index) =>
                                     Dismissible(
@@ -326,11 +329,14 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.linear,
                           opacity: _logoOpacity,
-                          child: Image(
-                            image: const AssetImage(
-                                'assets/launcher_icon/mainlogo_6464*4.0_downsize.png'),
-                            height: MediaQuery.of(context).size.height * 0.2,
-                            width: MediaQuery.of(context).size.height * 0.2,
+                          child: Hero(
+                            tag: 'logo',
+                            child: Image(
+                              image: const AssetImage(
+                                  'assets/launcher_icon/mainLogo.png'),
+                              //height: MediaQuery.of(context).size.height * 0.2,
+                              width: MediaQuery.of(context).size.height * 0.2,
+                            ),
                           )),
                     ),
                   ),
