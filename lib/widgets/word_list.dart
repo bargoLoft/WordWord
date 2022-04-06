@@ -68,6 +68,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
   }
 
   Future<void> getWordSearchData(String query) async {
+    query = _textReplace(query);
     String wordJson = await WordSearch().getWords(query);
     print('받아오고');
     setState(() {
@@ -129,6 +130,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
   String _textReplace(String str) {
     str = str.replaceAll('-', '');
     str = str.replaceAll('^', '');
+    str = str.replaceAll(' ', '');
     return str;
   }
   //
@@ -293,11 +295,12 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                       //         .word ??
                                       //     ''),
                                       child: GestureDetector(
-                                        onTap: () {
-                                          if (widget.wordView[index]?.channel
-                                                  ?.item?.wordInfo?.word ==
-                                              widget.wordModel.channel?.item
-                                                  ?.first.word) {
+                                        onTap: () async {
+                                          // if (widget.wordView[index]?.channel
+                                          //         ?.item?.wordInfo?.word ==
+                                          //     widget.wordModel.channel?.item
+                                          //         ?.first.word)
+                                          if (widget.wordView[index] != null) {
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(

@@ -7,6 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:WordWord/models/word.dart';
 import 'package:WordWord/boxes.dart';
+import 'package:lottie/lottie.dart';
 
 import '../models/word_view.dart';
 import '../providers/word_search.dart';
@@ -20,10 +21,13 @@ class StorageScreen extends StatefulWidget {
   _StorageScreenState createState() => _StorageScreenState();
 }
 
-class _StorageScreenState extends State<StorageScreen> {
+class _StorageScreenState extends State<StorageScreen>
+    with TickerProviderStateMixin {
   int? groupValue = 0;
   final _valueList = ['가나다순', '최신순', '품사순'];
   var _dropdownValue = '가나다순';
+
+  late final AnimationController _controller;
 
   void dropdownCallback(String? selectedValue) {
     if (selectedValue is String) {
@@ -31,6 +35,18 @@ class _StorageScreenState extends State<StorageScreen> {
         _dropdownValue = selectedValue;
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -46,7 +62,6 @@ class _StorageScreenState extends State<StorageScreen> {
               break;
             case '최신순':
               words.sort((b, a) => a.saveTime.compareTo(b.saveTime));
-              print(words);
               break; // 추가한 순
             case '품사순':
               words.sort((a, b) => a.pos.compareTo(b.pos)); // 품사
@@ -61,10 +76,26 @@ class _StorageScreenState extends State<StorageScreen> {
 
   Widget buildContext(List<wordtest> words) {
     if (words.isEmpty) {
-      return const Center(
-        child: Text(
-          '텅텅 비었다!',
-          style: TextStyle(fontSize: 24),
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Lottie.asset(
+              'assets/lottie/empty_box.json',
+              repeat: true,
+              height: 200,
+              controller: _controller,
+              onLoaded: (composition) {
+                _controller
+                  ..duration = composition.duration
+                  ..forward();
+              },
+            ),
+            const Text(
+              '텅텅 비었다!',
+              style: TextStyle(fontSize: 24),
+            ),
+          ],
         ),
       );
     } else {
@@ -113,7 +144,13 @@ class _StorageScreenState extends State<StorageScreen> {
                     }).toList(),
                     value: _dropdownValue,
                     onChanged: dropdownCallback,
-                    elevation: 10,
+                    elevation: 0,
+                    underline: const Text(''),
+                    focusColor: Colors.green,
+                    style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black87,
+                        fontFamily: 'KoPubBatang'),
                   ),
                   Center(
                     child: CupertinoSlidingSegmentedControl(

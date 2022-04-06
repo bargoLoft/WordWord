@@ -48,7 +48,7 @@ class _RecentWordListState extends State<RecentWordList> {
           return words.isEmpty
               ? const Center(
                   child: Text(
-                  '최근 검색어 내역이 없습니다.',
+                  '최근 검색 기록이 없습니다.',
                   style: TextStyle(fontSize: 20),
                 ))
               : ListView.builder(

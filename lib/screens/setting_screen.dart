@@ -34,7 +34,7 @@ class _SettingState extends State<Setting> {
             title: const Text('설정'),
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
-            elevation: 1,
+            elevation: 0.5,
           ),
           body: Padding(
             padding: const EdgeInsets.all(20),

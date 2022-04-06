@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
           splashTransition: SplashTransition.scaleTransition,
           curve: Curves.fastLinearToSlowEaseIn,
           pageTransitionType: PageTransitionType.fade,
-          splashIconSize: 80,
+          splashIconSize: 100,
           nextScreen: const HomeScreen(),
         ));
   }

@@ -8,6 +8,7 @@ import 'package:ios_utsname_ext/extension.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:WordWord/boxes.dart';
+import 'package:lottie/lottie.dart';
 
 class InfoScreen extends StatefulWidget {
   const InfoScreen({Key? key}) : super(key: key);
@@ -16,13 +17,26 @@ class InfoScreen extends StatefulWidget {
   State<InfoScreen> createState() => _InfoScreenState();
 }
 
-class _InfoScreenState extends State<InfoScreen> {
+class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
   final blogUrl = 'https://blog.naver.com/qmak01';
   final dicKoreanUrl = 'https://stdict.korean.go.kr/main/main.do';
   final dicUrimalUrl = 'https://opendict.korean.go.kr/main';
   final instaUrl = 'https://www.instagram.com/2cup_2/';
-
   Color textColor = Colors.green;
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -205,7 +219,22 @@ class _InfoScreenState extends State<InfoScreen> {
                     Text(
                         '본 사전은 표준국어대사전 OpenAPI를 통해 제작되었으며,\n모든 사전정보의 저작권은 국립국어원에 있습니다.\n\n언뜻 스친 단어를 담아\n사색하고 음미하는 시간이 되었으면 좋겠습니다.'),
                   ],
-                ))
+                )),
+            Center(
+              child: Lottie.asset(
+                'assets/lottie/book.json',
+                repeat: true,
+                height: 200,
+                controller: _controller,
+                onLoaded: (composition) {
+                  // Configure the AnimationController with the duration of the
+                  // Lottie file and start the animation.
+                  _controller
+                    ..duration = composition.duration
+                    ..forward();
+                },
+              ),
+            ),
           ],
         ),
       ),
