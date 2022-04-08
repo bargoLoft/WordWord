@@ -369,7 +369,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                             controller: _wordSearchController,
                             keyboardType: TextInputType.text,
                             textAlign: TextAlign.center,
-                            autofocus: _autoFocus,
+                            autofocus: false,
                             focusNode: _myFocusNode,
                             onSubmitted: (String text) {
                               inputText = text;

@@ -1,6 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
@@ -222,7 +224,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 )),
             Center(
               child: Lottie.asset(
-                'assets/lottie/book.json',
+                'assets/lottie/lf30_editor_to6nvmre.json',
                 repeat: true,
                 height: 200,
                 controller: _controller,
@@ -254,9 +256,9 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
       body: body,
       subject: '[다너다너 문의]',
       recipients: ['qmak01@naver.com'],
-      //cc: [],
-      //bcc: [],
-      //attachmentPaths: [],
+      cc: [],
+      bcc: [],
+      attachmentPaths: [],
       isHTML: false,
     );
 
@@ -266,6 +268,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
       // String message = '';
       // _showErrorAlert(title: title, message: message);
     } catch (error) {
+      debugPrint(error.toString());
       String title =
           '기본 메일 앱을 사용할 수 없기 때문에 앱에서 바로 문의를 전송하기 어려운 상황입니다.\n\n아래 이메일로 연락주시면 답변드리겠습니다. \n\nqmak01@naver.com';
       String message = '';
