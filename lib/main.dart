@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:WordWord/models/recent_word.dart';
+import 'package:WordWord/screens/info_screen.dart';
+import 'package:WordWord/screens/storage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -8,9 +10,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import './models/app_model.dart';
 import 'models/word.dart';
-import 'screens/home_screen.dart';
+import 'screens/search_screen.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
+import './screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // main에서 비동기 메소드 사용시 필요
@@ -44,6 +47,11 @@ class MyApp extends StatelessWidget {
           fontFamily: 'KoPubBatang',
           //primaryColor: Colors.black,
         ),
+        routes: {
+          '/0': (context) => const Home(),
+          '/1': (context) => const StorageScreen(),
+          '/2': (context) => const InfoScreen(),
+        },
         home: AnimatedSplashScreen(
           duration: 100,
           splash: const Hero(
@@ -55,7 +63,7 @@ class MyApp extends StatelessWidget {
           curve: Curves.fastLinearToSlowEaseIn,
           pageTransitionType: PageTransitionType.fade,
           splashIconSize: 100,
-          nextScreen: const HomeScreen(),
+          nextScreen: const Home(),
         ));
   }
 }

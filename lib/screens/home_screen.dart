@@ -1,122 +1,59 @@
-import 'dart:io';
-
+import 'package:WordWord/screens/info_screen.dart';
+import 'package:WordWord/screens/search_screen.dart';
 import 'package:WordWord/screens/storage_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
-import 'package:WordWord/widgets/word_list.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-int value = 0;
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
-  int getPage() {
-    return value;
-  }
-
-  void setPage(int page) {
-    value = page;
-  }
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeState createState() => _HomeState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  late PageController _pageController;
-  late SharedPreferences preference;
+class _HomeState extends State<Home> {
+  int _selectedIndex = 0;
 
-  //bool _isVisible = false;
-  @override
-  void initState() {
-    _pageController = PageController(
-      keepPage: true,
-      initialPage: widget.getPage(),
-    );
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    HomeScreen(),
+    StorageScreen(),
+    InfoScreen(),
+  ];
 
-    super.initState();
-
-    init();
-  }
-  //
-  // animateIcon() {
-  //   Future.delayed(const Duration(milliseconds: 500), () {
-  //     setState(() {
-  //       _isVisible = !_isVisible;
-  //     });
-  //   });
-  // }
-  //
-  // autoNavigate() {
-  //   Future.delayed(const Duration(seconds: 3), () {
-  //     Navigator.push(
-  //         context, MaterialPageRoute(builder: (context) => HomeScreen()));
-  //   });
-  // }
-
-  Future init() async {
-    preference = await SharedPreferences.getInstance();
-  }
-
-  @override
-  void dispose() {
-    Hive.close();
-    _pageController.dispose();
-    //Hive.box('word_box').close();
-    super.dispose();
+  void _onItemTapped(int index) {
+    if (_selectedIndex != index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isAndroid) {
-      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
-          statusBarIconBrightness: Brightness.dark));
-    } else if (Platform.isIOS) {
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-    }
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      body: PageView(
-        controller: _pageController,
-        scrollDirection: Axis.vertical,
-        physics: const PageScrollPhysics(),
-        children: [
-          Word(word: ''),
-          const StorageScreen(),
-        ],
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   type: BottomNavigationBarType.fixed,
-      //   backgroundColor: Colors.grey.shade500,
-      //   selectedItemColor: Colors.white,
-      //   unselectedItemColor: Colors.white.withOpacity(.60),
-      //   selectedFontSize: 14,
-      //   unselectedFontSize: 14,
-      //   currentIndex: _selectedIndex, //현재 선택된 Index
-      //   onTap: (int index) {
-      //     setState(() {
-      //       _selectedIndex = index;
-      //     });
-      //   },
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       label: '다',
-      //       icon: Icon(Icons.search),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       label: '너',
-      //       icon: Icon(Icons.storage),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       label: '다너',
-      //       icon: Icon(Icons.info),
-      //     ),
-      //   ],
-      // ),
+      bottomNavigationBar: BottomNavigationBar(
+        iconSize: 25,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
+          BottomNavigationBarItem(icon: Icon(Icons.storage), label: 'storage'),
+          BottomNavigationBarItem(icon: Icon(Icons.info), label: 'info'),
+        ],
+        currentIndex: _selectedIndex,
+        selectedIconTheme: const IconThemeData(
+          size: 25,
+          color: Colors.green,
+        ),
+        //selectedItemColor: Colors.greenAccent,
+        unselectedItemColor: Colors.black26,
+        onTap: _onItemTapped,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        type: BottomNavigationBarType.fixed,
+      ),
     );
   }
 }
