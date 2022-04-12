@@ -19,9 +19,6 @@ import './screens/home_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // main에서 비동기 메소드 사용시 필요
   HttpOverrides.global = MyHttpOverrides();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp]); //세로방향 변경 방지
-
   await Hive.initFlutter();
   Hive.registerAdapter(wordtestAdapter());
   Hive.registerAdapter(RecentWordAdapter());
@@ -41,6 +38,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark));
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: '다너다너',

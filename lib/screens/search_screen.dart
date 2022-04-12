@@ -35,8 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
       keepPage: true,
       initialPage: widget.getPage(),
     );
-    super.initState();
     init();
+    super.initState();
   }
   //
   // animateIcon() {
