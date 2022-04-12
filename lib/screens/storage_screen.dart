@@ -146,7 +146,8 @@ class _StorageScreenState extends State<StorageScreen>
                     children: <TextSpan>[
                       TextSpan(
                           text: '${words.length}개',
-                          style: const TextStyle(color: Colors.green)),
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColorDark)),
                       const TextSpan(
                           text: '의 단어', style: TextStyle(color: Colors.black)),
                     ]),

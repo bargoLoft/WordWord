@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'KoPubBatang',
           primaryColor: const Color(0x5fa1df6e),
-          primaryColorDark: const Color(0xbf557d00),
+          primaryColorDark: const Color(0xff0a3711),
           primaryColorLight: const Color(0xfff4ffeb),
         ),
         routes: {
@@ -58,13 +58,10 @@ class MyApp extends StatelessWidget {
           '/2': (context) => const InfoScreen(),
         },
         home: AnimatedSplashScreen(
-          duration: 100,
-          splash: const Hero(
-            tag: 'logo',
-            child:
-                Image(image: AssetImage('assets/launcher_icon/mainLogo.png')),
-          ),
-          splashTransition: SplashTransition.scaleTransition,
+          duration: 500,
+          splash: const Image(
+              image: AssetImage('assets/launcher_icon/mainLogo.png')),
+          splashTransition: SplashTransition.sizeTransition,
           curve: Curves.fastLinearToSlowEaseIn,
           pageTransitionType: PageTransitionType.fade,
           splashIconSize: 110,

@@ -151,7 +151,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
               ? Stack(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.45,
                       //color: const Color(0xffa1df6e),
                       decoration: BoxDecoration(
                           color: Theme.of(context).primaryColor,
@@ -180,6 +180,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                           controller: _wordSearchController,
                           keyboardType: TextInputType.text,
                           textAlign: TextAlign.center,
+                          cursorColor: Theme.of(context).primaryColorDark,
                           autofocus: false,
                           focusNode: _myFocusNode,
                           onSubmitted: (String text) {
@@ -192,7 +193,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                               getWordSearchData(inputText);
                             });
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: '다너를 입력해 주세요',
                             border: InputBorder.none,
                             // suffixIcon:

@@ -24,7 +24,6 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
   final dicKoreanUrl = 'https://stdict.korean.go.kr/main/main.do';
   final dicUrimalUrl = 'https://opendict.korean.go.kr/main';
   final instaUrl = 'https://www.instagram.com/2cup_2/';
-  Color textColor = Colors.green;
   late final AnimationController _controller;
 
   @override
@@ -69,7 +68,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             // Align(
             //   alignment: Alignment.topLeft,
             //   child: TextButton(
@@ -94,7 +93,8 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 },
                 child: Text(
                   '표준국어대사전 바로가기',
-                  style: TextStyle(fontSize: 17, color: textColor),
+                  style: TextStyle(
+                      fontSize: 17, color: Theme.of(context).primaryColorDark),
                 ),
               ),
             ),
@@ -111,7 +111,8 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 },
                 child: Text(
                   '우리말 샘 바로가기',
-                  style: TextStyle(fontSize: 17, color: textColor),
+                  style: TextStyle(
+                      fontSize: 17, color: Theme.of(context).primaryColorDark),
                 ),
               ),
             ),
@@ -129,7 +130,8 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 },
                 child: Text(
                   '건의사항 보내기',
-                  style: TextStyle(fontSize: 17, color: textColor),
+                  style: TextStyle(
+                      fontSize: 17, color: Theme.of(context).primaryColorDark),
                 ),
               ),
             ),
@@ -151,7 +153,9 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                       children: [
                         Text(
                           '개발자 블로그',
-                          style: TextStyle(fontSize: 17, color: textColor),
+                          style: TextStyle(
+                              fontSize: 17,
+                              color: Theme.of(context).primaryColorDark),
                         ),
                         const Padding(
                           padding: EdgeInsets.all(5),
@@ -232,7 +236,10 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 },
                 child: Text(
                   '다너다너 초기화',
-                  style: TextStyle(fontSize: 17, color: textColor),
+                  style: TextStyle(
+                      //fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                      color: Theme.of(context).primaryColorDark),
                 ),
               ),
             ),
