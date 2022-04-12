@@ -226,7 +226,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
               child: Lottie.asset(
                 'assets/lottie/lf30_editor_to6nvmre.json',
                 repeat: true,
-                height: 200,
+                height: 100,
                 controller: _controller,
                 onLoaded: (composition) {
                   // Configure the AnimationController with the duration of the

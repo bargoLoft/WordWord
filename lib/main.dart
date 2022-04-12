@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/services.dart' as services;
 
 import 'package:WordWord/models/recent_word.dart';
 import 'package:WordWord/screens/info_screen.dart';
@@ -17,8 +18,10 @@ import './screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // main에서 비동기 메소드 사용시 필요
-
   HttpOverrides.global = MyHttpOverrides();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp]); //세로방향 변경 방지
+
   await Hive.initFlutter();
   Hive.registerAdapter(wordtestAdapter());
   Hive.registerAdapter(RecentWordAdapter());
@@ -38,14 +41,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp]); //세로방향 변경 방지
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: '다너다너',
         theme: ThemeData(
           fontFamily: 'KoPubBatang',
-          //primaryColor: Colors.black,
+          primaryColor: const Color(0x7fa1df6e),
         ),
         routes: {
           '/0': (context) => const Home(),

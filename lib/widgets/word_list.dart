@@ -149,63 +149,73 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Column(
             children: [
-              const CustomDivider(),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.065,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      // padding: EdgeInsets.all(15),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Setting()),
-                        );
-                      },
-                      icon: Icon(
-                        Icons.settings_outlined,
-                        size: 25,
-                        color: Colors.grey.shade400,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        setState(() {
-                          isLoading = true;
-                          _logoOpacity = 0.0;
-                          //widget.wordView.clear();
-                        });
-                        await getWordRandomViewData(Random()
-                            .nextInt(422879)
-                            .toString()); // 등록단어 수 422879
-                        setState(() {
-                          //isLoading = false;
-                        });
-                      },
-                      child: Image(
-                          image: const AssetImage(
-                            'assets/images/toplogo_6464*4.0.png',
-                          ),
-                          height: MediaQuery.of(context).size.height * 0.02),
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const InfoScreen()));
-                        },
-                        icon: Icon(
-                          Icons.info_outlined,
-                          color: Colors.grey.shade400,
-                          size: 25,
-                        )),
-                  ],
-                ),
+              // const CustomDivider(),
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height * 0.065,
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       IconButton(
+              //         // padding: EdgeInsets.all(15),
+              //         onPressed: () {
+              //           Navigator.push(
+              //             context,
+              //             MaterialPageRoute(builder: (context) => Setting()),
+              //           );
+              //         },
+              //         icon: Icon(
+              //           Icons.settings_outlined,
+              //           size: 25,
+              //           color: Colors.grey.shade400,
+              //         ),
+              //       ),
+              //       GestureDetector(
+              //         onTap: () async {
+              //           setState(() {
+              //             isLoading = true;
+              //             _logoOpacity = 0.0;
+              //             //widget.wordView.clear();
+              //           });
+              //           await getWordRandomViewData(Random()
+              //               .nextInt(422879)
+              //               .toString()); // 등록단어 수 422879
+              //           setState(() {
+              //             //isLoading = false;
+              //           });
+              //         },
+              //         child: Image(
+              //             image: const AssetImage(
+              //               'assets/images/toplogo_6464*4.0.png',
+              //             ),
+              //             height: MediaQuery.of(context).size.height * 0.02),
+              //       ),
+              //       IconButton(
+              //           onPressed: () {
+              //             Navigator.push(
+              //                 context,
+              //                 MaterialPageRoute(
+              //                     builder: (context) => const InfoScreen()));
+              //           },
+              //           icon: Icon(
+              //             Icons.info_outlined,
+              //             color: Colors.grey.shade400,
+              //             size: 25,
+              //           )),
+              //     ],
+              //   ),
+              // ),
+              // const CustomDivider(),
+              // const SizedBox(height: 3),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.4,
+                //color: const Color(0xffa1df6e),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(40.0),
+                      bottomRight: Radius.circular(40.0),
+                    )),
               ),
-              const CustomDivider(),
-              const SizedBox(height: 3),
               Expanded(
                 child: Stack(children: [
                   Container(
@@ -414,6 +424,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                               icon: const Icon(
                                 FontAwesomeIcons.magnifyingGlass,
                                 size: 18,
+                                color: Color(0xffa1df6e),
                               ),
                             )),
                       ),

@@ -35,9 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
       keepPage: true,
       initialPage: widget.getPage(),
     );
-
     super.initState();
-
     init();
   }
   //
@@ -62,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    Hive.close();
+    //Hive.close();
     _pageController.dispose();
     //Hive.box('word_box').close();
     super.dispose();
@@ -70,25 +68,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isAndroid) {
-      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
-          statusBarIconBrightness: Brightness.dark));
-    } else if (Platform.isIOS) {
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-    }
     return Scaffold(
       // resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      body: PageView(
-        controller: _pageController,
-        scrollDirection: Axis.vertical,
-        physics: const PageScrollPhysics(),
-        children: [
-          Word(word: ''),
-          const StorageScreen(),
-        ],
-      ),
+      //backgroundColor: Colors.white,
+      body: Word(word: ''),
+      // PageView(
+      //   controller: _pageController,
+      //   scrollDirection: Axis.vertical,
+      //   physics: const PageScrollPhysics(),
+      //   children: [
+      //     Word(word: ''),
+      //     const StorageScreen(),
+      //   ],
+      // ),
       // bottomNavigationBar: BottomNavigationBar(
       //   type: BottomNavigationBarType.fixed,
       //   backgroundColor: Colors.grey.shade500,
