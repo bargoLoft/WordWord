@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor:
-            _selectedIndex == 0 ? Theme.of(context).primaryColor : Colors.white,
+            _selectedIndex >= 0 ? Theme.of(context).primaryColor : Colors.white,
         elevation: 0.0,
         toolbarHeight: 0.0, // Hide the AppBar
       ),
@@ -58,11 +58,7 @@ class _HomeState extends State<Home> {
             BottomNavigationBarItem(icon: Icon(Icons.info), label: 'info'),
           ],
           currentIndex: _selectedIndex,
-          selectedIconTheme: const IconThemeData(
-            //size: 25,
-            color: Colors.green,
-          ),
-          //selectedItemColor: Colors.greenAccent,
+          selectedItemColor: Theme.of(context).primaryColorDark,
           unselectedItemColor: Colors.black26,
           selectedFontSize: 1.0,
           unselectedFontSize: 1.0,

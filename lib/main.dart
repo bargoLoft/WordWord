@@ -40,13 +40,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark));
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.light));
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: '다너다너',
         theme: ThemeData(
           fontFamily: 'KoPubBatang',
-          primaryColor: const Color(0x7fa1df6e),
+          primaryColor: const Color(0x5fa1df6e),
+          primaryColorDark: const Color(0xbf557d00),
+          primaryColorLight: const Color(0xfff4ffeb),
         ),
         routes: {
           '/0': (context) => const Home(),
@@ -63,7 +67,7 @@ class MyApp extends StatelessWidget {
           splashTransition: SplashTransition.scaleTransition,
           curve: Curves.fastLinearToSlowEaseIn,
           pageTransitionType: PageTransitionType.fade,
-          splashIconSize: 100,
+          splashIconSize: 110,
           nextScreen: const Home(),
         ));
   }

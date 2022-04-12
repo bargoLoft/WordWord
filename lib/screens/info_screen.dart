@@ -47,22 +47,45 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
           //mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: TextButton(
-                style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(textColor),
-                  padding: MaterialStateProperty.all(EdgeInsets.zero),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.grey,
+            Container(
+              height: MediaQuery.of(context).size.height * 0.06,
+              width: MediaQuery.of(context).size.width,
+              //color: const Color(0xffa1df6e),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(20.0),
+                    bottomRight: Radius.circular(20.0),
+                  )),
+              child: Center(
+                child: Text(
+                  '다너다너',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontSize: 20,
+                      fontFamily: 'KoPubBatang',
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColorDark,
+                      letterSpacing: 4),
                 ),
               ),
             ),
+            SizedBox(height: 5),
+            // Align(
+            //   alignment: Alignment.topLeft,
+            //   child: TextButton(
+            //     style: ButtonStyle(
+            //       foregroundColor: MaterialStateProperty.all(textColor),
+            //       padding: MaterialStateProperty.all(EdgeInsets.zero),
+            //     ),
+            //     onPressed: () {
+            //       Navigator.pop(context);
+            //     },
+            //     child: const Icon(
+            //       Icons.arrow_back,
+            //       color: Colors.grey,
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextButton(

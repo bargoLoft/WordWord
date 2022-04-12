@@ -103,15 +103,38 @@ class _StorageScreenState extends State<StorageScreen>
         padding: MediaQuery.of(context).viewPadding,
         child: Column(
           children: [
-            const SizedBox(height: 10),
-            const Text(
-              '다너다너',
-              style: TextStyle(
-                //fontWeight: FontWeight.bold,
-                fontSize: 30,
+            // const SizedBox(height: 10),
+            // const Text(
+            //   '다너다너',
+            //   style: TextStyle(
+            //     //fontWeight: FontWeight.bold,
+            //     fontSize: 30,
+            //   ),
+            // ),
+            // const SizedBox(height: 10),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.06,
+              width: MediaQuery.of(context).size.width,
+              //color: const Color(0xffa1df6e),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(20.0),
+                    bottomRight: Radius.circular(20.0),
+                  )),
+              child: Center(
+                child: Text(
+                  '다너다너',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontSize: 20,
+                      fontFamily: 'KoPubBatang',
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColorDark,
+                      letterSpacing: 4),
+                ),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             Align(
               //alignment: Alignment.centerLeft,
               child: RichText(
