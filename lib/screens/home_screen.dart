@@ -21,11 +21,11 @@ class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    StorageScreen(),
-    InfoScreen(),
-  ];
+  // static const List<Widget> _widgetOptions = <Widget>[
+  //   HomeScreen(),
+  //   StorageScreen(),
+  //   InfoScreen(),
+  // ];
 
   void _onItemTapped(int index) {
     if (_selectedIndex != index) {
@@ -44,9 +44,16 @@ class _HomeState extends State<Home> {
         elevation: 0.0,
         toolbarHeight: 0.0, // Hide the AppBar
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: const [
+          HomeScreen(),
+          StorageScreen(),
+          InfoScreen(),
+        ],
       ),
+
+      //_widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: SizedBox(
         height: MediaQuery.of(context).size.height * 0.07,
         child: BottomNavigationBar(
@@ -60,8 +67,8 @@ class _HomeState extends State<Home> {
           currentIndex: _selectedIndex,
           selectedItemColor: Theme.of(context).primaryColorDark,
           unselectedItemColor: Colors.black26,
-          selectedFontSize: 1.0,
-          unselectedFontSize: 1.0,
+          selectedFontSize: 2.0,
+          unselectedFontSize: 2.0,
           onTap: _onItemTapped,
           showSelectedLabels: false,
           showUnselectedLabels: false,
