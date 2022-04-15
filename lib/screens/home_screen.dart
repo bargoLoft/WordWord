@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:WordWord/screens/write_screen.dart';
 import 'package:flutter/services.dart';
 
 import 'package:WordWord/screens/info_screen.dart';
@@ -7,6 +8,7 @@ import 'package:WordWord/screens/search_screen.dart';
 import 'package:WordWord/screens/storage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../widgets/word_list.dart';
 
@@ -49,6 +51,7 @@ class _HomeState extends State<Home> {
         children: const [
           HomeScreen(),
           StorageScreen(),
+          WriteScreen(),
           InfoScreen(),
         ],
       ),
@@ -57,24 +60,31 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: SizedBox(
         height: MediaQuery.of(context).size.height * 0.07,
         child: BottomNavigationBar(
-          iconSize: 25,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.storage), label: 'storage'),
-            BottomNavigationBarItem(icon: Icon(Icons.info), label: 'info'),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Theme.of(context).primaryColorDark,
-          unselectedItemColor: Colors.black26,
-          selectedFontSize: 2.0,
-          unselectedFontSize: 2.0,
-          onTap: _onItemTapped,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          type: BottomNavigationBarType.fixed,
-        ),
+            iconSize: 23,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.house), label: 'home'),
+              BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.boxArchive), label: 'storage'),
+              BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.pen), label: 'home'),
+              BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.circleInfo), label: 'info'),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Theme.of(context).primaryColorDark,
+            unselectedItemColor: Colors.black26,
+            selectedFontSize: 1.0,
+            unselectedFontSize: 1.0,
+            onTap: _onItemTapped,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            type: BottomNavigationBarType.fixed,
+            elevation: 0,
+            backgroundColor: const Color(0x00ffffff)),
       ),
+      //extendBodyBehindAppBar: true,
+      extendBody: true,
     );
   }
 }

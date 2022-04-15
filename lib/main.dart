@@ -24,6 +24,7 @@ void main() async {
   Hive.registerAdapter(RecentWordAdapter());
   await Hive.openBox<wordtest>('words');
   await Hive.openBox<RecentWord>('RecentWords');
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(
     ChangeNotifierProvider(
@@ -39,10 +40,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: Colors.transparent,
-        statusBarBrightness: Brightness.light));
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.transparent,
+      //    statusBarBrightness: Brightness.light
+    ));
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: '다너다너',
@@ -52,13 +54,13 @@ class MyApp extends StatelessWidget {
           primaryColorDark: const Color(0xff0a3711),
           primaryColorLight: const Color(0xfff4ffeb),
         ),
-        routes: {
-          '/0': (context) => const Home(),
-          '/1': (context) => const StorageScreen(),
-          '/2': (context) => const InfoScreen(),
-        },
+        // routes: {
+        //   '/0': (context) => const Home(),
+        //   '/1': (context) => const StorageScreen(),
+        //   '/2': (context) => const InfoScreen(),
+        // },
         home: AnimatedSplashScreen(
-          duration: 500,
+          duration: 10,
           splash: const Image(
               image: AssetImage('assets/launcher_icon/mainLogo.png')),
           splashTransition: SplashTransition.sizeTransition,

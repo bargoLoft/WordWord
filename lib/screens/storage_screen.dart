@@ -12,8 +12,6 @@ import 'package:lottie/lottie.dart';
 import '../models/word_view.dart';
 import '../providers/word_search.dart';
 
-//import 'package:WordWord/widgets/word_chip.dart';
-
 class StorageScreen extends StatefulWidget {
   const StorageScreen({Key? key}) : super(key: key);
 
@@ -80,16 +78,24 @@ class _StorageScreenState extends State<StorageScreen>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.asset(
-              'assets/lottie/empty_box.json',
-              repeat: true,
-              height: 200,
-              controller: _controller,
-              onLoaded: (composition) {
+            GestureDetector(
+              onTap: () {
                 _controller
-                  ..duration = composition.duration
+                  ..duration = const Duration(seconds: 4)
                   ..forward();
               },
+              child: Lottie.asset(
+                'assets/lottie/empty_box.json',
+                repeat: true,
+                height: 200,
+                controller: _controller,
+                onLoaded: (composition) {
+                  _controller.addListener(() {});
+                  _controller
+                    ..duration = composition.duration
+                    ..forward();
+                },
+              ),
             ),
             const Text(
               '텅텅 비었다!',
