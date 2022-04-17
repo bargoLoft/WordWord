@@ -1,16 +1,10 @@
-import 'dart:io';
+import 'package:word_word/screens/write_screen.dart';
 
-import 'package:WordWord/screens/write_screen.dart';
-import 'package:flutter/services.dart';
-
-import 'package:WordWord/screens/info_screen.dart';
-import 'package:WordWord/screens/search_screen.dart';
-import 'package:WordWord/screens/storage_screen.dart';
+import 'package:word_word/screens/info_screen.dart';
+import 'package:word_word/screens/search_screen.dart';
+import 'package:word_word/screens/storage_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../widgets/word_list.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -21,8 +15,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  // static const TextStyle optionStyle =
+  //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   // static const List<Widget> _widgetOptions = <Widget>[
   //   HomeScreen(),
   //   StorageScreen(),

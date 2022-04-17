@@ -1,9 +1,6 @@
 import 'dart:io';
-import 'package:flutter/services.dart' as services;
 
-import 'package:WordWord/models/recent_word.dart';
-import 'package:WordWord/screens/info_screen.dart';
-import 'package:WordWord/screens/storage_screen.dart';
+import 'package:word_word/models/recent_word.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,7 +8,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import './models/app_model.dart';
 import 'models/word.dart';
-import 'screens/search_screen.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import './screens/home_screen.dart';
@@ -63,10 +59,10 @@ class MyApp extends StatelessWidget {
           duration: 10,
           splash: const Image(
               image: AssetImage('assets/launcher_icon/mainLogo.png')),
-          splashTransition: SplashTransition.sizeTransition,
+          splashTransition: SplashTransition.fadeTransition,
           curve: Curves.fastLinearToSlowEaseIn,
           pageTransitionType: PageTransitionType.fade,
-          splashIconSize: 110,
+          splashIconSize: 60,
           nextScreen: const Home(),
         ));
   }

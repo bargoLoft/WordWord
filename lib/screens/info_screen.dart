@@ -1,15 +1,13 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:ios_utsname_ext/extension.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:WordWord/boxes.dart';
+import 'package:word_word/boxes.dart';
 import 'package:lottie/lottie.dart';
 
 class InfoScreen extends StatefulWidget {
@@ -93,8 +91,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 },
                 child: Text(
                   '표준국어대사전 바로가기',
-                  style: TextStyle(
-                      fontSize: 17, color: Theme.of(context).primaryColorDark),
+                  style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
                 ),
               ),
             ),
@@ -111,8 +108,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 },
                 child: Text(
                   '우리말 샘 바로가기',
-                  style: TextStyle(
-                      fontSize: 17, color: Theme.of(context).primaryColorDark),
+                  style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
                 ),
               ),
             ),
@@ -130,8 +126,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 },
                 child: Text(
                   '건의사항 보내기',
-                  style: TextStyle(
-                      fontSize: 17, color: Theme.of(context).primaryColorDark),
+                  style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
                 ),
               ),
             ),
@@ -153,17 +148,14 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                       children: [
                         Text(
                           '개발자 블로그',
-                          style: TextStyle(
-                              fontSize: 17,
-                              color: Theme.of(context).primaryColorDark),
+                          style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
                         ),
                         const Padding(
                           padding: EdgeInsets.all(5),
                           child: Image(
                             width: 17,
                             height: 17,
-                            image:
-                                AssetImage('assets/images/NaverBlogIcon.png'),
+                            image: AssetImage('assets/images/NaverBlogIcon.png'),
                           ),
                         ),
                       ],
@@ -209,9 +201,15 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                         content: const Text('다너다너를 초기화 하시겠습니까?'),
                         actions: [
                           CupertinoDialogAction(
+                              child: const Text(
+                                '취소',
+                                //style: TextStyle(color: Colors.red), // 왜 적용 안되지
+                              ),
+                              onPressed: () => Navigator.pop(context)),
+                          CupertinoDialogAction(
                             child: const Text(
-                              '네',
-                              //style: TextStyle(color: Colors.red), // 왜 적용 안되지
+                              '초기화',
+                              style: TextStyle(color: Colors.red),
                             ),
                             onPressed: () {
                               RecentWordBoxes.getWords().clear();
@@ -221,13 +219,9 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                                 content: Text('다너다너가 초기화 되었습니다!'),
                                 duration: Duration(seconds: 1),
                               );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
                             },
-                          ),
-                          CupertinoDialogAction(
-                              child: const Text('아니요'),
-                              onPressed: () => Navigator.pop(context))
+                          )
                         ],
                       );
                     },
@@ -312,8 +306,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Text(title,
               style: const TextStyle(
                 fontSize: 15,
@@ -371,10 +364,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
     var manufacturer = info.manufacturer;
     var model = info.model;
 
-    return {
-      'OS 버전': 'Android $release (SKD $sdkInt)',
-      '기기': '$manufacturer $model'
-    };
+    return {'OS 버전': 'Android $release (SKD $sdkInt)', '기기': '$manufacturer $model'};
   }
 
   Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo info) {

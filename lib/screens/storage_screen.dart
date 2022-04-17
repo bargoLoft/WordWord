@@ -1,12 +1,13 @@
-import 'package:WordWord/screens/word_info_screen.dart';
-import 'package:WordWord/widgets/word_chip.dart';
+import 'package:word_word/screens/word_info_screen.dart';
+import 'package:word_word/widgets/word_chip.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
-import 'package:WordWord/models/word.dart';
-import 'package:WordWord/boxes.dart';
+import 'package:word_word/models/word.dart';
+import 'package:word_word/boxes.dart';
 import 'package:lottie/lottie.dart';
 
 import '../models/word_view.dart';
@@ -203,14 +204,11 @@ class _StorageScreenState extends State<StorageScreen>
             const SizedBox(height: 5),
             Expanded(
               child: ListView.builder(
-                  //physics: const NeverScrollableScrollPhysics(),
-                  //primary: true,
-                  //shrinkWrap: true,
                   scrollDirection:
                       groupValue == 0 ? Axis.vertical : Axis.vertical,
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   itemCount: WordBoxes.getWords().length,
-                  itemBuilder: (BuildContext context, int index) {
+                  itemBuilder: (context, int index) {
                     var word = words[index];
                     if (groupValue == 0) {
                       return GestureDetector(

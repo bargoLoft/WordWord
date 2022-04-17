@@ -322,7 +322,7 @@ class CommPatternInfo {
     if (json['grammar_info'] != null) {
       grammarInfo = <GrammarInfo>[];
       json['grammar_info'].forEach((v) {
-        grammarInfo!.add(new GrammarInfo.fromJson(v));
+        grammarInfo!.add(GrammarInfo.fromJson(v));
       });
     }
   }
@@ -336,8 +336,8 @@ class CommPatternInfo {
     if (senseInfo != null) {
       data['sense_info'] = senseInfo!.map((v) => v.toJson()).toList();
     }
-    if (this.grammarInfo != null) {
-      data['grammar_info'] = this.grammarInfo!.map((v) => v.toJson()).toList();
+    if (grammarInfo != null) {
+      data['grammar_info'] = grammarInfo!.map((v) => v.toJson()).toList();
     }
     return data;
   }

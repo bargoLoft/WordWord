@@ -1,13 +1,10 @@
 import 'dart:async';
 
-import 'package:WordWord/models/word_view.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:word_word/models/word_view.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:WordWord/providers/word_search.dart';
-import 'package:flutter/services.dart';
+import 'package:word_word/providers/word_search.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:WordWord/screens/home_screen.dart';
 
 class WordViewInfo extends StatefulWidget {
   final Item? item;
@@ -24,7 +21,7 @@ class _WordViewInfoState extends State<WordViewInfo> {
   final Completer<WebViewController> webController =
       Completer<WebViewController>();
   final ScrollController _scrollController = ScrollController();
-  final StreamController<Object> _streamController = StreamController();
+  //final StreamController<Object> _streamController = StreamController();
   Widget webView(String url) {
     return WebView(
       initialUrl: url,

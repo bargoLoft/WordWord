@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:WordWord/models/word_model.dart';
+import 'package:word_word/models/word_model.dart';
 
 class WordInfo extends StatelessWidget {
   final Item item;
@@ -12,10 +12,10 @@ class WordInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 0.4,
-      margin: const EdgeInsets.fromLTRB(5, 0, 3, 5),
+      elevation: 0.5,
+      margin: const EdgeInsets.fromLTRB(5, 0, 3, 0),
       child: Padding(
-        padding: const EdgeInsets.all(7),
+        padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
         child: Row(
           children: [
             Text(

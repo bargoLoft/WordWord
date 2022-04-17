@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:WordWord/models/word.dart';
-import 'package:WordWord/models/recent_word.dart';
+import 'package:word_word/models/word.dart';
+import 'package:word_word/models/recent_word.dart';
 
 class WordBoxes {
   static Box<wordtest> getWords() => Hive.box<wordtest>('words');

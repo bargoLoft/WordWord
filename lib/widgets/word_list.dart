@@ -1,24 +1,27 @@
 import 'dart:convert';
 import 'dart:async';
 import 'dart:math';
+import 'dart:ui';
 
-import 'package:WordWord/models/app_model.dart';
+import 'package:word_word/models/app_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '../models/word_model.dart';
 import '../providers/word_search.dart';
 import '../models/word_model.dart' as search;
 import '../models/word_view.dart' as view;
 import '../models/word.dart';
 import '../models/recent_word.dart';
-import 'package:WordWord/boxes.dart';
+import 'package:word_word/boxes.dart';
 import '../screens/word_info_screen.dart';
 import '../screens/recent_screen.dart';
 import '../widgets/word_info.dart';
 
+// ignore: must_be_immutable
 class Word extends StatefulWidget {
   String word;
   search.WordModel wordModel = search.WordModel();
@@ -33,10 +36,8 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
   final _scrollController = ScrollController();
   final TextEditingController _wordSearchController = TextEditingController();
   final _myFocusNode = FocusNode();
-  bool _autoFocus = false;
 
   String inputText = '';
-  double _logoOpacity = 0.7;
   bool isLoading = true;
   @override
   bool get wantKeepAlive => true;
@@ -50,9 +51,9 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
   }
 
   _loadSetting() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _autoFocus = prefs.getBool('autoFocus') ?? true;
+      //_autoFocus = prefs.getBool('autoFocus') ?? true;
     });
   }
 
@@ -67,7 +68,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
   Future<void> getWordSearchData(String query) async {
     query = _textReplace(query);
     String wordJson = await WordSearch().getWords(query);
-    print('받아오고');
+    //print('받아오고');
     setState(() {
       if (wordJson.isNotEmpty) {
         widget.wordModel = search.WordModel.fromJson(jsonDecode(wordJson));
@@ -106,12 +107,12 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
       //widget.wordView.add(tmp);
     }
     isLoading = false; // null 반환 대비 아래로 이동
-    print('변경');
+    //print('변경');
   }
 
   Future<void> getWordRandomViewData(String num) async {
     String wordJsonView = await WordRandomViewSearch().getWords(num);
-    print('받아오고');
+    //print('받아오고');
     view.WordView wordViewData =
         view.WordView.fromJson(jsonDecode(wordJsonView));
     if (wordViewData.channel == null || wordViewData.channel?.total == 0) {
@@ -132,6 +133,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     _myFocusNode.addListener(() {
       setState(() {});
@@ -157,6 +159,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                       child: Align(
                         alignment: Alignment.bottomCenter,
                         child: TextField(
+                          selectionHeightStyle: BoxHeightStyle.tight,
                           //제출시 검색되게
                           controller: _wordSearchController,
                           keyboardType: TextInputType.text,
@@ -164,11 +167,11 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                           cursorColor: Theme.of(context).primaryColorDark,
                           autofocus: false,
                           focusNode: _myFocusNode,
+                          autocorrect: false,
                           onSubmitted: (String text) {
                             inputText = text;
-                            print('입력하신 단어는 $inputText 입니다.');
+                            //print('입력하신 단어는 $inputText 입니다.');
                             setState(() {
-                              _logoOpacity = 0.0;
                               isLoading = true;
                               //widget.wordView.clear();
                               getWordSearchData(inputText);
@@ -233,7 +236,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                       ),
                     ),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.06,
+                      height: MediaQuery.of(context).size.height * 0.07,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white,
@@ -242,7 +245,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                         padding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 5),
                         child: Stack(
-                          alignment: AlignmentDirectional.centerStart,
+                          alignment: AlignmentDirectional.center,
                           children: [
                             Positioned.fill(
                               child: Align(
@@ -256,9 +259,8 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                   focusNode: _myFocusNode,
                                   onSubmitted: (String text) {
                                     inputText = text;
-                                    print('입력하신 단어는 $inputText 입니다.');
+                                    //print('입력하신 단어는 $inputText 입니다.');
                                     setState(() {
-                                      _logoOpacity = 0.0;
                                       isLoading = true;
                                       //widget.wordView.clear();
                                       getWordSearchData(inputText);
@@ -291,7 +293,6 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                                 const RecentWordList()),
                                       );
                                       if (result != null) {
-                                        _logoOpacity = 0.0;
                                         isLoading = true;
                                         getWordSearchData(result);
                                       }
@@ -345,116 +346,98 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                     controller: _scrollController,
                                     itemCount:
                                         widget.wordModel.channel?.total ?? 0,
-                                    // separatorBuilder:
-                                    //     (BuildContext context, int index) =>
-                                    //         const CustomDivider(),
-                                    // shrinkWrap: true,
-                                    itemBuilder: (BuildContext context,
-                                            int index) =>
-                                        Dismissible(
-                                          onDismissed: (direction) {
-                                            if (direction ==
-                                                    DismissDirection
-                                                        .endToStart ||
-                                                direction ==
-                                                    DismissDirection
-                                                        .startToEnd) {
-                                              WordBoxes.getWords().put(
-                                                widget
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      // if (index ==
+                                      //     (widget.wordModel.channel?.total ??
+                                      //             0) -
+                                      //         1) {
+                                      //   return const SizedBox(height: 70);
+                                      // }
+                                      return Slidable(
+                                        key: UniqueKey(),
+                                        endActionPane: ActionPane(
+                                          extentRatio: 1 / 5,
+                                          motion: const ScrollMotion(),
+                                          // dismissible: DismissiblePane(
+                                          //   onDismissed: () {},
+                                          // ),
+                                          children: [
+                                            SlidableAction(
+                                              autoClose: true,
+                                              flex: 1,
+                                              onPressed: (context) {
+                                                Item item = widget
                                                         .wordModel
                                                         .channel
-                                                        ?.item![index]
-                                                        .targetCode ??
-                                                    0,
-                                                wordtest(
-                                                  widget.wordModel.channel
-                                                          ?.item![index].word ??
-                                                      '',
-                                                  int.parse(widget
-                                                          .wordModel
-                                                          .channel
-                                                          ?.item![index]
-                                                          .supNo ??
-                                                      ''),
-                                                  widget.wordModel.channel
-                                                          ?.item![index].pos ??
-                                                      '',
-                                                  widget
-                                                          .wordModel
-                                                          .channel
-                                                          ?.item![index]
-                                                          .sense
-                                                          ?.definition ??
-                                                      '',
-                                                  widget
-                                                          .wordModel
-                                                          .channel
-                                                          ?.item![index]
-                                                          .targetCode ??
-                                                      '',
-                                                  widget.wordModel.channel
-                                                          ?.lastbuilddate ??
-                                                      '',
-                                                ),
-                                              );
-                                              print(widget.wordModel.channel
-                                                      ?.lastbuilddate ??
-                                                  '');
-                                              //setState(() {}); 저장시 없앨지
-                                            }
-                                          },
-                                          background: Container(
-                                            margin: const EdgeInsets.all(8),
-                                            padding: const EdgeInsets.all(8),
-                                            color: Theme.of(context)
-                                                .primaryColorDark,
-                                            alignment: Alignment.centerRight,
-                                            child: const Icon(
-                                              Icons.save,
-                                              size: 20,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          key: UniqueKey(),
-                                          // Key(widget.wordModel.channel?.item![index]
-                                          //         .word ??
-                                          //     ''),
-                                          child: GestureDetector(
-                                            onTap: () async {
-                                              if (widget.wordView[index] !=
-                                                  null) {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            WordViewInfo(
-                                                                item: widget
-                                                                    .wordView[
-                                                                        index]
-                                                                    ?.channel
-                                                                    ?.item)));
-                                              } else {
-                                                const snackBar = SnackBar(
+                                                        ?.item![index] ??
+                                                    Item();
+                                                WordBoxes.getWords().put(
+                                                  item.targetCode ?? 0,
+                                                  wordtest(
+                                                    item.word ?? '',
+                                                    int.parse(item.supNo ?? ''),
+                                                    item.pos ?? '',
+                                                    item.sense?.definition ??
+                                                        '',
+                                                    item.targetCode ?? '',
+                                                    widget.wordModel.channel
+                                                            ?.lastbuilddate ??
+                                                        '',
+                                                  ),
+                                                );
+                                                SnackBar snackBar = SnackBar(
                                                   content: Text(
-                                                      '현재 국립국어원 Open API의 문제로\n 사진 자료가 있는 단어는 상세검색이 되지 않습니다.!'),
-                                                  duration:
-                                                      Duration(seconds: 1),
+                                                      '${item.word} 넣었습니다'),
+                                                  duration: const Duration(
+                                                      seconds: 1),
                                                 );
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(snackBar);
-                                              }
-                                            },
-                                            child: WordInfo(
-                                              item: widget.wordModel.channel
-                                                      ?.item![index] ??
-                                                  search.Item(),
+                                              },
+                                              backgroundColor: Theme.of(context)
+                                                  .primaryColor,
+                                              foregroundColor: Theme.of(context)
+                                                  .primaryColorDark,
+                                              icon: FontAwesomeIcons.floppyDisk,
                                             ),
+                                          ],
+                                        ),
+                                        child: GestureDetector(
+                                          onTap: () async {
+                                            if (widget.wordView[index] !=
+                                                null) {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WordViewInfo(
+                                                              item: widget
+                                                                  .wordView[
+                                                                      index]
+                                                                  ?.channel
+                                                                  ?.item)));
+                                            } else {
+                                              const snackBar = SnackBar(
+                                                content: Text(
+                                                    '현재 국립국어원 Open API의 문제로\n 사진 자료가 있는 단어는 상세검색이 되지 않습니다.!'),
+                                                duration: Duration(seconds: 1),
+                                              );
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                            }
+                                          },
+                                          child: WordInfo(
+                                            item: widget.wordModel.channel
+                                                    ?.item![index] ??
+                                                search.Item(),
                                           ),
-                                        )),
+                                        ),
+                                      );
+                                    }),
                               ),
                       ),
-                    ),
-                    //const CustomDivider(),
+                    ), //const CustomDivider(),
                   ],
                 ),
         ),

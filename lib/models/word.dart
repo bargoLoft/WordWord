@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 part 'word.g.dart';
 
 @HiveType(typeId: 0)
+// ignore: camel_case_types
 class wordtest extends HiveObject {
   @HiveField(0)
   String word;

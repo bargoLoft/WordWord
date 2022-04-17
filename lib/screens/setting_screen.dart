@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/app_model.dart';
 
 class Setting extends StatefulWidget {
+  const Setting({Key? key}) : super(key: key);
+
   @override
   State<Setting> createState() => _SettingState();
 }

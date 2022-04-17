@@ -6,6 +6,7 @@ part of 'word.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
+// ignore: camel_case_types
 class wordtestAdapter extends TypeAdapter<wordtest> {
   @override
   final int typeId = 0;

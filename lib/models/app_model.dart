@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../screens/setting_screen.dart';
-
 class AppModel extends ChangeNotifier {
   bool autoFocus = false;
   //final mediaQuery = MediaQuery.of(context);

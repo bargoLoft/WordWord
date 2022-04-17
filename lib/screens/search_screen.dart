@@ -1,10 +1,5 @@
-import 'dart:io';
-
-import 'package:WordWord/screens/storage_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
-import 'package:WordWord/widgets/word_list.dart';
+import 'package:word_word/widgets/word_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 int value = 0;
@@ -72,43 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
       // resizeToAvoidBottomInset: false,
       //backgroundColor: Colors.white,
       body: Word(word: ''),
-      // PageView(
-      //   controller: _pageController,
-      //   scrollDirection: Axis.vertical,
-      //   physics: const PageScrollPhysics(),
-      //   children: [
-      //     Word(word: ''),
-      //     const StorageScreen(),
-      //   ],
-      // ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   type: BottomNavigationBarType.fixed,
-      //   backgroundColor: Colors.grey.shade500,
-      //   selectedItemColor: Colors.white,
-      //   unselectedItemColor: Colors.white.withOpacity(.60),
-      //   selectedFontSize: 14,
-      //   unselectedFontSize: 14,
-      //   currentIndex: _selectedIndex, //현재 선택된 Index
-      //   onTap: (int index) {
-      //     setState(() {
-      //       _selectedIndex = index;
-      //     });
-      //   },
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       label: '다',
-      //       icon: Icon(Icons.search),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       label: '너',
-      //       icon: Icon(Icons.storage),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       label: '다너',
-      //       icon: Icon(Icons.info),
-      //     ),
-      //   ],
-      // ),
     );
   }
 }

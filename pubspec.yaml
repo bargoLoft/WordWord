@@ -1,4 +1,4 @@
-name: WordWord
+name: word_word
 description: 다너다너(단어 다 너!)
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
@@ -32,6 +32,8 @@ dependencies:
   intl: ^0.17.0
   animated_splash_screen: ^1.2.0
   lottie: ^1.3.0
+  flutter_slidable: ^1.2.0
+  flutter_sticky_header: ^0.6.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
