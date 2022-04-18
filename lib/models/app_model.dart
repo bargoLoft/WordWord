@@ -3,7 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppModel extends ChangeNotifier {
   bool autoFocus = false;
-  //final mediaQuery = MediaQuery.of(context);
+  //final mediaQuery = MediaQuery.of().;
+  //ScrollController searchScrollController = ScrollController();
 
   void setAutoFocus(bool focus) async {
     final prefs = await SharedPreferences.getInstance();

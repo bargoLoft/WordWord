@@ -57,8 +57,7 @@ class MyApp extends StatelessWidget {
         // },
         home: AnimatedSplashScreen(
           duration: 10,
-          splash: const Image(
-              image: AssetImage('assets/launcher_icon/mainLogo.png')),
+          splash: const Image(image: AssetImage('assets/launcher_icon/mainLogo.png')),
           splashTransition: SplashTransition.fadeTransition,
           curve: Curves.fastLinearToSlowEaseIn,
           pageTransitionType: PageTransitionType.fade,
@@ -72,7 +71,6 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }

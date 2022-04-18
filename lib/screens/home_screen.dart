@@ -14,6 +14,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  //final _scrollController = ScrollController();
   int _selectedIndex = 0;
   // static const TextStyle optionStyle =
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -35,8 +36,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:
-            _selectedIndex >= 0 ? Theme.of(context).primaryColor : Colors.white,
+        backgroundColor: _selectedIndex >= 0 ? Theme.of(context).primaryColor : Colors.white,
         elevation: 0.0,
         toolbarHeight: 0.0, // Hide the AppBar
       ),
@@ -52,24 +52,20 @@ class _HomeState extends State<Home> {
 
       //_widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.07,
+        height: MediaQuery.of(context).size.height * 0.09,
         child: BottomNavigationBar(
             iconSize: 23,
             items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.house), label: 'home'),
-              BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.boxArchive), label: 'storage'),
-              BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.pen), label: 'home'),
-              BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.circleInfo), label: 'info'),
+              BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.house), label: 'home'),
+              BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.boxArchive), label: 'storage'),
+              BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pen), label: 'home'),
+              BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.circleInfo), label: 'info'),
             ],
             currentIndex: _selectedIndex,
             selectedItemColor: Theme.of(context).primaryColorDark,
             unselectedItemColor: Colors.black26,
-            selectedFontSize: 1.0,
-            unselectedFontSize: 1.0,
+            selectedFontSize: 3.0,
+            unselectedFontSize: 3.0,
             onTap: _onItemTapped,
             showSelectedLabels: false,
             showUnselectedLabels: false,
