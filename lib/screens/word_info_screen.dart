@@ -18,8 +18,7 @@ class WordViewInfo extends StatefulWidget {
 }
 
 class _WordViewInfoState extends State<WordViewInfo> {
-  final Completer<WebViewController> webController =
-      Completer<WebViewController>();
+  final Completer<WebViewController> webController = Completer<WebViewController>();
   final ScrollController _scrollController = ScrollController();
   //final StreamController<Object> _streamController = StreamController();
   Widget webView(String url) {
@@ -83,20 +82,13 @@ class _WordViewInfoState extends State<WordViewInfo> {
                       if (widget.item?.wordInfo?.originalLanguageInfo != null)
                         Row(
                           children: [
-                            const Text('(',
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.grey)),
-                            for (var original in widget
-                                    .item?.wordInfo?.originalLanguageInfo ??
-                                [])
+                            const Text('(', style: TextStyle(fontSize: 20, color: Colors.grey)),
+                            for (var original in widget.item?.wordInfo?.originalLanguageInfo ?? [])
                               AutoSizeText(
                                 '${original.originalLanguage}',
-                                style: const TextStyle(
-                                    fontSize: 25, color: Colors.grey),
+                                style: const TextStyle(fontSize: 25, color: Colors.grey),
                               ),
-                            const Text(')',
-                                style: TextStyle(
-                                    fontSize: 25, color: Colors.grey)),
+                            const Text(')', style: TextStyle(fontSize: 25, color: Colors.grey)),
                           ],
                         ),
                     ],
@@ -140,9 +132,7 @@ class _WordViewInfoState extends State<WordViewInfo> {
                     ), //
                   if (widget.item?.wordInfo?.posInfo?.first.pos != '품사 없음')
                     const SizedBox(height: 3),
-                  for (var comm in widget
-                          .item?.wordInfo?.posInfo?.first.commPatternInfo ??
-                      [])
+                  for (var comm in widget.item?.wordInfo?.posInfo?.first.commPatternInfo ?? [])
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -178,8 +168,8 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                   ),
                                   SelectableText(
                                     '${sense.definition}',
-                                    toolbarOptions: const ToolbarOptions(
-                                        copy: true, selectAll: true),
+                                    toolbarOptions:
+                                        const ToolbarOptions(copy: true, selectAll: true),
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       height: 1.6,
@@ -189,8 +179,7 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                     Row(
                                       children: [
                                         const Text('≒'),
-                                        for (var lexical
-                                            in sense?.lexicalInfo ?? [])
+                                        for (var lexical in sense?.lexicalInfo ?? [])
                                           GestureDetector(
                                             onTap: () async {
                                               // Navigator.push(
@@ -201,20 +190,15 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                               String url = lexical.link;
                                               int start = url.indexOf('=') + 1;
                                               int last = url.indexOf('&');
-                                              String targetCode =
-                                                  url.substring(start, last);
+                                              String targetCode = url.substring(start, last);
 
                                               WordView wordView =
-                                                  await getWordViewData(
-                                                      targetCode: targetCode);
+                                                  await getWordViewData(targetCode: targetCode);
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          WordViewInfo(
-                                                              item: wordView
-                                                                  .channel
-                                                                  ?.item)));
+                                                      builder: (context) => WordViewInfo(
+                                                          item: wordView.channel?.item)));
                                             },
                                             child: RichText(
                                                 text: TextSpan(
@@ -236,21 +220,24 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                           ),
                                       ],
                                     ),
-                                  if (sense?.exampleInfo != null)
-                                    const SizedBox(height: 5),
+                                  if (sense?.exampleInfo != null) const SizedBox(height: 5),
                                   for (var example in sense?.exampleInfo ?? [])
-                                    RichText(
-                                      text: TextSpan(
-                                          text: ' • ${example.example}',
-                                          style: const TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.black,
-                                              fontFamily: 'KoPubBatang'),
-                                          children: <TextSpan>[
-                                            if (example.source != null)
-                                              TextSpan(
-                                                  text: ' ≪${example.source}≫')
-                                          ]),
+                                    Column(
+                                      children: [
+                                        RichText(
+                                          text: TextSpan(
+                                              text: ' • ${example.example}',
+                                              style: const TextStyle(
+                                                  fontSize: 13,
+                                                  color: Colors.black,
+                                                  fontFamily: 'KoPubBatang'),
+                                              children: <TextSpan>[
+                                                if (example.source != null)
+                                                  TextSpan(text: ' ≪${example.source}≫')
+                                              ]),
+                                        ),
+                                        const SizedBox(height: 2)
+                                      ],
                                     ),
                                   const SizedBox(height: 10),
                                   //const Divider(color: Colors.grey, height: 10),
@@ -265,10 +252,8 @@ class _WordViewInfoState extends State<WordViewInfo> {
                         ),
                       ],
                     ),
-                  if (widget.item?.wordInfo?.relationInfo != null)
-                    const Text('관용구/속담'),
-                  for (var relation
-                      in widget.item?.wordInfo?.relationInfo ?? [])
+                  if (widget.item?.wordInfo?.relationInfo != null) const Text('관용구/속담'),
+                  for (var relation in widget.item?.wordInfo?.relationInfo ?? [])
                     SelectableText(' - ${relation.relationWord ?? ''}'),
                   if (widget.item?.wordInfo?.origin != null)
                     const Divider(color: Colors.grey, height: 10),

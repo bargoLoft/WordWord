@@ -1,4 +1,6 @@
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:word_word/screens/word_info_screen.dart';
+import 'package:word_word/screens/write_screen.dart';
 import 'package:word_word/widgets/word_chip.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,11 +22,10 @@ class StorageScreen extends StatefulWidget {
   _StorageScreenState createState() => _StorageScreenState();
 }
 
-class _StorageScreenState extends State<StorageScreen>
-    with TickerProviderStateMixin {
+class _StorageScreenState extends State<StorageScreen> with TickerProviderStateMixin {
   int? groupValue = 0;
-  final _valueList = ['가나다순', '최신순', '품사순'];
-  var _dropdownValue = '가나다순';
+  final _valueList = ['최신순', '가나다순', '품사순'];
+  var _dropdownValue = '최신순';
 
   late final AnimationController _controller;
 
@@ -153,10 +154,8 @@ class _StorageScreenState extends State<StorageScreen>
                     children: <TextSpan>[
                       TextSpan(
                           text: '${words.length}개',
-                          style: TextStyle(
-                              color: Theme.of(context).primaryColorDark)),
-                      const TextSpan(
-                          text: '의 단어', style: TextStyle(color: Colors.black)),
+                          style: TextStyle(color: Theme.of(context).primaryColorDark)),
+                      const TextSpan(text: '의 단어', style: TextStyle(color: Colors.black)),
                     ]),
               ),
             ),
@@ -179,9 +178,7 @@ class _StorageScreenState extends State<StorageScreen>
                     underline: const Text(''),
                     focusColor: Colors.green,
                     style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.black87,
-                        fontFamily: 'KoPubBatang'),
+                        fontSize: 14, color: Colors.black87, fontFamily: 'KoPubBatang'),
                   ),
                   Center(
                     child: CupertinoSlidingSegmentedControl(
@@ -203,54 +200,98 @@ class _StorageScreenState extends State<StorageScreen>
             ),
             const SizedBox(height: 5),
             Expanded(
-              child: ListView.builder(
-                  scrollDirection:
-                      groupValue == 0 ? Axis.vertical : Axis.vertical,
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  itemCount: WordBoxes.getWords().length,
-                  itemBuilder: (context, int index) {
-                    var word = words[index];
-                    if (groupValue == 0) {
-                      return GestureDetector(
-                        onTap: () async {
-                          WordView wordView = await getWordViewData(
-                              targetCode: words[index].targetCode);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WordViewInfo(
-                                      item: wordView.channel?.item)));
-                        },
-                        child: Dismissible(
+              child: Scrollbar(
+                child: ListView.builder(
+                    scrollDirection: groupValue == 0 ? Axis.vertical : Axis.vertical,
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    itemCount: WordBoxes.getWords().length,
+                    itemBuilder: (context, int index) {
+                      var word = words[index];
+                      if (groupValue == 0) {
+                        return Slidable(
                           key: UniqueKey(),
-                          background: Container(
-                            margin: const EdgeInsets.all(8),
-                            padding: const EdgeInsets.all(8),
-                            color: Colors.red,
-                            alignment: Alignment.centerRight,
-                            child: const Icon(
-                              Icons.delete,
-                              size: 20,
-                              color: Colors.white,
-                            ),
+                          endActionPane: ActionPane(
+                            extentRatio: 2 / 5,
+                            motion: const ScrollMotion(),
+                            children: [
+                              SlidableAction(
+                                autoClose: true,
+                                flex: 1,
+                                onPressed: (context) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const WriteScreen()),
+                                  );
+                                },
+                                backgroundColor: Theme.of(context).primaryColor,
+                                foregroundColor: Theme.of(context).primaryColorDark,
+                                icon: FontAwesomeIcons.pen,
+                              ),
+                              SlidableAction(
+                                autoClose: true,
+                                flex: 1,
+                                onPressed: (context) {
+                                  WordBoxes.getWords().delete(word.targetCode);
+                                },
+                                backgroundColor: Colors.redAccent.shade200,
+                                foregroundColor: Colors.white,
+                                icon: FontAwesomeIcons.trash,
+                              ),
+                            ],
                           ),
-                          onDismissed: (direction) {
-                            if (direction == DismissDirection.endToStart ||
-                                direction == DismissDirection.startToEnd) {
-                              setState(() {
-                                WordBoxes.getWords().delete(word.targetCode);
-                                //WordBoxes.getWords().get('word');
-                                //Boxes.getWords().deleteFromDisk();
-                              });
-                            }
+                          child: GestureDetector(
+                              onTap: () async {
+                                WordView wordView =
+                                    await getWordViewData(targetCode: words[index].targetCode);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            WordViewInfo(item: wordView.channel?.item)));
+                              },
+                              child: buildListCard(context, word)),
+                        );
+                        GestureDetector(
+                          onTap: () async {
+                            WordView wordView =
+                                await getWordViewData(targetCode: words[index].targetCode);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        WordViewInfo(item: wordView.channel?.item)));
                           },
-                          child: buildListCard(context, word),
-                        ),
-                      );
-                    } else {
-                      return WordChip(word: word.word);
-                    }
-                  }),
+                          child: Dismissible(
+                            key: UniqueKey(),
+                            background: Container(
+                              margin: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
+                              color: Colors.red,
+                              alignment: Alignment.centerRight,
+                              child: const Icon(
+                                Icons.delete,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                            onDismissed: (direction) {
+                              if (direction == DismissDirection.endToStart ||
+                                  direction == DismissDirection.startToEnd) {
+                                setState(() {
+                                  WordBoxes.getWords().delete(word.targetCode);
+                                  //WordBoxes.getWords().get('word');
+                                  //Boxes.getWords().deleteFromDisk();
+                                });
+                              }
+                            },
+                            child: buildListCard(context, word),
+                          ),
+                        );
+                      } else {
+                        return WordChip(word: word.word);
+                      }
+                    }),
+              ),
             ),
           ],
         ),
@@ -260,9 +301,10 @@ class _StorageScreenState extends State<StorageScreen>
 
   Widget buildListCard(BuildContext context, wordtest word) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+      elevation: 0.5,
+      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -273,7 +315,7 @@ class _StorageScreenState extends State<StorageScreen>
                 Text(
                   word.word,
                   style: const TextStyle(
-                    fontSize: 25,
+                    fontSize: 23,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -293,32 +335,24 @@ class _StorageScreenState extends State<StorageScreen>
             const SizedBox(height: 5),
             RichText(
                 text: TextSpan(
-              text: word.pos,
-              style: const TextStyle(
-                color: Colors.grey,
-                fontFamily: 'KoPubBatang',
-                fontSize: 15,
-              ),
-              children: <TextSpan>[
-                TextSpan(
-                  text: ' ${word.definition}',
+                  text: word.pos,
                   style: const TextStyle(
-                    fontSize: 15,
-                    color: Colors.black,
+                    color: Colors.grey,
+                    fontFamily: 'KoPubBatang',
+                    fontSize: 14,
                   ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: ' ${word.definition}',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            )),
-            // Container(
-            //   alignment: Alignment.centerLeft,
-            //   child: Text(
-            //     word.definition,
-            //     style: const TextStyle(
-            //       fontSize: 15,
-            //       //fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            // ),
+                maxLines: 2,
+                overflow: TextOverflow.fade),
           ],
         ),
       ),

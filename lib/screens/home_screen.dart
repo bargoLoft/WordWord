@@ -35,6 +35,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false, // 키보드 밀려오는거 무시
       appBar: AppBar(
         backgroundColor: _selectedIndex >= 0 ? Theme.of(context).primaryColor : Colors.white,
         elevation: 0.0,
