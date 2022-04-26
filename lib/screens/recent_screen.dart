@@ -33,8 +33,7 @@ class _RecentWordListState extends State<RecentWordList> {
             padding: const EdgeInsets.only(right: 10),
             child: TextButton(
               child: const Text('전체삭제'),
-              style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Colors.green)),
+              style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.green)),
               onPressed: () => {RecentWordBoxes.getWords().clear()},
             ),
           ),
@@ -57,45 +56,37 @@ class _RecentWordListState extends State<RecentWordList> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 3),
+                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.pop(
-                                context,
-                                _textReplace(
-                                    words[words.length - index - 1].word));
+                                context, _textReplace(words[words.length - index - 1].word));
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 words[words.length - index - 1].word,
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                               Row(
                                 children: [
                                   Text(
-                                    DateFormat('yyyy-MM-dd')
+                                    DateFormat('yyyy/MM/dd')
                                         .format(DateTime.parse(
-                                            words[words.length - index - 1]
-                                                .time
-                                                .substring(0, 8)))
+                                            words[words.length - index - 1].time.substring(0, 8)))
                                         .toString(),
                                     style: const TextStyle(fontSize: 15),
                                   ),
                                   IconButton(
-                                    constraints: BoxConstraints.tight(
-                                        const Size(30, 40)),
+                                    constraints: BoxConstraints.tight(const Size(30, 40)),
                                     splashRadius: 1,
                                     iconSize: 20,
                                     alignment: Alignment.centerRight,
                                     padding: EdgeInsets.zero,
                                     onPressed: () {
-                                      RecentWordBoxes.getWords().delete(
-                                          words[words.length - index - 1]
-                                              .targetCode);
+                                      RecentWordBoxes.getWords()
+                                          .delete(words[words.length - index - 1].targetCode);
                                       //_wordSearchController.clear();
                                       //FocusScope.of(context).requestFocus(_myFocusNode);
                                     },

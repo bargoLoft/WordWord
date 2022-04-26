@@ -20,6 +20,7 @@ void main() async {
   Hive.registerAdapter(RecentWordAdapter());
   await Hive.openBox<wordtest>('words');
   await Hive.openBox<RecentWord>('RecentWords');
+  //await Hive.openBox<Write>('Writes');
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(

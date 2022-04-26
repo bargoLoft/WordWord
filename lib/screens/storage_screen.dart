@@ -1,4 +1,5 @@
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 import 'package:word_word/screens/word_info_screen.dart';
 import 'package:word_word/screens/write_screen.dart';
 import 'package:word_word/widgets/word_chip.dart';
@@ -14,6 +15,7 @@ import 'package:lottie/lottie.dart';
 
 import '../models/word_view.dart';
 import '../providers/word_search.dart';
+import '../screens/home_screen.dart';
 
 class StorageScreen extends StatefulWidget {
   const StorageScreen({Key? key}) : super(key: key);
@@ -207,89 +209,51 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                     itemCount: WordBoxes.getWords().length,
                     itemBuilder: (context, int index) {
                       var word = words[index];
-                      if (groupValue == 0) {
-                        return Slidable(
-                          key: UniqueKey(),
-                          endActionPane: ActionPane(
-                            extentRatio: 2 / 5,
-                            motion: const ScrollMotion(),
-                            children: [
-                              SlidableAction(
-                                autoClose: true,
-                                flex: 1,
-                                onPressed: (context) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const WriteScreen()),
-                                  );
-                                },
-                                backgroundColor: Theme.of(context).primaryColor,
-                                foregroundColor: Theme.of(context).primaryColorDark,
-                                icon: FontAwesomeIcons.pen,
+                      return groupValue == 0
+                          ? Slidable(
+                              key: UniqueKey(),
+                              endActionPane: ActionPane(
+                                dragDismissible: false,
+                                extentRatio: 2 / 5,
+                                motion: const DrawerMotion(),
+                                children: [
+                                  SlidableAction(
+                                    autoClose: true,
+                                    flex: 1,
+                                    onPressed: (context) {},
+                                    backgroundColor: Theme.of(context).primaryColor,
+                                    foregroundColor: Theme.of(context).primaryColorDark,
+                                    icon: FontAwesomeIcons.pen,
+                                    // spacing: 10,
+                                    // label: '적기',
+                                  ),
+                                  SlidableAction(
+                                    autoClose: true,
+                                    flex: 1,
+                                    onPressed: (context) {
+                                      WordBoxes.getWords().delete(word.targetCode);
+                                    },
+                                    backgroundColor: Colors.white,
+                                    foregroundColor: const Color(0xfffe6f6e),
+                                    icon: FontAwesomeIcons.trash,
+                                    // spacing: 10,
+                                    // label: '빼기',
+                                  ),
+                                ],
                               ),
-                              SlidableAction(
-                                autoClose: true,
-                                flex: 1,
-                                onPressed: (context) {
-                                  WordBoxes.getWords().delete(word.targetCode);
-                                },
-                                backgroundColor: Colors.redAccent.shade200,
-                                foregroundColor: Colors.white,
-                                icon: FontAwesomeIcons.trash,
-                              ),
-                            ],
-                          ),
-                          child: GestureDetector(
-                              onTap: () async {
-                                WordView wordView =
-                                    await getWordViewData(targetCode: words[index].targetCode);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            WordViewInfo(item: wordView.channel?.item)));
-                              },
-                              child: buildListCard(context, word)),
-                        );
-                        GestureDetector(
-                          onTap: () async {
-                            WordView wordView =
-                                await getWordViewData(targetCode: words[index].targetCode);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        WordViewInfo(item: wordView.channel?.item)));
-                          },
-                          child: Dismissible(
-                            key: UniqueKey(),
-                            background: Container(
-                              margin: const EdgeInsets.all(8),
-                              padding: const EdgeInsets.all(8),
-                              color: Colors.red,
-                              alignment: Alignment.centerRight,
-                              child: const Icon(
-                                Icons.delete,
-                                size: 20,
-                                color: Colors.white,
-                              ),
-                            ),
-                            onDismissed: (direction) {
-                              if (direction == DismissDirection.endToStart ||
-                                  direction == DismissDirection.startToEnd) {
-                                setState(() {
-                                  WordBoxes.getWords().delete(word.targetCode);
-                                  //WordBoxes.getWords().get('word');
-                                  //Boxes.getWords().deleteFromDisk();
-                                });
-                              }
-                            },
-                            child: buildListCard(context, word),
-                          ),
-                        );
-                      } else {
-                        return WordChip(word: word.word);
-                      }
+                              child: GestureDetector(
+                                  onTap: () async {
+                                    WordView wordView =
+                                        await getWordViewData(targetCode: words[index].targetCode);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                WordViewInfo(item: wordView.channel?.item)));
+                                  },
+                                  child: buildListCard(context, word)),
+                            )
+                          : WordChip(word: word.word);
                     }),
               ),
             ),
@@ -309,28 +273,41 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //sticky header 적용하기, 날짜, ㄱㄴㄷ, 품
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  word.word,
-                  style: const TextStyle(
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (word.supNo == 0)
-                  const SizedBox(width: 1)
-                else
+            Stack(children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
-                    word.supNo.toString(),
+                    word.word,
                     style: const TextStyle(
-                      fontSize: 10,
+                      fontSize: 23,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-              ],
-            ),
+                  if (word.supNo == 0)
+                    const SizedBox(width: 1)
+                  else
+                    Text(
+                      word.supNo.toString(),
+                      style: const TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                ],
+              ),
+              if (word.saveTime.isNotEmpty)
+                Positioned(
+                  right: 0,
+                  top: 3,
+                  child: Text(
+                    DateFormat('yy/MM/dd')
+                        .format(DateTime.parse(word.saveTime.substring(0, 8)))
+                        .toString(),
+                    style: const TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
+                )
+            ]),
 
             const SizedBox(height: 5),
             RichText(
