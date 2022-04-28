@@ -28,8 +28,9 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    super.initState();
     _controller = AnimationController(vsync: this);
+
+    super.initState();
   }
 
   @override

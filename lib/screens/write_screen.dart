@@ -7,7 +7,6 @@ import 'package:tuple/tuple.dart';
 
 import '../boxes.dart';
 import '../models/word.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class WriteScreen extends StatefulWidget {
   const WriteScreen({Key? key}) : super(key: key);
@@ -19,9 +18,14 @@ class WriteScreen extends StatefulWidget {
 class _WriteScreenState extends State<WriteScreen> {
   late QuillController _quillController;
   final _scrollController = ScrollController();
+  late final AnimationController _controller;
+
   final focusNode = FocusNode();
 
   var words = WordBoxes.getWords().values.toList().cast();
+  // var words = WordBoxes.getWords().isNotEmpty
+  //     ? WordBoxes.getWords().values.toList().cast()
+  //     : [wordtest('', 1, '', '', '', null, null)];
   // ignore: prefer_typing_uninitialized_variables
   late var currentWord;
   int currentIndex = 0;
@@ -31,15 +35,20 @@ class _WriteScreenState extends State<WriteScreen> {
 
   @override
   void initState() {
-    words.sort((b, a) => (a.saveTime ?? '').compareTo(b.saveTime ?? ''));
-    currentWord = words.first;
-    if (currentWord.write != null) {
-      _quillController = QuillController(
-        document: Document.fromJson(jsonDecode(currentWord.write)),
-        selection: const TextSelection.collapsed(offset: 0),
-      );
-    } else {
-      _quillController = QuillController.basic();
+    currentWord = wordtest('', 1, '', '', '', null, null);
+    _quillController = QuillController.basic();
+
+    if (WordBoxes.getWords().isNotEmpty) {
+      words.sort((b, a) => (a.saveTime ?? '').compareTo(b.saveTime ?? ''));
+      currentWord = words.first;
+      if (currentWord.write != null) {
+        _quillController = QuillController(
+          document: Document.fromJson(jsonDecode(currentWord.write)),
+          selection: const TextSelection.collapsed(offset: 0),
+        );
+      } else {
+        _quillController = QuillController.basic();
+      }
     }
     super.initState();
   }
@@ -67,82 +76,138 @@ class _WriteScreenState extends State<WriteScreen> {
         }
       },
       child: Padding(
-        padding: MediaQuery.of(context).viewPadding,
-        child: Column(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.06,
-              width: MediaQuery.of(context).size.width,
-              //color: const Color(0xffa1df6e),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(20.0),
-                  bottomRight: Radius.circular(20.0),
-                ),
-              ),
-              child: Stack(children: [
-                Positioned(
-                  height: MediaQuery.of(context).size.height * 0.06,
-                  left: 5,
-                  child: TextButton(
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(EdgeInsets.zero),
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        '목록',
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColorDark,
-                        ),
-                      )),
-                ),
-                Center(
-                  child: Text(
-                    '다너다너',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontSize: 20,
-                        fontFamily: 'KoPubBatang',
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColorDark,
-                        letterSpacing: 4),
+          padding: MediaQuery.of(context).viewPadding,
+          child: Column(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.06,
+                width: MediaQuery.of(context).size.width,
+                //color: const Color(0xffa1df6e),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(20.0),
+                    bottomRight: Radius.circular(20.0),
                   ),
                 ),
-                Positioned(
-                  height: MediaQuery.of(context).size.height * 0.06,
-                  right: 5,
-                  child: TextButton(
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(EdgeInsets.zero),
-                      ),
-                      onPressed: () {
-                        String json = jsonEncode(_quillController.document.toDelta().toJson());
-                        currentWord.write = json;
-                        WordBoxes.getWords().put(currentWord.targetCode, currentWord);
-                        SnackBar snackBar = const SnackBar(
-                          content: Text('저장되었습니다'),
-                          duration: Duration(seconds: 1),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      },
-                      child: Text(
-                        '저장',
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColorDark,
+                child: Stack(children: [
+                  Positioned(
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    left: 5,
+                    child: TextButton(
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all(EdgeInsets.zero),
                         ),
-                      )),
-                ),
-              ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(25, 15, 25, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    //crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      GestureDetector(
+                        onPressed: () {},
+                        child: Text(
+                          '목록',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColorDark,
+                          ),
+                        )),
+                  ),
+                  Center(
+                    child: Text(
+                      '다너다너',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontSize: 20,
+                          fontFamily: 'KoPubBatang',
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColorDark,
+                          letterSpacing: 4),
+                    ),
+                  ),
+                  Positioned(
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    right: 5,
+                    child: TextButton(
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all(EdgeInsets.zero),
+                        ),
+                        onPressed: () {
+                          String json = jsonEncode(_quillController.document.toDelta().toJson());
+                          currentWord.write = json;
+                          WordBoxes.getWords().put(currentWord.targetCode, currentWord);
+                          SnackBar snackBar = const SnackBar(
+                            content: Text('저장되었습니다'),
+                            duration: Duration(seconds: 1),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        },
+                        child: Text(
+                          '저장',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColorDark,
+                          ),
+                        )),
+                  ),
+                ]),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(25, 15, 25, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      //crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            await showCupertinoModalPopup(
+                                context: context,
+                                builder: (context) => SizedBox(
+                                      height: 200.0,
+                                      child: CupertinoPicker(
+                                        useMagnifier: true,
+                                        //magnification: 1.2,
+                                        squeeze: 1.5,
+                                        children: words
+                                            .map((e) => Center(
+                                                    child: Text(
+                                                  e.word,
+                                                  style: const TextStyle(fontFamily: 'KoPubBatang'),
+                                                )))
+                                            .toList(),
+                                        itemExtent: 40.0,
+                                        backgroundColor: Colors.white.withOpacity(1),
+                                        scrollController:
+                                            FixedExtentScrollController(initialItem: currentIndex),
+                                        onSelectedItemChanged: (int index) {
+                                          setState(() {
+                                            currentIndex = index;
+                                            currentWord = words[index];
+                                            if (currentWord.write != null) {
+                                              _quillController = QuillController(
+                                                document: Document.fromJson(
+                                                    jsonDecode(currentWord.write)),
+                                                selection: const TextSelection.collapsed(offset: 0),
+                                              );
+                                            } else {
+                                              _quillController = QuillController.basic();
+                                            }
+                                          });
+                                        },
+                                      ),
+                                    ));
+                          },
+                          child: Text(
+                            currentWord.word, //단어이름
+                            style: const TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              //    letterSpacing: 4.0
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Text(currentWord.pos),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: GestureDetector(
                         onTap: () async {
                           await showCupertinoModalPopup(
                               context: context,
@@ -150,143 +215,94 @@ class _WriteScreenState extends State<WriteScreen> {
                                     height: 200.0,
                                     child: CupertinoPicker(
                                       squeeze: 1.5,
-                                      children:
-                                          words.map((e) => Center(child: Text(e.word))).toList(),
+                                      children: words
+                                          .map((e) => Center(child: Text(e.definition)))
+                                          .toList(),
                                       itemExtent: 40.0,
-                                      backgroundColor: Colors.white.withOpacity(1),
+                                      backgroundColor: Colors.white,
                                       scrollController: FixedExtentScrollController(initialItem: 0),
                                       onSelectedItemChanged: (int index) {
                                         setState(() {
-                                          currentIndex = index;
                                           currentWord = words[index];
-                                          if (currentWord.write != null) {
-                                            _quillController = QuillController(
-                                              document:
-                                                  Document.fromJson(jsonDecode(currentWord.write)),
-                                              selection: const TextSelection.collapsed(offset: 0),
-                                            );
-                                          } else {
-                                            _quillController = QuillController.basic();
-                                          }
                                         });
                                       },
                                     ),
                                   ));
                         },
                         child: Text(
-                          currentWord.word, //단어이름
+                          currentWord.definition,
                           style: const TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            //    letterSpacing: 4.0
+                            fontWeight: FontWeight.w600,
+                            height: 1.6,
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Text(currentWord.pos),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: GestureDetector(
-                      onTap: () async {
-                        await showCupertinoModalPopup(
-                            context: context,
-                            builder: (context) => SizedBox(
-                                  height: 200.0,
-                                  child: CupertinoPicker(
-                                    squeeze: 1.5,
-                                    children: words
-                                        .map((e) => Center(child: Text(e.definition)))
-                                        .toList(),
-                                    itemExtent: 40.0,
-                                    backgroundColor: Colors.white,
-                                    scrollController: FixedExtentScrollController(initialItem: 0),
-                                    onSelectedItemChanged: (int index) {
-                                      setState(() {
-                                        currentWord = words[index];
-                                      });
-                                    },
-                                  ),
-                                ));
-                      },
-                      child: Text(
-                        currentWord.definition,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          height: 1.6,
-                        ),
-                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            // if (focusNode.hasFocus)
-            //   CustomQuillToolbar(
-            //       toolbarIconSize: toolbarIconSize,
-            //       quillController: _quillController,
-            //       iconTheme: iconTheme),
-            Divider(
-              height: 10,
-              thickness: 0.5,
-              indent: 25,
-              endIndent: 25,
-            ),
-            Expanded(
-              flex: 10,
-              child: Scrollbar(
-                child: QuillEditor(
-                  maxHeight: MediaQuery.of(context).size.height * 0.3,
-                  //minHeight: MediaQuery.of(context).size.height * 0.2,
-                  expands: false,
-                  focusNode: focusNode,
-                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                  scrollController: _scrollController,
-                  scrollPhysics: const BouncingScrollPhysics(),
-                  scrollable: true,
-                  autoFocus: false,
-                  locale: const Locale('ko'),
-                  controller: _quillController,
-                  readOnly: false,
-                  //keyboardAppearance: Brightness.light,
-                  showCursor: true,
-                  floatingCursorDisabled: true,
-                  //paintCursorAboveText: false,
-                  placeholder: '다너에 대한 생각이나 경험을 적어주세요',
-                  customStyles: DefaultStyles(
-                    paragraph: DefaultTextBlockStyle(
-                        TextStyle(
-                          fontSize: _fontSize,
-                          fontFamily: 'KoPubBatang',
-                          color: Colors.black,
-                        ),
-                        const Tuple2(0.0, 4.0),
-                        const Tuple2(0.0, 0.0),
-                        null),
-                    placeHolder: DefaultTextBlockStyle(
-                        TextStyle(
-                          fontSize: _fontSize,
-                          fontFamily: 'KoPubBatang',
-                          color: Colors.grey,
-                        ),
-                        const Tuple2(0.0, 4.0),
-                        const Tuple2(0.0, 0.0),
-                        null),
+              // if (focusNode.hasFocus)
+              //   CustomQuillToolbar(
+              //       toolbarIconSize: toolbarIconSize,
+              //       quillController: _quillController,
+              //       iconTheme: iconTheme),
+              const Divider(
+                height: 10,
+                thickness: 0.5,
+                indent: 25,
+                endIndent: 25,
+              ),
+              Expanded(
+                flex: 10,
+                child: Scrollbar(
+                  child: QuillEditor(
+                    maxHeight: MediaQuery.of(context).size.height * 0.3,
+                    //minHeight: MediaQuery.of(context).size.height * 0.2,
+                    expands: false,
+                    focusNode: focusNode,
+                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                    scrollController: _scrollController,
+                    scrollPhysics: const BouncingScrollPhysics(),
+                    scrollable: true,
+                    autoFocus: false,
+                    locale: const Locale('ko'),
+                    controller: _quillController,
+                    readOnly: false,
+                    //keyboardAppearance: Brightness.light,
+                    showCursor: true,
+                    floatingCursorDisabled: true,
+                    //paintCursorAboveText: false,
+                    placeholder: '다너에 대한 생각이나 경험을 적어주세요',
+                    customStyles: DefaultStyles(
+                      paragraph: DefaultTextBlockStyle(
+                          TextStyle(
+                            fontSize: _fontSize,
+                            fontFamily: 'KoPubBatang',
+                            color: Colors.black,
+                          ),
+                          const Tuple2(0.0, 4.0),
+                          const Tuple2(0.0, 0.0),
+                          null),
+                      placeHolder: DefaultTextBlockStyle(
+                          TextStyle(
+                            fontSize: _fontSize,
+                            fontFamily: 'KoPubBatang',
+                            color: Colors.grey,
+                          ),
+                          const Tuple2(0.0, 4.0),
+                          const Tuple2(0.0, 0.0),
+                          null),
+                    ),
                   ),
                 ),
               ),
-            ),
-            // Container(
-            //   height: MediaQuery.of(context).size.height * 0.085,
-            //   color: Theme.of(context).primaryColor,
-            // ),
-            //SizedBox(height: MediaQuery.of(context).size.height * 0.06)
-          ],
-        ),
-      ),
+              // Container(
+              //   height: MediaQuery.of(context).size.height * 0.085,
+              //   color: Theme.of(context).primaryColor,
+              // ),
+              //SizedBox(height: MediaQuery.of(context).size.height * 0.06)
+            ],
+          )),
     );
   }
 }
