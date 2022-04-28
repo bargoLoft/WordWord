@@ -63,7 +63,7 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
               words.sort((a, b) => a.word.compareTo(b.word)); // ㄱㄴㄷ
               break;
             case '최신순':
-              words.sort((b, a) => a.saveTime.compareTo(b.saveTime));
+              words.sort((b, a) => (a.saveTime ?? '').compareTo(b.saveTime ?? ''));
               break; // 추가한 순
             case '품사순':
               words.sort((a, b) => a.pos.compareTo(b.pos)); // 품사
@@ -296,13 +296,13 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                     ),
                 ],
               ),
-              if (word.saveTime.isNotEmpty)
+              if (word.saveTime != null)
                 Positioned(
                   right: 0,
                   top: 3,
                   child: Text(
                     DateFormat('yy/MM/dd')
-                        .format(DateTime.parse(word.saveTime.substring(0, 8)))
+                        .format(DateTime.parse(word.saveTime!.substring(0, 8)))
                         .toString(),
                     style: TextStyle(color: Colors.grey.shade300, fontSize: 10),
                   ),

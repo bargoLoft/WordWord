@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../models/word_model.dart';
 import '../providers/word_search.dart';
@@ -361,14 +362,13 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                                   WordBoxes.getWords().put(
                                                     item.targetCode ?? 0,
                                                     wordtest(
-                                                      item.word ?? '',
-                                                      int.parse(item.supNo ?? ''),
-                                                      item.pos ?? '',
-                                                      item.sense?.definition ?? '',
-                                                      item.targetCode ?? '',
-                                                      widget.wordModel.channel?.lastbuilddate ?? '',
-                                                      '',
-                                                    ),
+                                                        item.word ?? '',
+                                                        int.parse(item.supNo ?? ''),
+                                                        item.pos ?? '',
+                                                        item.sense?.definition ?? '',
+                                                        item.targetCode ?? '',
+                                                        widget.wordModel.channel?.lastbuilddate,
+                                                        null),
                                                   );
                                                   SnackBar snackBar = SnackBar(
                                                     content: Text('${item.word} 넣었습니다'),

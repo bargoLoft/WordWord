@@ -21,6 +21,7 @@ class _HomeState extends State<Home> {
   // static const List<Widget> _widgetOptions = <Widget>[
   //   HomeScreen(),
   //   StorageScreen(),
+  //   WriteScreen(),
   //   InfoScreen(),
   // ];
 
@@ -35,20 +36,23 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, // 키보드 밀려오는거 무시
+      resizeToAvoidBottomInset: true, // 키보드 밀려오는거 무시
       appBar: AppBar(
         backgroundColor: _selectedIndex >= 0 ? Theme.of(context).primaryColor : Colors.white,
         elevation: 0.0,
         toolbarHeight: 0.0, // Hide the AppBar
       ),
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: const [
-          HomeScreen(),
-          StorageScreen(),
-          WriteScreen(),
-          InfoScreen(),
-        ],
+      body: Center(
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: const [
+            HomeScreen(),
+            StorageScreen(),
+            WriteScreen(),
+            InfoScreen(),
+          ],
+        ),
+        //_widgetOptions.elementAt(_selectedIndex),
       ),
 
       //_widgetOptions.elementAt(_selectedIndex),
@@ -72,7 +76,7 @@ class _HomeState extends State<Home> {
             showUnselectedLabels: false,
             type: BottomNavigationBarType.fixed,
             elevation: 0,
-            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1)),
+            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.0)),
       ),
       //extendBodyBehindAppBar: true,
       extendBody: true,

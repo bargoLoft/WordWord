@@ -16,6 +16,7 @@ class AppModel extends ChangeNotifier {
   void loadSharedPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     autoFocus = prefs.getBool('autoFocus') ?? false;
+    notifyListeners();
   }
 
   void update() {

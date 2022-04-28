@@ -6,7 +6,6 @@ part of 'word.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-// ignore: camel_case_types
 class wordtestAdapter extends TypeAdapter<wordtest> {
   @override
   final int typeId = 0;
@@ -23,15 +22,15 @@ class wordtestAdapter extends TypeAdapter<wordtest> {
       fields[2] as String,
       fields[3] as String,
       fields[4] as String,
-      fields[5] ?? '',
-      fields[6] ?? '',
+      fields[5] as String?,
+      fields[6] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, wordtest obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.word)
       ..writeByte(1)
@@ -43,7 +42,9 @@ class wordtestAdapter extends TypeAdapter<wordtest> {
       ..writeByte(4)
       ..write(obj.targetCode)
       ..writeByte(5)
-      ..write(obj.saveTime);
+      ..write(obj.saveTime)
+      ..writeByte(6)
+      ..write(obj.write);
   }
 
   @override
@@ -52,5 +53,7 @@ class wordtestAdapter extends TypeAdapter<wordtest> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is wordtestAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is wordtestAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

@@ -57,13 +57,14 @@ class MyApp extends StatelessWidget {
         //   '/2': (context) => const InfoScreen(),
         // },
         home: AnimatedSplashScreen(
-          duration: 10,
+          duration: 100,
           splash: const Image(image: AssetImage('assets/launcher_icon/mainLogo.png')),
           splashTransition: SplashTransition.fadeTransition,
-          curve: Curves.fastLinearToSlowEaseIn,
+          //curve: Curves.fastLinearToSlowEaseIn,
           pageTransitionType: PageTransitionType.fade,
           splashIconSize: 60,
           nextScreen: const Home(),
+          //backgroundColor: Color(0x5fa1df6e),
         ));
   }
 }

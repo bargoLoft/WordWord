@@ -17,7 +17,7 @@ class WriteScreen extends StatefulWidget {
 }
 
 class _WriteScreenState extends State<WriteScreen> {
-  final _quillController = QuillController.basic();
+  late QuillController _quillController;
   final _scrollController = ScrollController();
   final focusNode = FocusNode();
 
@@ -31,8 +31,16 @@ class _WriteScreenState extends State<WriteScreen> {
 
   @override
   void initState() {
-    words.sort((b, a) => a.saveTime.compareTo(b.saveTime));
+    words.sort((b, a) => (a.saveTime ?? '').compareTo(b.saveTime ?? ''));
     currentWord = words.first;
+    if (currentWord.write != null) {
+      _quillController = QuillController(
+        document: Document.fromJson(jsonDecode(currentWord.write)),
+        selection: const TextSelection.collapsed(offset: 0),
+      );
+    } else {
+      _quillController = QuillController.basic();
+    }
     super.initState();
   }
 
@@ -108,9 +116,14 @@ class _WriteScreenState extends State<WriteScreen> {
                         padding: MaterialStateProperty.all(EdgeInsets.zero),
                       ),
                       onPressed: () {
-                        var json = jsonEncode(_quillController.document.toDelta().toJson());
+                        String json = jsonEncode(_quillController.document.toDelta().toJson());
                         currentWord.write = json;
-                        WordBoxes.getWords().putAt(currentIndex, currentWord);
+                        WordBoxes.getWords().put(currentWord.targetCode, currentWord);
+                        SnackBar snackBar = const SnackBar(
+                          content: Text('저장되었습니다'),
+                          duration: Duration(seconds: 1),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       },
                       child: Text(
                         '저장',
@@ -146,6 +159,15 @@ class _WriteScreenState extends State<WriteScreen> {
                                         setState(() {
                                           currentIndex = index;
                                           currentWord = words[index];
+                                          if (currentWord.write != null) {
+                                            _quillController = QuillController(
+                                              document:
+                                                  Document.fromJson(jsonDecode(currentWord.write)),
+                                              selection: const TextSelection.collapsed(offset: 0),
+                                            );
+                                          } else {
+                                            _quillController = QuillController.basic();
+                                          }
                                         });
                                       },
                                     ),
@@ -207,44 +229,53 @@ class _WriteScreenState extends State<WriteScreen> {
             //       toolbarIconSize: toolbarIconSize,
             //       quillController: _quillController,
             //       iconTheme: iconTheme),
+            Divider(
+              height: 10,
+              thickness: 0.5,
+              indent: 25,
+              endIndent: 25,
+            ),
             Expanded(
               flex: 10,
-              child: QuillEditor(
-                //maxHeight: MediaQuery.of(context).size.height * 0.4,
-                //minHeight: MediaQuery.of(context).size.height * 0.2,
-                expands: false,
-                focusNode: focusNode,
-                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                scrollController: _scrollController,
-                scrollable: true,
-                autoFocus: false,
-                locale: const Locale('ko'),
-                controller: _quillController,
-                readOnly: false,
-                //keyboardAppearance: Brightness.light,
-                showCursor: true,
-                floatingCursorDisabled: true,
-                //paintCursorAboveText: false,
-                placeholder: '다너에 대한 생각이나 경험을 적어주세요',
-                customStyles: DefaultStyles(
-                  paragraph: DefaultTextBlockStyle(
-                      TextStyle(
-                        fontSize: _fontSize,
-                        fontFamily: 'KoPubBatang',
-                        color: Colors.black,
-                      ),
-                      const Tuple2(0.0, 4.0),
-                      const Tuple2(0.0, 0.0),
-                      null),
-                  placeHolder: DefaultTextBlockStyle(
-                      TextStyle(
-                        fontSize: _fontSize,
-                        fontFamily: 'KoPubBatang',
-                        color: Colors.grey,
-                      ),
-                      const Tuple2(0.0, 4.0),
-                      const Tuple2(0.0, 0.0),
-                      null),
+              child: Scrollbar(
+                child: QuillEditor(
+                  maxHeight: MediaQuery.of(context).size.height * 0.3,
+                  //minHeight: MediaQuery.of(context).size.height * 0.2,
+                  expands: false,
+                  focusNode: focusNode,
+                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  scrollController: _scrollController,
+                  scrollPhysics: const BouncingScrollPhysics(),
+                  scrollable: true,
+                  autoFocus: false,
+                  locale: const Locale('ko'),
+                  controller: _quillController,
+                  readOnly: false,
+                  //keyboardAppearance: Brightness.light,
+                  showCursor: true,
+                  floatingCursorDisabled: true,
+                  //paintCursorAboveText: false,
+                  placeholder: '다너에 대한 생각이나 경험을 적어주세요',
+                  customStyles: DefaultStyles(
+                    paragraph: DefaultTextBlockStyle(
+                        TextStyle(
+                          fontSize: _fontSize,
+                          fontFamily: 'KoPubBatang',
+                          color: Colors.black,
+                        ),
+                        const Tuple2(0.0, 4.0),
+                        const Tuple2(0.0, 0.0),
+                        null),
+                    placeHolder: DefaultTextBlockStyle(
+                        TextStyle(
+                          fontSize: _fontSize,
+                          fontFamily: 'KoPubBatang',
+                          color: Colors.grey,
+                        ),
+                        const Tuple2(0.0, 4.0),
+                        const Tuple2(0.0, 0.0),
+                        null),
+                  ),
                 ),
               ),
             ),
