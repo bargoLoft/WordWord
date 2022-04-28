@@ -1,14 +1,17 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ios_utsname_ext/extension.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:word_word/boxes.dart';
 import 'package:lottie/lottie.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class InfoScreen extends StatefulWidget {
   const InfoScreen({Key? key}) : super(key: key);
@@ -23,8 +26,21 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
   final dicUrimalUrl = 'https://opendict.korean.go.kr/main';
   final instaUrl = 'https://www.instagram.com/2cup_2/';
   late final AnimationController _controller;
+  final Completer<WebViewController> webController = Completer<WebViewController>();
 
   bool _isInstaVisible = false;
+
+  Widget webView(String url) {
+    return SafeArea(
+      child: WebView(
+        initialUrl: url,
+        onWebViewCreated: (WebViewController _controller) async {
+          webController.isCompleted ? '' : webController.complete(_controller);
+        },
+        javascriptMode: JavascriptMode.unrestricted,
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -87,14 +103,19 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
             //   ),
             // ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.only(left: 10),
               child: TextButton(
                 onPressed: () {
-                  _openUrl(dicKoreanUrl);
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => webView(dicKoreanUrl)));
                 },
-                child: Text(
-                  '표준국어대사전 바로가기',
-                  style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    '표준국어대사전 바로가기',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
+                  ),
                 ),
               ),
             ),
@@ -107,11 +128,15 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextButton(
                 onPressed: () {
-                  _openUrl(dicUrimalUrl);
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => webView(dicUrimalUrl)));
                 },
-                child: Text(
-                  '우리말 샘 바로가기',
-                  style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    '우리말 샘 바로가기',
+                    style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
+                  ),
                 ),
               ),
             ),
@@ -127,9 +152,12 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 onPressed: () {
                   _sendEmail();
                 },
-                child: Text(
-                  '건의사항 보내기',
-                  style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    '건의사항 보내기',
+                    style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
+                  ),
                 ),
               ),
             ),
@@ -145,7 +173,9 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                   padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                   child: TextButton(
                     onPressed: () {
-                      _openUrl(blogUrl);
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => webView(blogUrl)));
+                      // _openUrl(blogUrl);
                       setState(() {
                         _isInstaVisible = true;
                       });

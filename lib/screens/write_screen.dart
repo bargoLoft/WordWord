@@ -95,10 +95,10 @@ class _WriteScreenState extends State<WriteScreen> {
                     height: MediaQuery.of(context).size.height * 0.06,
                     left: 5,
                     child: TextButton(
+                        onPressed: () {},
                         style: ButtonStyle(
                           padding: MaterialStateProperty.all(EdgeInsets.zero),
                         ),
-                        onPressed: () {},
                         child: Text(
                           '목록',
                           style: TextStyle(
@@ -148,49 +148,49 @@ class _WriteScreenState extends State<WriteScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      //crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            await showCupertinoModalPopup(
-                                context: context,
-                                builder: (context) => SizedBox(
-                                      height: 200.0,
-                                      child: CupertinoPicker(
-                                        useMagnifier: true,
-                                        //magnification: 1.2,
-                                        squeeze: 1.5,
-                                        children: words
-                                            .map((e) => Center(
-                                                    child: Text(
-                                                  e.word,
-                                                  style: const TextStyle(fontFamily: 'KoPubBatang'),
-                                                )))
-                                            .toList(),
-                                        itemExtent: 40.0,
-                                        backgroundColor: Colors.white.withOpacity(1),
-                                        scrollController:
-                                            FixedExtentScrollController(initialItem: currentIndex),
-                                        onSelectedItemChanged: (int index) {
-                                          setState(() {
-                                            currentIndex = index;
-                                            currentWord = words[index];
-                                            if (currentWord.write != null) {
-                                              _quillController = QuillController(
-                                                document: Document.fromJson(
-                                                    jsonDecode(currentWord.write)),
-                                                selection: const TextSelection.collapsed(offset: 0),
-                                              );
-                                            } else {
-                                              _quillController = QuillController.basic();
-                                            }
-                                          });
-                                        },
-                                      ),
-                                    ));
-                          },
-                          child: Text(
+                    GestureDetector(
+                      onTap: () async {
+                        await showCupertinoModalPopup(
+                            context: context,
+                            builder: (context) => SizedBox(
+                                  height: 200.0,
+                                  child: CupertinoPicker(
+                                    useMagnifier: true,
+                                    magnification: 1.2,
+                                    squeeze: 1.4,
+                                    children: words
+                                        .map((e) => Center(
+                                                child: Text(
+                                              e.word,
+                                              style: const TextStyle(fontFamily: 'KoPubBatang'),
+                                            )))
+                                        .toList(),
+                                    itemExtent: 40.0,
+                                    backgroundColor: Colors.white.withOpacity(1),
+                                    scrollController:
+                                        FixedExtentScrollController(initialItem: currentIndex),
+                                    onSelectedItemChanged: (int index) {
+                                      setState(() {
+                                        currentIndex = index;
+                                        currentWord = words[index];
+                                        if (currentWord.write != null) {
+                                          _quillController = QuillController(
+                                            document:
+                                                Document.fromJson(jsonDecode(currentWord.write)),
+                                            selection: const TextSelection.collapsed(offset: 0),
+                                          );
+                                        } else {
+                                          _quillController = QuillController.basic();
+                                        }
+                                      });
+                                    },
+                                  ),
+                                ));
+                      },
+                      child: Row(
+                        //crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
                             currentWord.word, //단어이름
                             style: const TextStyle(
                               fontSize: 30,
@@ -198,8 +198,8 @@ class _WriteScreenState extends State<WriteScreen> {
                               //    letterSpacing: 4.0
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5),

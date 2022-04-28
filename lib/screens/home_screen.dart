@@ -17,12 +17,12 @@ class _HomeState extends State<Home> {
   //final _scrollController = ScrollController();
   int _selectedIndex = 0;
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    StorageScreen(),
-    WriteScreen(),
-    InfoScreen(),
-  ];
+  // static const List<Widget> _widgetOptions = <Widget>[
+  //   HomeScreen(),
+  //   StorageScreen(),
+  //   WriteScreen(),
+  //   InfoScreen(),
+  // ];
 
   void _onItemTapped(int index) {
     if (_selectedIndex != index) {
@@ -41,17 +41,17 @@ class _HomeState extends State<Home> {
         elevation: 0.0,
         toolbarHeight: 0.0, // Hide the AppBar
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
-      // Center(
-      //   child: IndexedStack(
-      //     index: _selectedIndex,
-      //     children: const [
-      //       HomeScreen(),
-      //       StorageScreen(),
-      //       WriteScreen(),
-      //       InfoScreen(),
-      //     ],
-      //   ),
+      body: Center(
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: const [
+            HomeScreen(),
+            StorageScreen(),
+            WriteScreen(),
+            InfoScreen(),
+          ],
+        ),
+      ),
       //_widgetOptions.elementAt(_selectedIndex),
       // ),
 
