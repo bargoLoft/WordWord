@@ -50,57 +50,59 @@ class _RecentWordListState extends State<RecentWordList> {
                   '최근 검색 기록이 없습니다.',
                   style: TextStyle(fontSize: 20),
                 ))
-              : ListView.builder(
-                  itemCount: box.keys.length,
-                  itemBuilder: (context, index) => Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(
-                                context, _textReplace(words[words.length - index - 1].word));
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                words[words.length - index - 1].word,
-                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    DateFormat('yyyy/MM/dd')
-                                        .format(DateTime.parse(
-                                            words[words.length - index - 1].time.substring(0, 8)))
-                                        .toString(),
-                                    style: const TextStyle(fontSize: 15),
-                                  ),
-                                  IconButton(
-                                    constraints: BoxConstraints.tight(const Size(30, 40)),
-                                    splashRadius: 1,
-                                    iconSize: 20,
-                                    alignment: Alignment.centerRight,
-                                    padding: EdgeInsets.zero,
-                                    onPressed: () {
-                                      RecentWordBoxes.getWords()
-                                          .delete(words[words.length - index - 1].targetCode);
-                                      //_wordSearchController.clear();
-                                      //FocusScope.of(context).requestFocus(_myFocusNode);
-                                    },
-                                    splashColor: Colors.transparent,
-                                    icon: const Icon(Icons.clear),
-                                  )
-                                ],
-                              ),
-                            ],
+              : Scrollbar(
+                  child: ListView.builder(
+                    itemCount: box.keys.length,
+                    itemBuilder: (context, index) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(
+                                  context, _textReplace(words[words.length - index - 1].word));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  words[words.length - index - 1].word,
+                                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      DateFormat('yyyy/MM/dd')
+                                          .format(DateTime.parse(
+                                              words[words.length - index - 1].time.substring(0, 8)))
+                                          .toString(),
+                                      style: const TextStyle(fontSize: 15),
+                                    ),
+                                    IconButton(
+                                      constraints: BoxConstraints.tight(const Size(30, 40)),
+                                      splashRadius: 1,
+                                      iconSize: 20,
+                                      alignment: Alignment.centerRight,
+                                      padding: EdgeInsets.zero,
+                                      onPressed: () {
+                                        RecentWordBoxes.getWords()
+                                            .delete(words[words.length - index - 1].targetCode);
+                                        //_wordSearchController.clear();
+                                        //FocusScope.of(context).requestFocus(_myFocusNode);
+                                      },
+                                      splashColor: Colors.transparent,
+                                      icon: const Icon(Icons.clear),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      const CustomDivider(),
-                    ],
+                        const CustomDivider(),
+                      ],
+                    ),
                   ),
                 );
         },

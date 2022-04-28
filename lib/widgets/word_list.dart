@@ -367,6 +367,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                                       item.sense?.definition ?? '',
                                                       item.targetCode ?? '',
                                                       widget.wordModel.channel?.lastbuilddate ?? '',
+                                                      '',
                                                     ),
                                                   );
                                                   SnackBar snackBar = SnackBar(

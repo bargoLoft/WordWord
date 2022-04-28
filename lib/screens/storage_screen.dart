@@ -304,7 +304,7 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                     DateFormat('yy/MM/dd')
                         .format(DateTime.parse(word.saveTime.substring(0, 8)))
                         .toString(),
-                    style: const TextStyle(color: Colors.grey, fontSize: 12),
+                    style: TextStyle(color: Colors.grey.shade300, fontSize: 10),
                   ),
                 )
             ]),

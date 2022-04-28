@@ -24,6 +24,7 @@ class wordtestAdapter extends TypeAdapter<wordtest> {
       fields[3] as String,
       fields[4] as String,
       fields[5] ?? '',
+      fields[6] ?? '',
     );
   }
 
@@ -51,7 +52,5 @@ class wordtestAdapter extends TypeAdapter<wordtest> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is wordtestAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is wordtestAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

@@ -17,6 +17,8 @@ class wordtest extends HiveObject {
   String targetCode;
   @HiveField(5)
   String saveTime;
+  @HiveField(6)
+  String write;
 
   wordtest(
     this.word,
@@ -25,5 +27,6 @@ class wordtest extends HiveObject {
     this.definition,
     this.targetCode,
     this.saveTime,
+    this.write,
   );
 }

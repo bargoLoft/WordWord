@@ -72,7 +72,7 @@ class _HomeState extends State<Home> {
             showUnselectedLabels: false,
             type: BottomNavigationBarType.fixed,
             elevation: 0,
-            backgroundColor: const Color(0x00ffffff)),
+            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1)),
       ),
       //extendBodyBehindAppBar: true,
       extendBody: true,

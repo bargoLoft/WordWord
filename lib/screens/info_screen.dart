@@ -24,6 +24,8 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
   final instaUrl = 'https://www.instagram.com/2cup_2/';
   late final AnimationController _controller;
 
+  bool _isInstaVisible = false;
+
   @override
   void initState() {
     super.initState();
@@ -143,6 +145,9 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                   child: TextButton(
                     onPressed: () {
                       _openUrl(blogUrl);
+                      setState(() {
+                        _isInstaVisible = true;
+                      });
                     },
                     child: Row(
                       children: [
@@ -151,34 +156,43 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
                         ),
                         const Padding(
-                          padding: EdgeInsets.all(5),
+                          padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
                           child: Image(
-                            width: 17,
-                            height: 17,
-                            image: AssetImage('assets/images/NaverBlogIcon.png'),
+                            width: 20,
+                            height: 20,
+                            image: AssetImage('assets/images/naver_blog_icon.png'),
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                // TextButton(
-                //   style: TextButton.styleFrom(
-                //     minimumSize: const Size(20, 20),
-                //     alignment: Alignment.centerLeft,
-                //     padding: EdgeInsets.zero,
-                //     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                //   ),
-                //   onPressed: () {
-                //     _openUrl(instaUrl);
-                //   },
-                //   child: const Image(
-                //     //alignment: Alignment.centerLeft,
-                //     width: 20,
-                //     height: 20,
-                //     image: AssetImage('assets/images/InstaIcon.png'),
-                //   ),
-                // ),
+                if (_isInstaVisible)
+                  // const Padding(
+                  //   padding: EdgeInsets.all(5),
+                  //   child: Image(
+                  //     width: 17,
+                  //     height: 17,
+                  //     image: AssetImage('assets/images/instagram_icon.png'),
+                  //   ),
+                  // ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      minimumSize: const Size(20, 20),
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () {
+                      _openUrl(instaUrl);
+                    },
+                    child: const Image(
+                      alignment: Alignment.centerLeft,
+                      width: 20,
+                      height: 20,
+                      image: AssetImage('assets/images/instagram_icon.png'),
+                    ),
+                  ),
               ],
             ),
             const Divider(
