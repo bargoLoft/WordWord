@@ -157,34 +157,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                     Positioned.fill(
                       child: Align(
                         alignment: Alignment.bottomCenter,
-                        child: TextField(
-                          selectionHeightStyle: BoxHeightStyle.tight,
-                          //제출시 검색되게
-                          controller: _wordSearchController,
-                          keyboardType: TextInputType.text,
-                          textAlign: TextAlign.center,
-                          cursorColor: Theme.of(context).primaryColorDark,
-                          autofocus: false,
-                          focusNode: _myFocusNode,
-                          autocorrect: false,
-                          onSubmitted: (String text) {
-                            inputText = text;
-                            //print('입력하신 단어는 $inputText 입니다.');
-                            setState(() {
-                              isLoading = true;
-                              //widget.wordView.clear();
-                              getWordSearchData(inputText);
-                            });
-                          },
-                          decoration: InputDecoration(
-                            hintText: _myFocusNode.hasFocus ? '' : '다너를 입력해 주세요',
-                            border: InputBorder.none,
-                          ),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
+                        child: CustomTextFiled(context),
                       ),
                     ),
                     Positioned.fill(
@@ -241,32 +214,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                             Positioned.fill(
                               child: Align(
                                 alignment: Alignment.center,
-                                child: TextField(
-                                  //제출시 검색되게
-                                  controller: _wordSearchController,
-                                  keyboardType: TextInputType.text,
-                                  textAlign: TextAlign.center,
-                                  autofocus: false,
-                                  focusNode: _myFocusNode,
-                                  onSubmitted: (String text) {
-                                    inputText = text;
-                                    //print('입력하신 단어는 $inputText 입니다.');
-                                    setState(() {
-                                      isLoading = true;
-                                      //widget.wordView.clear();
-                                      getWordSearchData(inputText);
-                                    });
-                                  },
-                                  decoration: InputDecoration(
-                                    hintText: _myFocusNode.hasFocus ? '' : '다너를 입력해 주세요',
-                                    border: InputBorder.none,
-                                    // suffixIcon:
-                                  ),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
+                                child: CustomTextFiled(context),
                               ),
                             ),
                             Positioned.fill(
@@ -418,6 +366,38 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
         ),
       );
     });
+  }
+
+  // ignore: non_constant_identifier_names
+  TextField CustomTextFiled(BuildContext context) {
+    return TextField(
+      selectionHeightStyle: BoxHeightStyle.tight,
+      //제출시 검색되게
+      controller: _wordSearchController,
+      keyboardType: TextInputType.text,
+      textAlign: TextAlign.center,
+      cursorColor: Theme.of(context).primaryColorDark,
+      autofocus: false,
+      focusNode: _myFocusNode,
+      autocorrect: false,
+      onSubmitted: (String text) {
+        inputText = text;
+        //print('입력하신 단어는 $inputText 입니다.');
+        setState(() {
+          isLoading = true;
+          //widget.wordView.clear();
+          getWordSearchData(inputText);
+        });
+      },
+      decoration: InputDecoration(
+        hintText: _myFocusNode.hasFocus ? '' : '다너를 입력해 주세요',
+        border: InputBorder.none,
+      ),
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 18,
+      ),
+    );
   }
 }
 

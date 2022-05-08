@@ -152,11 +152,15 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                     text: '총 ',
                     style: const TextStyle(
                       color: Colors.black,
+                      //fontFamily: 'KoPubBatang',
                     ),
                     children: <TextSpan>[
                       TextSpan(
                           text: '${words.length}개',
-                          style: TextStyle(color: Theme.of(context).primaryColorDark)),
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColorDark,
+                            //fontWeight: FontWeight.bold,
+                          )),
                       const TextSpan(text: '의 단어', style: TextStyle(color: Colors.black)),
                     ]),
               ),
@@ -182,21 +186,21 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                     style: const TextStyle(
                         fontSize: 14, color: Colors.black87, fontFamily: 'KoPubBatang'),
                   ),
-                  Center(
-                    child: CupertinoSlidingSegmentedControl(
-                      padding: const EdgeInsets.all(4),
-                      groupValue: groupValue,
-                      children: const {
-                        0: Icon(FontAwesomeIcons.listUl),
-                        1: Icon(FontAwesomeIcons.minus),
-                      },
-                      onValueChanged: (groupValue) {
-                        setState(() {
-                          this.groupValue = groupValue as int?;
-                        });
-                      },
-                    ),
-                  ),
+                  // Center(
+                  //   child: CupertinoSlidingSegmentedControl(
+                  //     padding: const EdgeInsets.all(4),
+                  //     groupValue: groupValue,
+                  //     children: const {
+                  //       0: Icon(FontAwesomeIcons.listUl),
+                  //       1: Icon(FontAwesomeIcons.minus),
+                  //     },
+                  //     onValueChanged: (groupValue) {
+                  //       setState(() {
+                  //         this.groupValue = groupValue as int?;
+                  //       });
+                  //     },
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -210,48 +214,51 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                     itemBuilder: (context, int index) {
                       var word = words[index];
                       return groupValue == 0
-                          ? Slidable(
-                              key: UniqueKey(),
-                              endActionPane: ActionPane(
-                                dragDismissible: false,
-                                extentRatio: 2 / 5,
-                                motion: const DrawerMotion(),
-                                children: [
-                                  SlidableAction(
-                                    autoClose: true,
-                                    flex: 1,
-                                    onPressed: (context) {},
-                                    backgroundColor: Theme.of(context).primaryColor,
-                                    foregroundColor: Theme.of(context).primaryColorDark,
-                                    icon: FontAwesomeIcons.pen,
-                                    // spacing: 10,
-                                    // label: '적기',
-                                  ),
-                                  SlidableAction(
-                                    autoClose: true,
-                                    flex: 1,
-                                    onPressed: (context) {
-                                      WordBoxes.getWords().delete(word.targetCode);
+                          ? Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                              child: Slidable(
+                                key: UniqueKey(),
+                                endActionPane: ActionPane(
+                                  dragDismissible: false,
+                                  extentRatio: 2 / 5,
+                                  motion: const DrawerMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      autoClose: true,
+                                      flex: 1,
+                                      onPressed: (context) {},
+                                      backgroundColor: Theme.of(context).primaryColor,
+                                      foregroundColor: Theme.of(context).primaryColorDark,
+                                      icon: FontAwesomeIcons.pen,
+                                      // spacing: 10,
+                                      // label: '적기',
+                                    ),
+                                    SlidableAction(
+                                      autoClose: true,
+                                      flex: 1,
+                                      onPressed: (context) {
+                                        WordBoxes.getWords().delete(word.targetCode);
+                                      },
+                                      backgroundColor: Colors.white,
+                                      foregroundColor: const Color(0xfffe6f6e),
+                                      icon: FontAwesomeIcons.trash,
+                                      // spacing: 10,
+                                      // label: '빼기',
+                                    ),
+                                  ],
+                                ),
+                                child: GestureDetector(
+                                    onTap: () async {
+                                      WordView wordView = await getWordViewData(
+                                          targetCode: words[index].targetCode);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  WordViewInfo(item: wordView.channel?.item)));
                                     },
-                                    backgroundColor: Colors.white,
-                                    foregroundColor: const Color(0xfffe6f6e),
-                                    icon: FontAwesomeIcons.trash,
-                                    // spacing: 10,
-                                    // label: '빼기',
-                                  ),
-                                ],
+                                    child: buildListCard(context, word)),
                               ),
-                              child: GestureDetector(
-                                  onTap: () async {
-                                    WordView wordView =
-                                        await getWordViewData(targetCode: words[index].targetCode);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                WordViewInfo(item: wordView.channel?.item)));
-                                  },
-                                  child: buildListCard(context, word)),
                             )
                           : WordChip(word: word.word);
                     }),
