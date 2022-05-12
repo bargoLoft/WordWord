@@ -78,7 +78,6 @@ class _WriteListState extends State<WriteList> {
                                     child: Row(
                                       children: [
                                         Text(
-
                                           writeWords[writeWords.length - index - 1].word,
                                           style: const TextStyle(
                                             fontSize: 20,
