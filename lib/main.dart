@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-import './models/app_model.dart';
+import 'package:word_word/providers/hive_service.dart';
 import 'models/word.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
@@ -25,7 +25,7 @@ void main() async {
 
   runApp(
     ChangeNotifierProvider(
-      create: (context) => AppModel(),
+      create: (context) => HiveService(),
       child: const MyApp(),
     ),
   );
@@ -40,8 +40,8 @@ class MyApp extends StatelessWidget {
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
       systemNavigationBarColor: Colors.transparent,
-      //    statusBarBrightness: Brightness.light
     ));
+
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: '다너다너',

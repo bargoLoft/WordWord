@@ -1,3 +1,5 @@
+import 'package:provider/provider.dart';
+import 'package:word_word/providers/hive_service.dart';
 import 'package:word_word/screens/write_screen.dart';
 
 import 'package:word_word/screens/info_screen.dart';
@@ -16,7 +18,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   //final _scrollController = ScrollController();
   int _selectedIndex = 0;
-  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  //static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   // static const List<Widget> _widgetOptions = <Widget>[
   //   HomeScreen(),
   //   StorageScreen(),
@@ -42,14 +44,16 @@ class _HomeState extends State<Home> {
         toolbarHeight: 0.0, // Hide the AppBar
       ),
       body: Center(
-        child: IndexedStack(
-          index: _selectedIndex,
-          children: const [
-            HomeScreen(),
-            StorageScreen(),
-            WriteScreen(),
-            InfoScreen(),
-          ],
+        child: Consumer<HiveService>(
+          builder: (context, hiveService, child) => IndexedStack(
+            index: _selectedIndex,
+            children: const [
+              HomeScreen(),
+              StorageScreen(),
+              WriteScreen(),
+              InfoScreen(),
+            ],
+          ),
         ),
       ),
       //_widgetOptions.elementAt(_selectedIndex),

@@ -3,13 +3,12 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:word_word/models/app_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:word_word/providers/hive_service.dart';
 
 import '../models/word_model.dart';
 import '../providers/word_search.dart';
@@ -137,7 +136,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
     _myFocusNode.addListener(() {
       setState(() {});
     });
-    return Consumer<AppModel>(builder: (context, appModel, child) {
+    return Consumer<HiveService>(builder: (context, hiveService, child) {
       return Padding(
         padding: MediaQuery.of(context).viewPadding,
         child: GestureDetector(
@@ -163,14 +162,24 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                     Positioned.fill(
                       child: Align(
                         alignment: Alignment.center,
-                        child: Text(
-                          '다너다너',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontSize: 30,
-                              fontFamily: 'KoPubBatang',
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColorDark,
-                              letterSpacing: 4),
+                        child: GestureDetector(
+                          onTap: () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            await getWordRandomViewData(Random().nextInt(422879).toString());
+                            _wordSearchController.text = ' ';
+                            isLoading = false;
+                          },
+                          child: Text(
+                            '다너다너',
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                fontSize: 30,
+                                fontFamily: 'KoPubBatang',
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColorDark,
+                                letterSpacing: 4),
+                          ),
                         ),
                       ),
                     ),
@@ -189,14 +198,23 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                               // bottomRight: Radius.circular(30.0),
                               )),
                       child: Center(
-                        child: Text(
-                          '다너다너',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontSize: 30,
-                              fontFamily: 'KoPubBatang',
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColorDark,
-                              letterSpacing: 4),
+                        child: GestureDetector(
+                          onTap: () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            await getWordRandomViewData(Random().nextInt(422879).toString());
+                            isLoading = false;
+                          },
+                          child: Text(
+                            '다너다너',
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                fontSize: 30,
+                                fontFamily: 'KoPubBatang',
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColorDark,
+                                letterSpacing: 4),
+                          ),
                         ),
                       ),
                     ),
@@ -307,23 +325,34 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                                   Item item =
                                                       widget.wordModel.channel?.item![index] ??
                                                           Item();
-                                                  WordBoxes.getWords().put(
-                                                    item.targetCode ?? 0,
-                                                    wordtest(
-                                                        item.word ?? '',
-                                                        int.parse(item.supNo ?? ''),
-                                                        item.pos ?? '',
-                                                        item.sense?.definition ?? '',
+                                                  if (WordBoxes.getWords()
+                                                      .containsKey(item.targetCode)) {
+                                                    SnackBar snackBar = SnackBar(
+                                                      content: Text('${item.word}는 이미 저장되었습니다.'),
+                                                      duration: const Duration(seconds: 1),
+                                                    );
+                                                    ScaffoldMessenger.of(context)
+                                                        .showSnackBar(snackBar);
+                                                  } else {
+                                                    hiveService.updateItem(
                                                         item.targetCode ?? '',
-                                                        widget.wordModel.channel?.lastbuilddate,
-                                                        null),
-                                                  );
-                                                  SnackBar snackBar = SnackBar(
-                                                    content: Text('${item.word} 넣었습니다'),
-                                                    duration: const Duration(seconds: 1),
-                                                  );
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(snackBar);
+                                                        wordtest(
+                                                            item.word ?? '',
+                                                            int.parse(item.supNo ?? ''),
+                                                            item.pos ?? '',
+                                                            item.sense?.definition ?? '',
+                                                            item.targetCode ?? '',
+                                                            widget.wordModel.channel?.lastbuilddate,
+                                                            null));
+                                                    SnackBar snackBar = SnackBar(
+                                                      content: Text('${item.word} 넣었습니다'),
+                                                      duration: const Duration(seconds: 1),
+                                                    );
+                                                    ScaffoldMessenger.of(context)
+                                                        .showSnackBar(snackBar);
+                                                    print(item.targetCode);
+                                                    print(widget.wordModel.channel?.lastbuilddate);
+                                                  }
                                                 },
                                                 backgroundColor: Theme.of(context).primaryColor,
                                                 foregroundColor: Theme.of(context).primaryColorDark,

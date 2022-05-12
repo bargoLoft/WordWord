@@ -1,21 +1,19 @@
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:word_word/screens/word_info_screen.dart';
-import 'package:word_word/screens/write_screen.dart';
 import 'package:word_word/widgets/word_chip.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
 import 'package:word_word/models/word.dart';
 import 'package:word_word/boxes.dart';
 import 'package:lottie/lottie.dart';
 
 import '../models/word_view.dart';
+import '../providers/hive_service.dart';
 import '../providers/word_search.dart';
-import '../screens/home_screen.dart';
 
 class StorageScreen extends StatefulWidget {
   const StorageScreen({Key? key}) : super(key: key);
@@ -53,25 +51,27 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ValueListenableBuilder<Box<wordtest>>(
-        valueListenable: WordBoxes.getWords().listenable(),
-        builder: (context, box, _) {
-          var words = box.values.toList().cast<wordtest>();
-          switch (_dropdownValue) {
-            case '가나다순':
-              words.sort((a, b) => a.word.compareTo(b.word)); // ㄱㄴㄷ
-              break;
-            case '최신순':
-              words.sort((b, a) => (a.saveTime ?? '').compareTo(b.saveTime ?? ''));
-              break; // 추가한 순
-            case '품사순':
-              words.sort((a, b) => a.pos.compareTo(b.pos)); // 품사
-              break;
-          }
+    return Consumer<HiveService>(
+      builder: (context, hiveService, child) => Scaffold(
+        body: ValueListenableBuilder<Box<wordtest>>(
+          valueListenable: WordBoxes.getWords().listenable(),
+          builder: (context, box, _) {
+            var words = box.values.toList().cast<wordtest>();
+            switch (_dropdownValue) {
+              case '가나다순':
+                words.sort((a, b) => a.word.compareTo(b.word)); // ㄱㄴㄷ
+                break;
+              case '최신순':
+                words.sort((b, a) => (a.saveTime ?? '').compareTo(b.saveTime ?? ''));
+                break; // 추가한 순
+              case '품사순':
+                words.sort((a, b) => a.pos.compareTo(b.pos)); // 품사
+                break;
+            }
 
-          return buildContext(words);
-        },
+            return buildContext(words);
+          },
+        ),
       ),
     );
   }
@@ -205,63 +205,65 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
               ),
             ),
             const SizedBox(height: 5),
-            Expanded(
-              child: Scrollbar(
-                child: ListView.builder(
-                    scrollDirection: groupValue == 0 ? Axis.vertical : Axis.vertical,
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    itemCount: WordBoxes.getWords().length,
-                    itemBuilder: (context, int index) {
-                      var word = words[index];
-                      return groupValue == 0
-                          ? Container(
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                              child: Slidable(
-                                key: UniqueKey(),
-                                endActionPane: ActionPane(
-                                  dragDismissible: false,
-                                  extentRatio: 2 / 5,
-                                  motion: const DrawerMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      autoClose: true,
-                                      flex: 1,
-                                      onPressed: (context) {},
-                                      backgroundColor: Theme.of(context).primaryColor,
-                                      foregroundColor: Theme.of(context).primaryColorDark,
-                                      icon: FontAwesomeIcons.pen,
-                                      // spacing: 10,
-                                      // label: '적기',
-                                    ),
-                                    SlidableAction(
-                                      autoClose: true,
-                                      flex: 1,
-                                      onPressed: (context) {
-                                        WordBoxes.getWords().delete(word.targetCode);
+            Consumer<HiveService>(
+              builder: (context, hiveService, child) => Expanded(
+                child: Scrollbar(
+                  child: ListView.builder(
+                      scrollDirection: groupValue == 0 ? Axis.vertical : Axis.vertical,
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      itemCount: WordBoxes.getWords().length,
+                      itemBuilder: (context, int index) {
+                        var word = words[index];
+                        return groupValue == 0
+                            ? Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                                child: Slidable(
+                                  key: UniqueKey(),
+                                  endActionPane: ActionPane(
+                                    dragDismissible: false,
+                                    extentRatio: 2 / 5,
+                                    motion: const DrawerMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        autoClose: true,
+                                        flex: 1,
+                                        onPressed: (context) {},
+                                        backgroundColor: Theme.of(context).primaryColor,
+                                        foregroundColor: Theme.of(context).primaryColorDark,
+                                        icon: FontAwesomeIcons.pen,
+                                        // spacing: 10,
+                                        // label: '적기',
+                                      ),
+                                      SlidableAction(
+                                        autoClose: true,
+                                        flex: 1,
+                                        onPressed: (context) {
+                                          hiveService.deleteItem(word);
+                                        },
+                                        backgroundColor: Colors.white,
+                                        foregroundColor: const Color(0xfffe6f6e),
+                                        icon: FontAwesomeIcons.trash,
+                                        // spacing: 10,
+                                        // label: '빼기',
+                                      ),
+                                    ],
+                                  ),
+                                  child: GestureDetector(
+                                      onTap: () async {
+                                        WordView wordView = await getWordViewData(
+                                            targetCode: words[index].targetCode);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    WordViewInfo(item: wordView.channel?.item)));
                                       },
-                                      backgroundColor: Colors.white,
-                                      foregroundColor: const Color(0xfffe6f6e),
-                                      icon: FontAwesomeIcons.trash,
-                                      // spacing: 10,
-                                      // label: '빼기',
-                                    ),
-                                  ],
+                                      child: buildListCard(context, word)),
                                 ),
-                                child: GestureDetector(
-                                    onTap: () async {
-                                      WordView wordView = await getWordViewData(
-                                          targetCode: words[index].targetCode);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  WordViewInfo(item: wordView.channel?.item)));
-                                    },
-                                    child: buildListCard(context, word)),
-                              ),
-                            )
-                          : WordChip(word: word.word);
-                    }),
+                              )
+                            : WordChip(word: word.word);
+                      }),
+                ),
               ),
             ),
           ],

@@ -6,6 +6,7 @@ part of 'word.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
+// ignore: camel_case_types
 class wordtestAdapter extends TypeAdapter<wordtest> {
   @override
   final int typeId = 0;
@@ -53,7 +54,5 @@ class wordtestAdapter extends TypeAdapter<wordtest> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is wordtestAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is wordtestAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
