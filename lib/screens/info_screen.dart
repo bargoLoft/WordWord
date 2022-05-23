@@ -313,7 +313,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
 
   //url 메소
   void _openUrl(String url) async {
-    await launch(url, forceWebView: false, forceSafariVC: false);
+    //await launch(url, forceWebView: false, forceSafariVC: false);
   }
 
   //메일 메소드들

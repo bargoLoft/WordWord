@@ -103,10 +103,14 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
             ? widget.wordView[index] = value
             : widget.wordView[index - 1] = value;
       }); // async하게 변경, 인덱스대로 넣기
+      setState(() {
+        isLoading = false;
+      });
+
       //view.WordView tmp = await getWordViewData(query, e.toString());
       //widget.wordView.add(tmp);
     }
-    isLoading = false; // null 반환 대비 아래로 이동
+    //isLoading = false; // null 반환 대비 아래로 이동
     //print('변경');
   }
 
@@ -120,6 +124,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
     } else {
       String str = _textReplace(wordViewData.channel?.item?.wordInfo?.word ?? '');
       getWordSearchData(str);
+      _wordSearchController.text = str;
     }
   }
 
@@ -293,7 +298,6 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                               )
                             : Scrollbar(
                                 key: GlobalKey(debugLabel: 'search'),
-                                isAlwaysShown: true,
                                 controller: _scrollController,
                                 child: ListView.builder(
                                     padding: EdgeInsets.zero,
@@ -350,8 +354,6 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                                     );
                                                     ScaffoldMessenger.of(context)
                                                         .showSnackBar(snackBar);
-                                                    print(item.targetCode);
-                                                    print(widget.wordModel.channel?.lastbuilddate);
                                                   }
                                                 },
                                                 backgroundColor: Theme.of(context).primaryColor,

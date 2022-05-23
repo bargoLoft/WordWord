@@ -27,6 +27,7 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
   late final AnimationController _animationController;
 
   final focusNode = FocusNode();
+  // ignore: prefer_typing_uninitialized_variables
   late var currentWord;
 
   //var words = WordBoxes.getWords().values.toList().cast();
@@ -152,7 +153,6 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
                                 context,
                                 MaterialPageRoute(builder: (context) => const WriteList()),
                               );
-                              if (result != null) {}
                               setState(() {
                                 currentIndex = words.length - result - 1;
                               });

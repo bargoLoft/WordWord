@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intl/intl.dart';
 
 import '../boxes.dart';
-import '../models/recent_word.dart';
 import '../models/word.dart';
 import '../widgets/word_list.dart';
 
@@ -43,11 +40,11 @@ class _WriteListState extends State<WriteList> {
           var words = box.values.toList().cast<wordtest>();
           List writeWords = [];
           words.sort((a, b) => (a.saveTime ?? '').compareTo(b.saveTime ?? ''));
-          words.forEach((e) {
+          for (var e in words) {
             if (e.write != null) {
               writeWords.add(e);
             }
-          });
+          }
           writeWords.sort((a, b) => a.saveTime.compareTo(b.saveTime));
           return writeWords.isEmpty
               ? const Center(

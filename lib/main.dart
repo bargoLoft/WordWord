@@ -50,6 +50,7 @@ class MyApp extends StatelessWidget {
           primaryColor: const Color(0x5fa1df6e),
           primaryColorDark: const Color(0xff0a3711),
           primaryColorLight: const Color(0xfff4ffeb),
+          // colorScheme: ColorScheme.fromSeed(seedColor: const Color(0x5fa1df6e)),
         ),
         // routes: {
         //   '/0': (context) => const Home(),
