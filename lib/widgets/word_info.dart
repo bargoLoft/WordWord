@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:word_word/models/word_model.dart';
 
 class WordInfo extends StatelessWidget {
@@ -20,10 +21,11 @@ class WordInfo extends StatelessWidget {
           children: [
             Text(
               item.word ?? '',
-              style: const TextStyle(
-                fontSize: 20,
+              style: TextStyle(
+                fontSize: ((item.word?.length ?? 0) < 15) ? 20 : 15,
                 fontWeight: FontWeight.bold,
               ),
+              //overflow: TextOverflow.fade,
             ),
             if (item.supNo == '0')
               const SizedBox(width: 1)
@@ -60,9 +62,9 @@ class WordInfo extends StatelessWidget {
                   fontSize: 18,
                   //fontWeight: FontWeight.bold,
                 ),
-                maxLines: 3,
+                maxLines: 1,
                 softWrap: false,
-                overflow: TextOverflow.fade,
+                //overflow: TextOverflow.fade,
               ),
             ),
           ],

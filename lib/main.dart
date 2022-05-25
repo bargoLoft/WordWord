@@ -10,7 +10,8 @@ import 'package:word_word/providers/hive_service.dart';
 import 'models/word.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
-import './screens/home_screen.dart';
+import '../screens/home_screen.dart';
+import '../models/app_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // main에서 비동기 메소드 사용시 필요
@@ -23,12 +24,10 @@ void main() async {
   //await Hive.openBox<Write>('Writes');
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => HiveService(),
-      child: const MyApp(),
-    ),
-  );
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => HiveService()),
+    ChangeNotifierProvider(create: (context) => AppModel()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

@@ -25,7 +25,7 @@ import '../widgets/word_info.dart';
 class Word extends StatefulWidget {
   String word;
   search.WordModel wordModel = search.WordModel();
-  List<view.WordView?> wordView = List.generate(47, (index) => null);
+  List<view.WordView?> wordView = List.generate(50, (index) => null);
   Word({Key? key, required this.word}) : super(key: key);
 
   @override
@@ -92,16 +92,21 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
         );
       }
     });
-    List total = widget.wordModel.channel?.total == 1
-        ? [0]
-        : List.generate(widget.wordModel.channel?.total ?? 0, (i) => i + 1);
+
+    var channel = widget.wordModel.channel;
+    int? totalnum = channel?.total;
+    int? num = channel?.num;
+    if (totalnum! >= num!) {
+      totalnum = num;
+    }
+
+    List total = totalnum == 1 ? [0] : List.generate(totalnum, (i) => i + 1);
+
     for (var num in total) {
       var index = num;
       final tmp = getWordViewData(query: query, num: index.toString());
       tmp.then((value) {
-        widget.wordModel.channel?.total == 1
-            ? widget.wordView[index] = value
-            : widget.wordView[index - 1] = value;
+        totalnum == 1 ? widget.wordView[index] = value : widget.wordView[index - 1] = value;
       }); // async하게 변경, 인덱스대로 넣기
       setState(() {
         isLoading = false;
@@ -173,7 +178,6 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                               isLoading = true;
                             });
                             await getWordRandomViewData(Random().nextInt(422879).toString());
-                            _wordSearchController.text = ' ';
                             isLoading = false;
                           },
                           child: Text(
@@ -302,7 +306,10 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                 child: ListView.builder(
                                     padding: EdgeInsets.zero,
                                     controller: _scrollController,
-                                    itemCount: (widget.wordModel.channel?.total ?? 0) + 1,
+                                    itemCount: ((widget.wordModel.channel?.total ?? 0) >
+                                            (widget.wordModel.channel?.num ?? 0))
+                                        ? widget.wordModel.channel?.num ?? 0 + 1
+                                        : widget.wordModel.channel?.total ?? 0 + 1,
                                     itemBuilder: (BuildContext context, int index) {
                                       // if (index ==
                                       //     (widget.wordModel.channel?.total ??

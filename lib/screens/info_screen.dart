@@ -7,10 +7,14 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:ios_utsname_ext/extension.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:word_word/boxes.dart';
 import 'package:lottie/lottie.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../screens/setting_screen.dart';
 
 class InfoScreen extends StatefulWidget {
   const InfoScreen({Key? key}) : super(key: key);
@@ -149,6 +153,26 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextButton(
                 onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Setting()));
+                },
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    '다너다너 앱 설정',
+                    style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
+                  ),
+                ),
+              ),
+            ),
+            const Divider(
+              height: 1,
+              indent: 10,
+              endIndent: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: TextButton(
+                onPressed: () {
                   _sendEmail();
                 },
                 child: SizedBox(
@@ -255,9 +279,11 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                               '초기화',
                               style: TextStyle(color: Colors.red),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               RecentWordBoxes.getWords().clear();
                               WordBoxes.getWords().clear();
+                              SharedPreferences preferences = await SharedPreferences.getInstance();
+                              await preferences.clear();
                               Navigator.pop(context);
                               const snackBar = SnackBar(
                                 content: Text('다너다너가 초기화 되었습니다!'),
