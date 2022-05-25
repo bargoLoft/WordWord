@@ -148,27 +148,6 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
               indent: 10,
               endIndent: 10,
             ),
-            //SizedBox(height: 100),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Setting()));
-                },
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    '다너다너 앱 설정',
-                    style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
-                  ),
-                ),
-              ),
-            ),
-            const Divider(
-              height: 1,
-              indent: 10,
-              endIndent: 10,
-            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextButton(
@@ -248,6 +227,23 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                     ),
                   ),
               ],
+            ),
+            //SizedBox(height: 100),
+            const Divider(height: 1, indent: 10, endIndent: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Setting()));
+                },
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    '다너다너 설정',
+                    style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
+                  ),
+                ),
+              ),
             ),
             const Divider(
               height: 1,

@@ -51,6 +51,12 @@ class MyApp extends StatelessWidget {
           primaryColorLight: const Color(0xfff4ffeb),
           // colorScheme: ColorScheme.fromSeed(seedColor: const Color(0x5fa1df6e)),
         ),
+        builder: (context, child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 0.9),
+            child: child!,
+          );
+        },
         // routes: {
         //   '/0': (context) => const Home(),
         //   '/1': (context) => const StorageScreen(),

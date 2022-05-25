@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lottie/lottie.dart';
@@ -36,8 +37,8 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
 
   int currentIndex = 0;
 
-  double toolbarIconSize = 18;
-  final double _fontSize = 14;
+  final double toolbarIconSize = 18;
+  final double _fontSize = 15;
 
   @override
   void initState() {
@@ -324,11 +325,7 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
                       ],
                     ),
                   ),
-                  // if (focusNode.hasFocus)
-                  //   CustomQuillToolbar(
-                  //       toolbarIconSize: toolbarIconSize,
-                  //       quillController: _quillController,
-                  //       iconTheme: iconTheme),
+                  //QuillToolbar.basic(controller: controller)
                   const Divider(
                     height: 10,
                     thickness: 0.5,
@@ -384,6 +381,15 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
                   //   color: Theme.of(context).primaryColor,
                   // ),
                   //SizedBox(height: MediaQuery.of(context).size.height * 0.06)
+                  if (focusNode.hasFocus)
+                    CustomQuillToolbar(
+                      toolbarIconSize: toolbarIconSize,
+                      quillController: _quillController,
+                      iconTheme: QuillIconTheme(
+                        iconSelectedFillColor: Theme.of(context).primaryColor,
+                        borderRadius: 10,
+                      ),
+                    ),
                 ],
               )),
         ),
@@ -408,99 +414,118 @@ class CustomQuillToolbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QuillToolbar(
-      toolbarHeight: kDefaultIconSize * 2,
+      toolbarHeight: kDefaultIconSize * 1,
+      toolbarIconAlignment: WrapAlignment.spaceBetween,
       locale: const Locale('ko'),
       children: [
-        HistoryButton(
-          icon: Icons.undo_outlined,
-          iconSize: toolbarIconSize,
-          controller: _quillController,
-          undo: true,
-          iconTheme: iconTheme,
+        IconButton(
+          iconSize: 20,
+          onPressed: () {
+            Clipboard.setData(ClipboardData(
+                text: _quillController.document.getPlainText(0, _quillController.document.length)));
+          },
+          icon: const Icon(Icons.copy),
         ),
-        HistoryButton(
-          icon: Icons.redo_outlined,
-          iconSize: toolbarIconSize,
-          controller: _quillController,
-          undo: false,
-          iconTheme: iconTheme,
+        TextButton(
+          onPressed: () {},
+          child: Text((_quillController.document.length - 1).toString()),
         ),
-        ToggleStyleButton(
-          attribute: Attribute.bold,
-          icon: Icons.format_bold,
-          iconSize: toolbarIconSize,
-          controller: _quillController,
-          iconTheme: iconTheme,
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: HistoryButton(
+            icon: Icons.undo_outlined,
+            iconSize: toolbarIconSize,
+            controller: _quillController,
+            undo: true,
+            iconTheme: iconTheme,
+          ),
         ),
-        ToggleStyleButton(
-          attribute: Attribute.italic,
-          icon: Icons.format_italic,
-          iconSize: toolbarIconSize,
-          controller: _quillController,
-          iconTheme: iconTheme,
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: HistoryButton(
+            icon: Icons.redo_outlined,
+            iconSize: toolbarIconSize,
+            controller: _quillController,
+            undo: false,
+            iconTheme: iconTheme,
+          ),
         ),
-        ToggleStyleButton(
-          attribute: Attribute.underline,
-          icon: Icons.format_underline,
-          iconSize: toolbarIconSize,
-          controller: _quillController,
-          iconTheme: iconTheme,
-        ),
-        ToggleStyleButton(
-          attribute: Attribute.strikeThrough,
-          icon: Icons.format_strikethrough,
-          iconSize: toolbarIconSize,
-          controller: _quillController,
-          iconTheme: iconTheme,
-        ),
-        ColorButton(
-          icon: Icons.color_lens,
-          iconSize: toolbarIconSize,
-          controller: _quillController,
-          background: false,
-          iconTheme: iconTheme,
-        ),
-        ColorButton(
-          icon: Icons.format_color_fill,
-          iconSize: toolbarIconSize,
-          controller: _quillController,
-          background: true,
-          iconTheme: iconTheme,
-        ),
-        ClearFormatButton(
-          icon: Icons.format_clear,
-          iconSize: toolbarIconSize,
-          controller: _quillController,
-          iconTheme: iconTheme,
-        ),
-        SelectAlignmentButton(
-          controller: _quillController,
-          iconSize: toolbarIconSize,
-          iconTheme: iconTheme,
-          showLeftAlignment: true,
-          showCenterAlignment: true,
-          showRightAlignment: true,
-          showJustifyAlignment: false,
-        ),
-        SelectHeaderStyleButton(
-          controller: _quillController,
-          iconSize: toolbarIconSize,
-          iconTheme: iconTheme,
-        ),
-        IndentButton(
-          icon: Icons.format_indent_increase,
-          iconSize: toolbarIconSize,
-          controller: _quillController,
-          isIncrease: true,
-          iconTheme: iconTheme,
-        ),
-        IndentButton(
-          icon: Icons.format_indent_decrease,
-          iconSize: toolbarIconSize,
-          controller: _quillController,
-          isIncrease: false,
-          iconTheme: iconTheme,
-        ),
+        // ToggleStyleButton(
+        //   attribute: Attribute.bold,
+        //   icon: Icons.format_bold,
+        //   iconSize: toolbarIconSize,
+        //   controller: _quillController,
+        //   iconTheme: iconTheme,
+        // ),
+        // ToggleStyleButton(
+        //   attribute: Attribute.italic,
+        //   icon: Icons.format_italic,
+        //   iconSize: toolbarIconSize,
+        //   controller: _quillController,
+        //   iconTheme: iconTheme,
+        // ),
+        // ToggleStyleButton(
+        //   attribute: Attribute.underline,
+        //   icon: Icons.format_underline,
+        //   iconSize: toolbarIconSize,
+        //   controller: _quillController,
+        //   iconTheme: iconTheme,
+        // ),
+        // ToggleStyleButton(
+        //   attribute: Attribute.strikeThrough,
+        //   icon: Icons.format_strikethrough,
+        //   iconSize: toolbarIconSize,
+        //   controller: _quillController,
+        //   iconTheme: iconTheme,
+        // ),
+        // ColorButton(
+        //   icon: Icons.color_lens,
+        //   iconSize: toolbarIconSize,
+        //   controller: _quillController,
+        //   background: false,
+        //   iconTheme: iconTheme,
+        // ),
+        // ColorButton(
+        //   icon: Icons.format_color_fill,
+        //   iconSize: toolbarIconSize,
+        //   controller: _quillController,
+        //   background: true,
+        //   iconTheme: iconTheme,
+        // ),
+        // ClearFormatButton(
+        //   icon: Icons.format_clear,
+        //   iconSize: toolbarIconSize,
+        //   controller: _quillController,
+        //   iconTheme: iconTheme,
+        // // ),
+        // SelectAlignmentButton(
+        //   controller: _quillController,
+        //   iconSize: toolbarIconSize,
+        //   iconTheme: iconTheme,
+        //   showLeftAlignment: true,
+        //   showCenterAlignment: true,
+        //   showRightAlignment: true,
+        //   showJustifyAlignment: false,
+        // ),
+        // SelectHeaderStyleButton(
+        //   controller: _quillController,
+        //   iconSize: toolbarIconSize,
+        //   iconTheme: iconTheme,
+        // ),
+        // IndentButton(
+        //   icon: Icons.format_indent_increase,
+        //   iconSize: toolbarIconSize,
+        //   controller: _quillController,
+        //   isIncrease: true,
+        //   iconTheme: iconTheme,
+        // ),
+        // IndentButton(
+        //   icon: Icons.format_indent_decrease,
+        //   iconSize: toolbarIconSize,
+        //   controller: _quillController,
+        //   isIncrease: false,
+        //   iconTheme: iconTheme,
+        // ),
         // IconButton(
         //   onPressed: () {
         //     FocusScope.of(context).requestFocus(FocusNode());
