@@ -415,20 +415,31 @@ class CustomQuillToolbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return QuillToolbar(
       toolbarHeight: kDefaultIconSize * 1,
-      toolbarIconAlignment: WrapAlignment.spaceBetween,
+      toolbarIconAlignment: WrapAlignment.spaceEvenly,
       locale: const Locale('ko'),
       children: [
         IconButton(
           iconSize: 20,
           onPressed: () {
-            Clipboard.setData(ClipboardData(
-                text: _quillController.document.getPlainText(0, _quillController.document.length)));
+            Clipboard.setData(ClipboardData(text: _quillController.document.toPlainText()));
+            const snackBar = SnackBar(
+              content: Text('클립보드에 저장되었습니다!'),
+              duration: Duration(seconds: 1),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
           icon: const Icon(Icons.copy),
         ),
         TextButton(
           onPressed: () {},
-          child: Text((_quillController.document.length - 1).toString()),
+          child: Text(
+            ('${(_quillController.document.toPlainText().length - 1).toString()}자'),
+            style: TextStyle(
+              color: Theme.of(context).primaryColorDark,
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8),

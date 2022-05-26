@@ -221,19 +221,19 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                                   key: UniqueKey(),
                                   endActionPane: ActionPane(
                                     dragDismissible: false,
-                                    extentRatio: 2 / 5,
+                                    extentRatio: 1 / 5,
                                     motion: const DrawerMotion(),
                                     children: [
-                                      SlidableAction(
-                                        autoClose: true,
-                                        flex: 1,
-                                        onPressed: (context) {},
-                                        backgroundColor: Theme.of(context).primaryColor,
-                                        foregroundColor: Theme.of(context).primaryColorDark,
-                                        icon: FontAwesomeIcons.pen,
-                                        // spacing: 10,
-                                        // label: '적기',
-                                      ),
+                                      // SlidableAction(
+                                      //   autoClose: true,
+                                      //   flex: 1,
+                                      //   onPressed: (context) {},
+                                      //   //backgroundColor: Theme.of(context).primaryColor,
+                                      //   foregroundColor: Theme.of(context).primaryColorDark,
+                                      //   icon: FontAwesomeIcons.pen,
+                                      //   // spacing: 10,
+                                      //   // label: '적기',
+                                      // ),
                                       SlidableAction(
                                         autoClose: true,
                                         flex: 1,

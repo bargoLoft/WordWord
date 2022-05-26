@@ -81,21 +81,19 @@ class _SettingState extends State<Setting> {
                       '단어 검색 조건',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
-                    IgnorePointer(
-                      child: CupertinoSlidingSegmentedControl(
-                        padding: const EdgeInsets.all(4),
-                        groupValue: _method,
-                        children: const {
-                          'exact': Text('일치'),
-                          'include': Text('포함'),
-                        },
-                        onValueChanged: <bool>(newValue) {
-                          setState(() {
-                            _method = newValue;
-                            _prefs.setString('method', _method);
-                          });
-                        },
-                      ),
+                    CupertinoSlidingSegmentedControl(
+                      padding: const EdgeInsets.all(4),
+                      groupValue: _method,
+                      children: const {
+                        'exact': Text('일치'),
+                        'include': Text('포함'),
+                      },
+                      onValueChanged: <bool>(newValue) {
+                        setState(() {
+                          _method = newValue;
+                          _prefs.setString('method', _method);
+                        });
+                      },
                     ),
                   ],
                 ),
