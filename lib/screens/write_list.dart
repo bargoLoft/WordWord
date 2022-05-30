@@ -111,7 +111,7 @@ class _WriteListState extends State<WriteList> {
                                                 //fontWeight: FontWeight.bold,
                                               ),
                                               maxLines: 1,
-                                              softWrap: false,
+                                              softWrap: true,
                                               overflow: TextOverflow.fade,
                                             ),
                                           ),

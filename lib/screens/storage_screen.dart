@@ -216,6 +216,7 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                         var word = words[index];
                         return groupValue == 0
                             ? Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 0),
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
                                 child: Slidable(
                                   key: UniqueKey(),
@@ -243,8 +244,9 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                                         backgroundColor: Colors.white,
                                         foregroundColor: const Color(0xfffe6f6e),
                                         icon: FontAwesomeIcons.trash,
-                                        padding: const EdgeInsets.all(0),
-                                        borderRadius: BorderRadius.circular(15),
+                                        padding:
+                                            const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                                        borderRadius: BorderRadius.circular(10),
                                         // spacing: 10,
                                         // label: '빼기',
                                       ),
@@ -276,8 +278,11 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
 
   Widget buildListCard(BuildContext context, wordtest word) {
     return Card(
-      elevation: 0.5,
-      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      elevation: 0.7,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Column(

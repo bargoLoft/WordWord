@@ -281,37 +281,37 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           child: GestureDetector(
                             onTap: () async {
-                              await showCupertinoModalPopup(
-                                  context: context,
-                                  builder: (context) => SizedBox(
-                                        height: 200.0,
-                                        child: CupertinoPicker(
-                                          squeeze: 1,
-                                          children: words
-                                              .map((e) => Center(child: Text(e.definition)))
-                                              .toList(),
-                                          itemExtent: 60.0,
-                                          backgroundColor: Colors.white,
-                                          scrollController: FixedExtentScrollController(
-                                              initialItem: currentIndex),
-                                          onSelectedItemChanged: (int index) {
-                                            // setState(() {
-                                            //   currentIndex = index;
-                                            //   currentWord = words[currentIndex];
-                                            //   if (currentWord.write != null) {
-                                            //     _quillController = QuillController(
-                                            //       document: Document.fromJson(
-                                            //           jsonDecode(currentWord.write ?? '')),
-                                            //       selection:
-                                            //           const TextSelection.collapsed(offset: 0),
-                                            //     );
-                                            //   } else {
-                                            //     _quillController = QuillController.basic();
-                                            //   }
-                                            // });
-                                          },
-                                        ),
-                                      ));
+                              // await showCupertinoModalPopup(
+                              //     context: context,
+                              //     builder: (context) => SizedBox(
+                              //           height: 200.0,
+                              //           child: CupertinoPicker(
+                              //             squeeze: 1,
+                              //             children: words
+                              //                 .map((e) => Center(child: Text(e.definition)))
+                              //                 .toList(),
+                              //             itemExtent: 60.0,
+                              //             backgroundColor: Colors.white,
+                              //             scrollController: FixedExtentScrollController(
+                              //                 initialItem: currentIndex),
+                              //             onSelectedItemChanged: (int index) {
+                              //               // setState(() {
+                              //               //   currentIndex = index;
+                              //               //   currentWord = words[currentIndex];
+                              //               //   if (currentWord.write != null) {
+                              //               //     _quillController = QuillController(
+                              //               //       document: Document.fromJson(
+                              //               //           jsonDecode(currentWord.write ?? '')),
+                              //               //       selection:
+                              //               //           const TextSelection.collapsed(offset: 0),
+                              //               //     );
+                              //               //   } else {
+                              //               //     _quillController = QuillController.basic();
+                              //               //   }
+                              //               // });
+                              //             },
+                              //           ),
+                              //         ));
                             },
                             child: Text(
                               words[currentIndex].definition,
@@ -397,7 +397,7 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
   }
 }
 
-class CustomQuillToolbar extends StatelessWidget {
+class CustomQuillToolbar extends StatefulWidget {
   const CustomQuillToolbar({
     Key? key,
     required this.toolbarIconSize,
@@ -411,6 +411,11 @@ class CustomQuillToolbar extends StatelessWidget {
   final QuillIconTheme iconTheme;
 
   @override
+  State<CustomQuillToolbar> createState() => _CustomQuillToolbarState();
+}
+
+class _CustomQuillToolbarState extends State<CustomQuillToolbar> {
+  @override
   Widget build(BuildContext context) {
     return QuillToolbar(
       toolbarHeight: kDefaultIconSize * 1,
@@ -420,7 +425,7 @@ class CustomQuillToolbar extends StatelessWidget {
         IconButton(
           iconSize: 20,
           onPressed: () {
-            Clipboard.setData(ClipboardData(text: _quillController.document.toPlainText()));
+            Clipboard.setData(ClipboardData(text: widget._quillController.document.toPlainText()));
             const snackBar = SnackBar(
               content: Text('클립보드에 저장되었습니다!'),
               duration: Duration(seconds: 1),
@@ -430,9 +435,11 @@ class CustomQuillToolbar extends StatelessWidget {
           icon: const Icon(Icons.copy),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            setState(() {});
+          },
           child: Text(
-            ('${(_quillController.document.toPlainText().length - 1).toString()}자'),
+            ('${(widget._quillController.document.toPlainText().length - 1).toString()}자'),
             style: TextStyle(
               color: Theme.of(context).primaryColorDark,
               fontWeight: FontWeight.bold,
@@ -444,20 +451,20 @@ class CustomQuillToolbar extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: HistoryButton(
             icon: Icons.undo_outlined,
-            iconSize: toolbarIconSize,
-            controller: _quillController,
+            iconSize: widget.toolbarIconSize,
+            controller: widget._quillController,
             undo: true,
-            iconTheme: iconTheme,
+            iconTheme: widget.iconTheme,
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(8),
           child: HistoryButton(
             icon: Icons.redo_outlined,
-            iconSize: toolbarIconSize,
-            controller: _quillController,
+            iconSize: widget.toolbarIconSize,
+            controller: widget._quillController,
             undo: false,
-            iconTheme: iconTheme,
+            iconTheme: widget.iconTheme,
           ),
         ),
         // ToggleStyleButton(
