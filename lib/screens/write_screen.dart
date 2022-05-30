@@ -387,7 +387,6 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
                       quillController: _quillController,
                       iconTheme: QuillIconTheme(
                         iconSelectedFillColor: Theme.of(context).primaryColor,
-                        borderRadius: 10,
                       ),
                     ),
                 ],

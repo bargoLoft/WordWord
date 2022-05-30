@@ -243,6 +243,8 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                                         backgroundColor: Colors.white,
                                         foregroundColor: const Color(0xfffe6f6e),
                                         icon: FontAwesomeIcons.trash,
+                                        padding: const EdgeInsets.all(0),
+                                        borderRadius: BorderRadius.circular(15),
                                         // spacing: 10,
                                         // label: '빼기',
                                       ),

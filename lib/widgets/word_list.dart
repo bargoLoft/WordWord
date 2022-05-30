@@ -323,7 +323,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                         return Slidable(
                                           key: UniqueKey(),
                                           endActionPane: ActionPane(
-                                            extentRatio: 1 / 5,
+                                            extentRatio: 1 / 6,
                                             motion: const ScrollMotion(),
                                             // dismissible: DismissiblePane(
                                             //   onDismissed: () {},
@@ -366,6 +366,8 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                                 backgroundColor: Theme.of(context).primaryColor,
                                                 foregroundColor: Theme.of(context).primaryColorDark,
                                                 icon: FontAwesomeIcons.floppyDisk,
+                                                padding: const EdgeInsets.all(0),
+                                                borderRadius: BorderRadius.circular(10),
                                               ),
                                             ],
                                           ),
