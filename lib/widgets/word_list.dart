@@ -73,6 +73,9 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
       if (wordJson.isNotEmpty) {
         widget.wordModel = search.WordModel.fromJson(jsonDecode(wordJson));
       } else {
+        setState(() {
+          isLoading = false;
+        });
         const snackBar = SnackBar(
           content: Text('검색 결과가 없습니다!'),
           duration: Duration(seconds: 1),
@@ -85,7 +88,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
         RecentWordBoxes.getWords().put(
           widget.wordModel.channel?.item?.first.targetCode,
           RecentWord(
-            widget.wordModel.channel?.item!.first.word ?? '',
+            widget.wordModel.channel?.item?.first.word ?? '',
             widget.wordModel.channel?.lastbuilddate ?? '',
             widget.wordModel.channel?.item?.first.targetCode ?? '',
           ),
@@ -94,9 +97,9 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
     });
 
     var channel = widget.wordModel.channel;
-    int? totalnum = channel?.total;
-    int? num = channel?.num;
-    if (totalnum! >= num!) {
+    int totalnum = channel?.total ?? 0;
+    int num = channel?.num ?? 0;
+    if (totalnum >= num) {
       totalnum = num;
     }
 
@@ -256,7 +259,10 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                             builder: (context) => const RecentWordList()),
                                       );
                                       if (result != null) {
-                                        isLoading = true;
+                                        setState(() {
+                                          isLoading = true;
+                                        });
+                                        _wordSearchController.text = result;
                                         getWordSearchData(result);
                                       }
                                     },
@@ -334,7 +340,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                                 flex: 1,
                                                 onPressed: (context) {
                                                   Item item =
-                                                      widget.wordModel.channel?.item![index] ??
+                                                      widget.wordModel.channel?.item?[index] ??
                                                           Item();
                                                   if (WordBoxes.getWords()
                                                       .containsKey(item.targetCode)) {
@@ -384,14 +390,14 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                                 const snackBar = SnackBar(
                                                   content: Text(
                                                       '현재 국립국어원 Open API의 문제로\n 사진 자료가 있는 단어는 상세검색이 되지 않습니다.!'),
-                                                  duration: Duration(seconds: 1),
+                                                  duration: Duration(seconds: 2),
                                                 );
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(snackBar);
                                               }
                                             },
                                             child: WordInfo(
-                                              item: widget.wordModel.channel?.item![index] ??
+                                              item: widget.wordModel.channel?.item?[index] ??
                                                   search.Item(),
                                             ),
                                           ),

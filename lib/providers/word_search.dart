@@ -39,7 +39,7 @@ class WordRandomViewSearch {
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      print('에러코드 : ${response.statusCode}');
+      //print('에러코드 : ${response.statusCode}');
     }
   }
 }
@@ -48,12 +48,12 @@ class WordViewSearch {
   Future<dynamic> getWords(String query, String num) async {
     var wordData = await getData(
         '$apiViewUrl?key=$apiKey&type_search=view&req_type=json&method=WORD_INFO&q=$query$num');
-    if (wordData != null) {
-      //print('apiView 완료');
-      //print('$wordData 완료');
-    } else {
-      //print('null error');
-    }
+    // if (wordData != null) {
+    //   //print('apiView 완료');
+    //   //print('$wordData 완료');
+    // } else {
+    //   //print('null error');
+    // }
     return wordData;
   }
 
@@ -79,10 +79,10 @@ class WordViewSearch {
 
 class WordSearch {
   Future<dynamic> getWords(String query) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String method = prefs.getString('method') ?? 'exact';
-    var wordData = await getData(
-        '$apiSearchUrl?key=$apiKey&num=$num&req_type=json&advanced=$advanced&method=$method&q=$query');
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
+    //String method = prefs.getString('method') ?? 'exact';
+    var wordData = await getData('$apiSearchUrl?key=$apiKey&num=$num&req_type=json&q=$query');
+    //var wordData = await getData('$apiSearchUrl?key=$apiKey&num=$num&req_type=json&advanced=$advanced&method=$method&q=$query');
     //print('apiSearch 완료');
     return wordData;
   }

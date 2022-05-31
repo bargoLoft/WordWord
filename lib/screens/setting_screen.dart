@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:word_word/models/app_model.dart';
 
-import '../providers/hive_service.dart';
-
 class Setting extends StatefulWidget {
   const Setting({Key? key}) : super(key: key);
 
@@ -31,7 +29,6 @@ class _SettingState extends State<Setting> {
       _autoFocus = _prefs.getBool('autoFocus') ?? false;
       _method = _prefs.getString('method') ?? 'exact';
     });
-    print('$_autoFocus $_method');
   }
 
   @override

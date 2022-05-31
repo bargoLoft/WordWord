@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:word_word/models/word_model.dart';
 
 class WordInfo extends StatelessWidget {

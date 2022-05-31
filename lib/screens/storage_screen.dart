@@ -216,7 +216,7 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                         var word = words[index];
                         return groupValue == 0
                             ? Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+                                margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
                                 child: Slidable(
                                   key: UniqueKey(),
@@ -278,13 +278,14 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
 
   Widget buildListCard(BuildContext context, wordtest word) {
     return Card(
-      elevation: 0.7,
+      elevation: 0.5,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
+      margin: const EdgeInsets.symmetric(horizontal: 0.5, vertical: 0.5),
+      //margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -345,7 +346,7 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                   ],
                 ),
                 maxLines: 2,
-                overflow: TextOverflow.fade),
+                overflow: TextOverflow.ellipsis),
           ],
         ),
       ),

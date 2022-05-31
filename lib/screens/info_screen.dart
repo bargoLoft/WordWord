@@ -12,7 +12,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:word_word/boxes.dart';
 import 'package:lottie/lottie.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../screens/setting_screen.dart';
 
@@ -234,7 +233,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Setting()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const Setting()));
                 },
                 child: SizedBox(
                   width: double.infinity,
@@ -335,7 +334,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
 
   //url 메소
   void _openUrl(String url) async {
-    //await launch(url, forceWebView: false, forceSafariVC: false);
+    await launch(url, forceWebView: false, forceSafariVC: false);
   }
 
   //메일 메소드들
