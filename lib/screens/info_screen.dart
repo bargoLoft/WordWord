@@ -332,21 +332,21 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                         '본 사전은 표준국어대사전 OpenAPI를 통해 제작되었으며,\n모든 사전정보의 저작권은 국립국어원에 있습니다.\n\n언뜻 스친 단어를 담아\n사색하고 음미하는 시간이 되었으면 좋겠습니다.'),
                   ],
                 )),
-            Center(
-              child: Lottie.asset(
-                'assets/lottie/lf30_editor_to6nvmre.json',
-                repeat: true,
-                height: 100,
-                controller: _controller,
-                onLoaded: (composition) {
-                  // Configure the AnimationController with the duration of the
-                  // Lottie file and start the animation.
-                  _controller
-                    ..duration = composition.duration
-                    ..forward();
-                },
-              ),
-            ),
+            // Center(
+            //   child: Lottie.asset(
+            //     'assets/lottie/lf30_editor_to6nvmre.json',
+            //     repeat: true,
+            //     height: 100,
+            //     controller: _controller,
+            //     onLoaded: (composition) {
+            //       // Configure the AnimationController with the duration of the
+            //       // Lottie file and start the animation.
+            //       _controller
+            //         ..duration = composition.duration
+            //         ..forward();
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),
