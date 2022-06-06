@@ -12,6 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:word_word/boxes.dart';
 import 'package:lottie/lottie.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:word_word/screens/license.dart';
 
 import '../screens/setting_screen.dart';
 
@@ -226,6 +227,26 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                     ),
                   ),
               ],
+            ),
+            const Divider(
+              height: 1,
+              indent: 10,
+              endIndent: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const Licence()));
+                },
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    '오픈소스 라이센스',
+                    style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
+                  ),
+                ),
+              ),
             ),
             //SizedBox(height: 100),
             const Divider(height: 1, indent: 10, endIndent: 10),
