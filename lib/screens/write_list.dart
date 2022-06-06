@@ -42,7 +42,7 @@ class _WriteListState extends State<WriteList> {
           words.sort((a, b) => (a.saveTime ?? '').compareTo(b.saveTime ?? ''));
           for (var e in words) {
             if (e.write != null && (jsonDecode(e.write!)[0]['insert'].toString() != '\n')) {
-              print(e.write);
+              //print(e.write);
               writeWords.add(e);
             }
           }
