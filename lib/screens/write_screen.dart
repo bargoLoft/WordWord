@@ -150,12 +150,12 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
                         left: 5,
                         child: TextButton(
                             onPressed: () async {
-                              int result = await Navigator.push(
+                              int? result = await Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => const WriteList()),
                               );
                               setState(() {
-                                currentIndex = words.length - result - 1;
+                                if (result != null) currentIndex = words.length - result - 1;
                               });
                             },
                             style: ButtonStyle(
