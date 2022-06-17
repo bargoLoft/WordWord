@@ -90,9 +90,5 @@ flutter:
       fonts:
        - asset: assets/fonts/KoPubWorld Batang Light.ttf
          weight: 300
-    - family: KoPubDotum
-      fonts:
-       - asset: assets/fonts/KoPubWorld Dotum Light.ttf
-         weight: 300
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -64,11 +64,12 @@ class MyApp extends StatelessWidget {
         // },
         home: AnimatedSplashScreen(
           duration: 100,
-          splash: const Image(image: AssetImage('assets/launcher_icon/mainLogo.png')),
+          splash:
+              const Image(image: AssetImage('assets/launcher_icon/launcher_icon_1024_text.png')),
           splashTransition: SplashTransition.fadeTransition,
           //curve: Curves.fastLinearToSlowEaseIn,
           pageTransitionType: PageTransitionType.fade,
-          splashIconSize: 60,
+          splashIconSize: 250,
           nextScreen: const Home(),
           //backgroundColor: Color(0x5fa1df6e),
         ));
