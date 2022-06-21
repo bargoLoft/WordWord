@@ -7,6 +7,7 @@ import 'package:word_word/screens/search_screen.dart';
 import 'package:word_word/screens/storage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   //final _scrollController = ScrollController();
   int _selectedIndex = 0;
+  DateTime? currentBackPressTime;
   //static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   // static const List<Widget> _widgetOptions = <Widget>[
   //   HomeScreen(),
@@ -25,6 +27,25 @@ class _HomeState extends State<Home> {
   //   WriteScreen(),
   //   InfoScreen(),
   // ];
+  onWillPop() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      Fluttertoast.showToast(
+        msg: "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.",
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.white,
+        textColor: Theme.of(context).primaryColorDark,
+        fontSize: 12.0,
+        toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 1,
+        webShowClose: false,
+      );
+      return false;
+    }
+    return true;
+  }
 
   void _onItemTapped(int index) {
     if (_selectedIndex != index) {
@@ -43,16 +64,22 @@ class _HomeState extends State<Home> {
         elevation: 0.0,
         toolbarHeight: 0.0, // Hide the AppBar
       ),
-      body: Center(
-        child: Consumer<HiveService>(
-          builder: (context, hiveService, child) => IndexedStack(
-            index: _selectedIndex,
-            children: const [
-              HomeScreen(),
-              StorageScreen(),
-              WriteScreen(),
-              InfoScreen(),
-            ],
+      body: WillPopScope(
+        onWillPop: () async {
+          bool result = onWillPop();
+          return await Future.value(result);
+        },
+        child: Center(
+          child: Consumer<HiveService>(
+            builder: (context, hiveService, child) => IndexedStack(
+              index: _selectedIndex,
+              children: const [
+                HomeScreen(),
+                StorageScreen(),
+                WriteScreen(),
+                InfoScreen(),
+              ],
+            ),
           ),
         ),
       ),
