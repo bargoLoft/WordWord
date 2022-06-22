@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:word_word/models/recent_word.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,16 +13,20 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import '../screens/home_screen.dart';
 import '../models/app_model.dart';
+import '../screens/onboard_screen.dart';
 
+int? isViewed;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // main에서 비동기 메소드 사용시 필요
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  isViewed = prefs.getInt('onBoard');
+
   HttpOverrides.global = MyHttpOverrides();
   await Hive.initFlutter();
   Hive.registerAdapter(wordtestAdapter());
   Hive.registerAdapter(RecentWordAdapter());
   await Hive.openBox<wordtest>('words');
   await Hive.openBox<RecentWord>('RecentWords');
-  //await Hive.openBox<Write>('Writes');
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(MultiProvider(providers: [
@@ -70,7 +75,7 @@ class MyApp extends StatelessWidget {
           //curve: Curves.fastLinearToSlowEaseIn,
           pageTransitionType: PageTransitionType.fade,
           splashIconSize: 250,
-          nextScreen: const Home(),
+          nextScreen: isViewed == 0 ? const Onboard() : const Home(),
           //backgroundColor: Color(0x5fa1df6e),
         ));
   }

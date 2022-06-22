@@ -48,7 +48,6 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     _controller = AnimationController(vsync: this);
-
     super.initState();
   }
 
@@ -60,6 +59,13 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    ButtonStyle buttonStyle = TextButton.styleFrom(
+      padding: EdgeInsets.zero,
+      minimumSize: const Size(50, 40),
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      alignment: Alignment.centerLeft,
+    );
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -88,7 +94,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 10),
             // Align(
             //   alignment: Alignment.topLeft,
             //   child: TextButton(
@@ -105,9 +111,14 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
             //     ),
             //   ),
             // ),
+            const Padding(
+              padding: EdgeInsets.only(left: 15.0, top: 8, bottom: 8),
+              child: Text('바로가기'),
+            ),
             Padding(
-              padding: const EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 25),
               child: TextButton(
+                style: buttonStyle,
                 onPressed: () {
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => webView(dicKoreanUrl)));
@@ -122,19 +133,16 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            const Divider(
-              height: 1,
-              indent: 10,
-              endIndent: 10,
-            ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.only(left: 25),
               child: TextButton(
                 onPressed: () {
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => webView(dicUrimalUrl)));
                 },
+                style: buttonStyle,
                 child: SizedBox(
+                  height: 20,
                   width: double.infinity,
                   child: Text(
                     '우리말 샘 바로가기',
@@ -143,14 +151,89 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            const Divider(
-              height: 1,
-              indent: 10,
-              endIndent: 10,
+            const Padding(
+              padding: EdgeInsets.only(left: 15.0, top: 8, bottom: 8),
+              child: Text('다너다너'),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.only(left: 25),
               child: TextButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const Setting()));
+                },
+                style: buttonStyle,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    '다너다너 설정',
+                    style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 25),
+              child: TextButton(
+                style: buttonStyle,
+                onPressed: () {
+                  showCupertinoDialog(
+                    context: context,
+                    builder: (context) {
+                      return CupertinoAlertDialog(
+                        title: const Text(
+                          '다너다너 초기화',
+                          style: TextStyle(fontSize: 17, color: Colors.red),
+                        ),
+                        content: const Text('다너다너를 초기화 하시겠습니까?'),
+                        actions: [
+                          CupertinoDialogAction(
+                              child: const Text(
+                                '취소',
+                                //style: TextStyle(color: Colors.red), // 왜 적용 안되지
+                              ),
+                              onPressed: () => Navigator.pop(context)),
+                          CupertinoDialogAction(
+                            child: const Text(
+                              '초기화',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            onPressed: () async {
+                              RecentWordBoxes.getWords().clear();
+                              WordBoxes.getWords().clear();
+                              SharedPreferences preferences = await SharedPreferences.getInstance();
+                              await preferences.clear();
+                              Navigator.pop(context);
+                              const snackBar = SnackBar(
+                                content: Text('다너다너가 초기화 되었습니다!'),
+                                duration: Duration(seconds: 1),
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            },
+                          )
+                        ],
+                      );
+                    },
+                    barrierDismissible: true,
+                  );
+                },
+                child: Text(
+                  '다너다너 초기화',
+                  style: TextStyle(
+                      //fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                      color: Theme.of(context).primaryColorDark),
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 15.0, top: 8.0, bottom: 8),
+              child: Text('개발자 정보'),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 25),
+              child: TextButton(
+                style: buttonStyle,
                 onPressed: () {
                   _sendEmail();
                 },
@@ -163,17 +246,13 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            const Divider(
-              height: 1,
-              indent: 10,
-              endIndent: 10,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  padding: const EdgeInsets.only(left: 25),
                   child: TextButton(
+                    style: buttonStyle,
                     onPressed: () {
                       Navigator.push(
                           context, MaterialPageRoute(builder: (context) => webView(blogUrl)));
@@ -228,14 +307,11 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                   ),
               ],
             ),
-            const Divider(
-              height: 1,
-              indent: 10,
-              endIndent: 10,
-            ),
+
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.only(left: 25),
               child: TextButton(
+                style: buttonStyle,
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const Licence()));
                 },
@@ -249,80 +325,8 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
               ),
             ),
             //SizedBox(height: 100),
-            const Divider(height: 1, indent: 10, endIndent: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const Setting()));
-                },
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    '다너다너 설정',
-                    style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColorDark),
-                  ),
-                ),
-              ),
-            ),
-            const Divider(
-              height: 1,
-              indent: 10,
-              endIndent: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: TextButton(
-                onPressed: () {
-                  showCupertinoDialog(
-                    context: context,
-                    builder: (context) {
-                      return CupertinoAlertDialog(
-                        title: const Text(
-                          '다너다너 초기화',
-                          style: TextStyle(fontSize: 17, color: Colors.red),
-                        ),
-                        content: const Text('다너다너를 초기화 하시겠습니까?'),
-                        actions: [
-                          CupertinoDialogAction(
-                              child: const Text(
-                                '취소',
-                                //style: TextStyle(color: Colors.red), // 왜 적용 안되지
-                              ),
-                              onPressed: () => Navigator.pop(context)),
-                          CupertinoDialogAction(
-                            child: const Text(
-                              '초기화',
-                              style: TextStyle(color: Colors.red),
-                            ),
-                            onPressed: () async {
-                              RecentWordBoxes.getWords().clear();
-                              WordBoxes.getWords().clear();
-                              SharedPreferences preferences = await SharedPreferences.getInstance();
-                              await preferences.clear();
-                              Navigator.pop(context);
-                              const snackBar = SnackBar(
-                                content: Text('다너다너가 초기화 되었습니다!'),
-                                duration: Duration(seconds: 1),
-                              );
-                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                            },
-                          )
-                        ],
-                      );
-                    },
-                    barrierDismissible: true,
-                  );
-                },
-                child: Text(
-                  '다너다너 초기화',
-                  style: TextStyle(
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                      color: Theme.of(context).primaryColorDark),
-                ),
-              ),
-            ),
+            //const Divider(height: 1, indent: 10, endIndent: 10),
+
             //Expanded(child: SizedBox(height: 0)),
             Container(
                 padding: const EdgeInsets.all(20),
