@@ -13,7 +13,7 @@ class Onboard extends StatefulWidget {
 
 class _OnboardState extends State<Onboard> with TickerProviderStateMixin {
   final introKey = GlobalKey<IntroductionScreenState>();
-  late final AnimationController _controller;
+  //late final AnimationController _controller;
 
   void _onIntroEnd(context) {
     Navigator.of(context).push(
@@ -21,12 +21,24 @@ class _OnboardState extends State<Onboard> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildImage(String assetName, [double width = 350]) {
-    return Image.asset('assets/$assetName', width: width);
+  Widget _buildLottie(String assetName, [double width = 350]) {
+    AnimationController _lottieController = AnimationController(vsync: this);
+    return Lottie.asset(
+      'assets/lottie/$assetName',
+      repeat: true,
+      height: 350,
+      controller: _lottieController,
+      onLoaded: (composition) {
+        // Configure the AnimationController with the duration of the
+        // Lottie file and start the animation.
+        _lottieController
+          ..duration = composition.duration
+          ..forward();
+      },
+    );
   }
 
   _storeOnboardInfo() async {
-    print("Shard pref called");
     int isViewed = 0;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('onBoard', isViewed);
@@ -34,13 +46,13 @@ class _OnboardState extends State<Onboard> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _controller = AnimationController(vsync: this, duration: Duration(seconds: 25));
+    //_controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
     super.initState();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    //_controller.dispose();
     super.dispose();
   }
 
@@ -93,31 +105,25 @@ class _OnboardState extends State<Onboard> with TickerProviderStateMixin {
         PageViewModel(
           title: '단어를 검색하세요',
           body: '한글로 된 단어를 검색하세요!',
-          image: Lottie.asset(
-            'assets/lottie/book_search.json',
-            repeat: true,
-            height: 300,
-            controller: _controller,
-            onLoaded: (composition) {
-              // Configure the AnimationController with the duration of the
-              // Lottie file and start the animation.
-              _controller
-                ..duration = composition.duration
-                ..forward();
-            },
-          ),
+          image: _buildLottie('search.json'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: '단어를 넣어주세요',
           body: '남기고 싶은 단어를 넣어주세요!',
-          image: _buildImage(''),
+          image: _buildLottie('empty_box.json'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: '단어에 남겨주세요',
           body: '생각, 경험, 글을 남겨주세요!',
-          image: _buildImage(''),
+          image: _buildLottie('write.json'),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: '언제나 어디서나 놓치지 마세요 ',
+          body: '사진처럼 단어를 남겨주세요',
+          image: _buildLottie('smartphone.json'),
           decoration: pageDecoration,
         ),
       ],

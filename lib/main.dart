@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         title: '다너다너',
         theme: ThemeData(
           fontFamily: 'KoPubBatang',
-          primaryColor: const Color(0x5fa1df6e),
+          primaryColor: const Color(0x5fa1df6e), // e8ffd2
           primaryColorDark: const Color(0xff0a3711),
           primaryColorLight: const Color(0xfff4ffeb),
           // colorScheme: ColorScheme.fromSeed(seedColor: const Color(0x5fa1df6e)),
@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
           //curve: Curves.fastLinearToSlowEaseIn,
           pageTransitionType: PageTransitionType.fade,
           splashIconSize: 250,
-          nextScreen: isViewed == 0 ? const Onboard() : const Home(),
+          nextScreen: isViewed == 0 ? const Onboard() : const Home(), // 테스트 끝나면 != 로 바꾸기.
           //backgroundColor: Color(0x5fa1df6e),
         ));
   }
