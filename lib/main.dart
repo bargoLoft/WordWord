@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
           //curve: Curves.fastLinearToSlowEaseIn,
           pageTransitionType: PageTransitionType.fade,
           splashIconSize: 250,
-          nextScreen: isViewed == 0 ? const Onboard() : const Home(), // 테스트 끝나면 != 로 바꾸기.
+          nextScreen: isViewed != 0 ? const Onboard() : const Home(), // 테스트 끝나면 != 로 바꾸기.
           //backgroundColor: Color(0x5fa1df6e),
         ));
   }
