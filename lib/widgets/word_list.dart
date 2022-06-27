@@ -231,7 +231,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                       ),
                     ),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
+                      height: MediaQuery.of(context).size.height * 0.08,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white,

@@ -90,27 +90,38 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: SizedBox(
         height: MediaQuery.of(context).size.height * 0.09,
         child: BottomNavigationBar(
-            iconSize: 23,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.house), label: 'home'),
-              BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.boxArchive), label: 'storage'),
-              BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pen), label: 'home'),
-              BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.circleInfo), label: 'info'),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Theme.of(context).primaryColorDark,
-            unselectedItemColor: Colors.black26,
-            selectedFontSize: 3.0,
-            unselectedFontSize: 3.0,
-            onTap: _onItemTapped,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            type: BottomNavigationBarType.fixed,
-            elevation: 0,
-            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.0)),
+          iconSize: 23,
+          items: <BottomNavigationBarItem>[
+            buildBottomNavigationBarItem(icon: const Icon(FontAwesomeIcons.house)),
+            buildBottomNavigationBarItem(icon: const Icon(FontAwesomeIcons.boxArchive)),
+            buildBottomNavigationBarItem(icon: const Icon(FontAwesomeIcons.pen)),
+            buildBottomNavigationBarItem(icon: const Icon(FontAwesomeIcons.circleInfo)),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Theme.of(context).primaryColorDark,
+          unselectedItemColor: Colors.black26,
+          selectedFontSize: 3.0,
+          unselectedFontSize: 3.0,
+          onTap: _onItemTapped,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          type: BottomNavigationBarType.fixed,
+          elevation: 0,
+          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.0),
+          //landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
+        ),
       ),
       //extendBodyBehindAppBar: true,
       extendBody: true,
+    );
+  }
+
+  BottomNavigationBarItem buildBottomNavigationBarItem({Icon? icon}) {
+    return BottomNavigationBarItem(
+      icon: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: icon,
+      ),
     );
   }
 }

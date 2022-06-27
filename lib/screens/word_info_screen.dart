@@ -9,7 +9,6 @@ import 'package:word_word/providers/word_search.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:word_word/providers/hive_service.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:intl/intl.dart';
 
