@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       keepPage: true,
       initialPage: widget.getPage(),
     );
-    init();
+    //init();
     super.initState();
   }
   //

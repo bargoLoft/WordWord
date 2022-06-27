@@ -61,7 +61,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     ButtonStyle buttonStyle = TextButton.styleFrom(
       padding: EdgeInsets.zero,
-      minimumSize: const Size(50, 40),
+      minimumSize: const Size(50, 42),
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       alignment: Alignment.centerLeft,
     );
