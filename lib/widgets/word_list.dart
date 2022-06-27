@@ -6,6 +6,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:word_word/providers/hive_service.dart';
@@ -167,9 +168,12 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                           )),
                     ),
                     Positioned.fill(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: CustomTextFiled(context),
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.09,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: CustomTextFiled(context),
+                        ),
                       ),
                     ),
                     Positioned.fill(
@@ -231,7 +235,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                       ),
                     ),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.08,
+                      height: MediaQuery.of(context).size.height * 0.065,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white,
@@ -242,16 +246,20 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                           alignment: AlignmentDirectional.center,
                           children: [
                             Positioned.fill(
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: CustomTextFiled(context),
+                              child: SizedBox(
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: CustomTextFiled(context),
+                                ),
                               ),
                             ),
                             Positioned.fill(
                               child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: IconButton(
-                                    padding: EdgeInsets.zero,
+                                    padding: const EdgeInsets.only(left: 10),
+                                    constraints: const BoxConstraints(),
                                     onPressed: () async {
                                       final result = await Navigator.push(
                                         context,
@@ -277,6 +285,8 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                               alignment: Alignment.centerRight,
                               child: _wordSearchController.text.isNotEmpty
                                   ? IconButton(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      constraints: const BoxConstraints(),
                                       onPressed: () {
                                         _wordSearchController.text = ' ';
                                         FocusScope.of(context).requestFocus(_myFocusNode);
@@ -422,6 +432,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
       controller: _wordSearchController,
       keyboardType: TextInputType.text,
       textAlign: TextAlign.center,
+      textAlignVertical: TextAlignVertical.bottom,
       cursorColor: Theme.of(context).primaryColorDark,
       autofocus: false,
       focusNode: _myFocusNode,
@@ -440,8 +451,9 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
         border: InputBorder.none,
       ),
       style: const TextStyle(
+        letterSpacing: 1.2,
         fontWeight: FontWeight.bold,
-        fontSize: 18,
+        fontSize: 20,
       ),
     );
   }

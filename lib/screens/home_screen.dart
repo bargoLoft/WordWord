@@ -92,10 +92,12 @@ class _HomeState extends State<Home> {
         child: BottomNavigationBar(
           iconSize: 23,
           items: <BottomNavigationBarItem>[
-            buildBottomNavigationBarItem(icon: const Icon(FontAwesomeIcons.house)),
-            buildBottomNavigationBarItem(icon: const Icon(FontAwesomeIcons.boxArchive)),
-            buildBottomNavigationBarItem(icon: const Icon(FontAwesomeIcons.pen)),
-            buildBottomNavigationBarItem(icon: const Icon(FontAwesomeIcons.circleInfo)),
+            buildBottomNavigationBarItem(icon: const Icon(FontAwesomeIcons.house), label: 'home'),
+            buildBottomNavigationBarItem(
+                icon: const Icon(FontAwesomeIcons.boxArchive), label: 'storage'),
+            buildBottomNavigationBarItem(icon: const Icon(FontAwesomeIcons.pen), label: 'write'),
+            buildBottomNavigationBarItem(
+                icon: const Icon(FontAwesomeIcons.circleInfo), label: 'info'),
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: Theme.of(context).primaryColorDark,
@@ -116,12 +118,13 @@ class _HomeState extends State<Home> {
     );
   }
 
-  BottomNavigationBarItem buildBottomNavigationBarItem({Icon? icon}) {
+  BottomNavigationBarItem buildBottomNavigationBarItem({Icon? icon, String? label}) {
     return BottomNavigationBarItem(
       icon: Padding(
         padding: const EdgeInsets.all(8.0),
         child: icon,
       ),
+      label: '',
     );
   }
 }
