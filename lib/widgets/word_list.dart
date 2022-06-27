@@ -169,10 +169,14 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                     ),
                     Positioned.fill(
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.09,
+                        height: MediaQuery.of(context).size.height * 0.14,
                         child: Align(
                           alignment: Alignment.bottomCenter,
-                          child: CustomTextFiled(context),
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.017),
+                            child: CustomTextFiled(context),
+                          ),
                         ),
                       ),
                     ),
@@ -204,7 +208,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
               : Column(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.44,
+                      height: MediaQuery.of(context).size.height * 0.43,
                       width: MediaQuery.of(context).size.width,
                       //color: const Color(0xffa1df6e),
                       decoration: BoxDecoration(
@@ -234,70 +238,57 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.065,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.white,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                        child: Stack(
-                          alignment: AlignmentDirectional.center,
-                          children: [
-                            Positioned.fill(
-                              child: SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.09,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: CustomTextFiled(context),
-                                ),
-                              ),
-                            ),
-                            Positioned.fill(
-                              child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: IconButton(
-                                    padding: const EdgeInsets.only(left: 10),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                            child:
+                                Align(alignment: Alignment.center, child: CustomTextFiled(context)),
+                          ),
+                          Positioned.fill(
+                            child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: IconButton(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  constraints: const BoxConstraints(),
+                                  onPressed: () async {
+                                    final result = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const RecentWordList()),
+                                    );
+                                    if (result != null) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      _wordSearchController.text = result;
+                                      getWordSearchData(result);
+                                    }
+                                  },
+                                  icon: Icon(
+                                    FontAwesomeIcons.magnifyingGlass,
+                                    size: 18,
+                                    color: Theme.of(context).primaryColorDark,
+                                  ),
+                                )),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: _wordSearchController.text.isNotEmpty
+                                ? IconButton(
+                                    padding: const EdgeInsets.only(right: 15),
                                     constraints: const BoxConstraints(),
-                                    onPressed: () async {
-                                      final result = await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => const RecentWordList()),
-                                      );
-                                      if (result != null) {
-                                        setState(() {
-                                          isLoading = true;
-                                        });
-                                        _wordSearchController.text = result;
-                                        getWordSearchData(result);
-                                      }
+                                    onPressed: () {
+                                      _wordSearchController.text = ' ';
+                                      FocusScope.of(context).requestFocus(_myFocusNode);
                                     },
-                                    icon: Icon(
-                                      FontAwesomeIcons.magnifyingGlass,
-                                      size: 18,
-                                      color: Theme.of(context).primaryColorDark,
-                                    ),
-                                  )),
-                            ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: _wordSearchController.text.isNotEmpty
-                                  ? IconButton(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      constraints: const BoxConstraints(),
-                                      onPressed: () {
-                                        _wordSearchController.text = ' ';
-                                        FocusScope.of(context).requestFocus(_myFocusNode);
-                                      },
-                                      splashColor: Colors.transparent,
-                                      icon: const Icon(Icons.clear),
-                                    )
-                                  : null,
-                            ),
-                          ],
-                        ),
+                                    splashColor: Colors.transparent,
+                                    icon: const Icon(Icons.clear),
+                                  )
+                                : null,
+                          ),
+                        ],
                       ),
                     ),
                     //const CustomDivider(),
@@ -427,13 +418,13 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
   // ignore: non_constant_identifier_names
   TextField CustomTextFiled(BuildContext context) {
     return TextField(
-      selectionHeightStyle: BoxHeightStyle.tight,
-      //제출시 검색되게
+      //selectionHeightStyle: BoxHeightStyle.includeLineSpacingBottom,
       controller: _wordSearchController,
       keyboardType: TextInputType.text,
       textAlign: TextAlign.center,
-      textAlignVertical: TextAlignVertical.bottom,
+      //textAlignVertical: TextAlignVertical.center,
       cursorColor: Theme.of(context).primaryColorDark,
+      //cursorHeight: ,
       autofocus: false,
       focusNode: _myFocusNode,
       autocorrect: false,
@@ -446,7 +437,10 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
           getWordSearchData(inputText);
         });
       },
-      decoration: InputDecoration(
+      //scrollPadding: EdgeInsets.zero,
+      decoration: InputDecoration.collapsed(
+        fillColor: Colors.transparent,
+        filled: true,
         hintText: _myFocusNode.hasFocus ? '' : '다너를 입력해 주세요',
         border: InputBorder.none,
       ),
@@ -454,6 +448,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
         letterSpacing: 1.2,
         fontWeight: FontWeight.bold,
         fontSize: 20,
+        height: 1.5,
       ),
     );
   }
