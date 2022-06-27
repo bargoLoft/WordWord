@@ -158,7 +158,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
               ? Stack(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.45,
+                      height: MediaQuery.of(context).size.height * 0.50,
                       decoration: BoxDecoration(
                           color: Theme.of(context).primaryColor,
                           borderRadius: const BorderRadius.only(
@@ -200,7 +200,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
               : Column(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.39,
+                      height: MediaQuery.of(context).size.height * 0.44,
                       width: MediaQuery.of(context).size.width,
                       //color: const Color(0xffa1df6e),
                       decoration: BoxDecoration(

@@ -1,10 +1,17 @@
 import 'dart:async';
 
+import 'package:word_word/boxes.dart';
+import 'package:word_word/models/word.dart';
 import 'package:word_word/models/word_view.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:word_word/providers/word_search.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import 'package:word_word/providers/hive_service.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'package:intl/intl.dart';
 
 class WordViewInfo extends StatefulWidget {
   final Item? item;
@@ -46,20 +53,75 @@ class _WordViewInfoState extends State<WordViewInfo> {
           controller: _scrollController,
           //physics: NeverScrollableScrollPhysics(),
           children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: TextButton(
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all(EdgeInsets.zero),
+            Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: TextButton(
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all(EdgeInsets.zero),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.grey,
+                Align(
+                  alignment: Alignment.topRight,
+                  child: WordBoxes.getWords().containsKey(widget.item?.targetCode)
+                      ? TextButton(
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all(EdgeInsets.zero),
+                          ),
+                          onPressed: () async {
+                            HiveService().deleteItem(widget.item?.targetCode ?? '');
+                            SnackBar snackBar = SnackBar(
+                              content: Text('${widget.item?.wordInfo?.word} 제거 했습니다.'),
+                              duration: const Duration(seconds: 1),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            setState(() {});
+                          },
+                          child: const Icon(
+                            Icons.check,
+                            color: Colors.grey,
+                          ),
+                        )
+                      : TextButton(
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all(EdgeInsets.zero),
+                          ),
+                          onPressed: () {
+                            HiveService().updateItem(
+                                widget.item?.targetCode ?? '',
+                                wordtest(
+                                    widget.item?.wordInfo?.word ?? '',
+                                    0,
+                                    widget.item?.wordInfo?.posInfo?[0].pos ?? '',
+                                    widget.item?.wordInfo?.posInfo?[0].commPatternInfo?[0]
+                                            .senseInfo?[0].definition ??
+                                        '',
+                                    widget.item?.targetCode ?? '',
+                                    DateFormat('yyyyMMddhhmmss').format(DateTime.now()),
+                                    null));
+                            SnackBar snackBar = SnackBar(
+                              content: Text('${widget.item?.wordInfo?.word} 넣었습니다'),
+                              duration: const Duration(seconds: 1),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            setState(() {});
+                          },
+                          child: const Icon(
+                            Icons.add,
+                            color: Colors.grey,
+                          ),
+                        ),
                 ),
-              ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(20),
@@ -198,7 +260,7 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) => WordViewInfo(
-                                                          item: wordView.channel?.item)));
+                                                          item: wordView.channel?.item ?? Item())));
                                             },
                                             child: RichText(
                                                 text: TextSpan(

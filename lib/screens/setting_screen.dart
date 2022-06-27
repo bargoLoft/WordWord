@@ -54,10 +54,10 @@ class _SettingState extends State<Setting> {
                     ),
                     IgnorePointer(
                       child: CupertinoSlidingSegmentedControl(
-                        padding: const EdgeInsets.all(4),
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
                         groupValue: _autoFocus,
                         children: const {
-                          true: Text('네'),
+                          true: Text(' 네 '),
                           false: Text('아니요'),
                         },
                         onValueChanged: <bool>(newValue) {
@@ -66,6 +66,7 @@ class _SettingState extends State<Setting> {
                             _prefs.setBool('autoFocus', _autoFocus);
                           });
                         },
+                        thumbColor: Theme.of(context).primaryColorLight,
                       ),
                     ),
                   ],
@@ -79,11 +80,11 @@ class _SettingState extends State<Setting> {
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     CupertinoSlidingSegmentedControl(
-                      padding: const EdgeInsets.all(4),
+                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                       groupValue: _method,
                       children: const {
-                        'exact': Text('일치'),
-                        'include': Text('포함'),
+                        'exact': Text(' 일치 '),
+                        'include': Text(' 포함 '),
                       },
                       onValueChanged: <bool>(newValue) {
                         setState(() {
@@ -91,6 +92,8 @@ class _SettingState extends State<Setting> {
                           _prefs.setString('method', _method);
                         });
                       },
+                      thumbColor: Theme.of(context).primaryColorLight,
+                      backgroundColor: CupertinoColors.extraLightBackgroundGray,
                     ),
                   ],
                 ),

@@ -41,9 +41,9 @@ class HiveService extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteItem(wordtest word) async {
+  Future<void> deleteItem(String key) async {
     Box<wordtest> box = await Hive.openBox(wordHiveBox);
-    await box.delete(word.key);
+    await box.delete(key);
     notifyListeners();
   }
 

@@ -239,7 +239,7 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                                         autoClose: true,
                                         flex: 1,
                                         onPressed: (context) {
-                                          hiveService.deleteItem(word);
+                                          hiveService.deleteItem(word.targetCode);
                                         },
                                         backgroundColor: Colors.white,
                                         foregroundColor: const Color(0xfffe6f6e),
