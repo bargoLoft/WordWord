@@ -57,7 +57,7 @@ class _RecentWordListState extends State<RecentWordList> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
                           child: GestureDetector(
                             onTap: () {
                               Navigator.pop(

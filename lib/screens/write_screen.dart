@@ -9,6 +9,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import 'package:word_word/providers/hive_service.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '../boxes.dart';
 import '../models/word.dart';
@@ -36,6 +37,7 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
   //late var currentWord;
 
   int currentIndex = 0;
+  bool backButton = false;
 
   final double toolbarIconSize = 18;
   final double _fontSize = 15;
@@ -68,27 +70,31 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<Box<wordtest>>(
-      valueListenable: WordBoxes.getWords().listenable(),
-      builder: (context, box, _) {
-        var words = WordBoxes.getWords().values.toList().cast<wordtest>();
-        words.sort((b, a) => (a.saveTime ?? '').compareTo(b.saveTime ?? ''));
+    return KeyboardVisibilityProvider(
+      child: ValueListenableBuilder<Box<wordtest>>(
+        valueListenable: WordBoxes.getWords().listenable(),
+        builder: (context, box, _) {
+          var words = WordBoxes.getWords().values.toList().cast<wordtest>();
+          words.sort((b, a) => (a.saveTime ?? '').compareTo(b.saveTime ?? ''));
 
-        if (words.isNotEmpty && words[currentIndex].write != null) {
-          _quillController = QuillController(
-            document: Document.fromJson(jsonDecode(words[currentIndex].write!)),
-            selection: const TextSelection.collapsed(offset: 0),
-          );
-        } else {
-          _quillController = QuillController.basic();
-        }
-        //currentWord = words[0];
-        return buildContext(words);
-      },
+          if (words.isNotEmpty && words[currentIndex].write != null) {
+            _quillController = QuillController(
+              document: Document.fromJson(jsonDecode(words[currentIndex].write!)),
+              selection: const TextSelection.collapsed(offset: 0),
+            );
+          } else {
+            _quillController = QuillController.basic();
+          }
+          //currentWord = words[0];
+          return buildContext(context, words);
+        },
+      ),
     );
   }
 
-  Widget buildContext(List<wordtest> words) {
+  Widget buildContext(BuildContext context, List<wordtest> words) {
+    final bool isKeyboardVisible = KeyboardVisibilityProvider.isKeyboardVisible(context);
+
     if (words.isEmpty) {
       return Center(
         child: Column(
@@ -381,7 +387,7 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
                   //   color: Theme.of(context).primaryColor,
                   // ),
                   //SizedBox(height: MediaQuery.of(context).size.height * 0.06)
-                  if (focusNode.hasFocus)
+                  if (isKeyboardVisible)
                     CustomQuillToolbar(
                       toolbarIconSize: toolbarIconSize,
                       quillController: _quillController,

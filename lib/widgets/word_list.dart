@@ -249,7 +249,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                   ? Alignment.centerRight
                                   : Alignment.centerLeft,
                               child: IconButton(
-                                padding: const EdgeInsets.symmetric(horizontal: 15),
+                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                                 constraints: const BoxConstraints(),
                                 onPressed: () async {
                                   final result = await Navigator.push(
@@ -277,7 +277,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                               : Alignment.centerRight,
                           child: _wordSearchController.text.isNotEmpty
                               ? IconButton(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                                   constraints: const BoxConstraints(),
                                   onPressed: () {
                                     _wordSearchController.text = ' ';
