@@ -4,15 +4,14 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:word_word/providers/hive_service.dart';
 
+import 'package:word_word/main.dart';
+import 'package:word_word/models/app_model.dart';
 import '../models/word_model.dart';
 import '../providers/word_search.dart';
 import '../models/word_model.dart' as search;
@@ -23,7 +22,6 @@ import 'package:word_word/boxes.dart';
 import '../screens/word_info_screen.dart';
 import '../screens/recent_screen.dart';
 import '../widgets/word_info.dart';
-import '../models/app_model.dart';
 
 // ignore: must_be_immutable
 class Word extends StatefulWidget {
@@ -43,31 +41,23 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
 
   String inputText = '';
   bool isLoading = true;
-  late bool _isLeft;
-  late bool _autoFocus;
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
-    _loadSetting();
     isLoading = false;
     super.initState();
     //Future.delayed(Duration(seconds: 2));
     //getWordData(widget.word).whenComplete(() => setState(() {}));
   }
-
-  _loadSetting() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // bool autoFocus = prefs.getBool('autoFocus') ?? false;
-    // bool isLeft = prefs.getBool('left') ?? false;
-    setState(() {
-      _autoFocus = prefs.getBool('autoFocus') ?? false;
-      _isLeft = prefs.getBool('left') ?? false;
-      // _isLeft = isLeft;
-      // _autoFocus = autoFocus;
-    });
-  }
+  //
+  // _loadSetting() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     _isLeft = prefs.getBool('left') ?? false;
+  //   });
+  // }
 
   @override
   void dispose() {
@@ -158,300 +148,293 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
   @override
   // ignore: must_call_super
   Widget build(BuildContext context) {
-    return FutureBuilder<SharedPreferences>(
-        future: SharedPreferences.getInstance(),
-        builder: (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
-          return Padding(
-            padding: MediaQuery.of(context).viewPadding,
-            child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
-              child: _wordSearchController.text.isEmpty
-                  ? Stack(
-                      children: [
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.50,
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(40.0),
-                                bottomRight: Radius.circular(40.0),
-                              )),
+    return Padding(
+      padding: MediaQuery.of(context).viewPadding,
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: _wordSearchController.text.isEmpty
+            ? Stack(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.50,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(40.0),
+                          bottomRight: Radius.circular(40.0),
+                        )),
+                  ),
+                  Positioned.fill(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.14,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding:
+                              EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.017),
+                          child: CustomTextFiled(context, false),
                         ),
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: GestureDetector(
+                        onTap: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await getWordRandomViewData(Random().nextInt(422879).toString());
+                          isLoading = false;
+                        },
+                        child: Text(
+                          '다너다너',
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontSize: 30,
+                              fontFamily: 'KoPubBatang',
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColorDark,
+                              letterSpacing: 10),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            : Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.43,
+                    width: MediaQuery.of(context).size.width,
+                    //color: const Color(0xffa1df6e),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: const BorderRadius.only(
+                            // bottomLeft: Radius.circular(30.0),
+                            // bottomRight: Radius.circular(30.0),
+                            )),
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await getWordRandomViewData(Random().nextInt(422879).toString());
+                          isLoading = false;
+                        },
+                        child: Text(
+                          '다너다너',
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontSize: 30,
+                              fontFamily: 'KoPubBatang',
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColorDark,
+                              letterSpacing: 10),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    child: Stack(
+                      children: [
                         Positioned.fill(
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.14,
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context).size.height * 0.017),
-                                child: CustomTextFiled(context),
-                              ),
-                            ),
-                          ),
+                          child: Align(
+                              alignment: Alignment.center, child: CustomTextFiled(context, true)),
                         ),
                         Positioned.fill(
                           child: Align(
-                            alignment: Alignment.center,
-                            child: GestureDetector(
-                              onTap: () async {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                await getWordRandomViewData(Random().nextInt(422879).toString());
-                                isLoading = false;
-                              },
-                              child: Text(
-                                '다너다너',
-                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    fontSize: 30,
-                                    fontFamily: 'KoPubBatang',
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).primaryColorDark,
-                                    letterSpacing: 10),
-                              ),
-                            ),
-                          ),
+                              alignment: Provider.of<AppModel>(context).getLeft()
+                                  ? Alignment.centerRight
+                                  : Alignment.centerLeft,
+                              child: IconButton(
+                                padding: const EdgeInsets.symmetric(horizontal: 15),
+                                constraints: const BoxConstraints(),
+                                onPressed: () async {
+                                  final result = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const RecentWordList()),
+                                  );
+                                  if (result != null) {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    _wordSearchController.text = result;
+                                    getWordSearchData(result);
+                                  }
+                                },
+                                icon: Icon(
+                                  FontAwesomeIcons.magnifyingGlass,
+                                  size: 18,
+                                  color: Theme.of(context).primaryColorDark,
+                                ),
+                              )),
                         ),
-                      ],
-                    )
-                  : Column(
-                      children: [
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.43,
-                          width: MediaQuery.of(context).size.width,
-                          //color: const Color(0xffa1df6e),
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: const BorderRadius.only(
-                                  // bottomLeft: Radius.circular(30.0),
-                                  // bottomRight: Radius.circular(30.0),
-                                  )),
-                          child: Center(
-                            child: GestureDetector(
-                              onTap: () async {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                await getWordRandomViewData(Random().nextInt(422879).toString());
-                                isLoading = false;
-                              },
-                              child: Text(
-                                '다너다너',
-                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    fontSize: 30,
-                                    fontFamily: 'KoPubBatang',
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).primaryColorDark,
-                                    letterSpacing: 10),
-                              ),
-                            ),
-                          ),
+                        Align(
+                          alignment: Provider.of<AppModel>(context).getLeft()
+                              ? Alignment.centerLeft
+                              : Alignment.centerRight,
+                          child: _wordSearchController.text.isNotEmpty
+                              ? IconButton(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                                  constraints: const BoxConstraints(),
+                                  onPressed: () {
+                                    _wordSearchController.text = ' ';
+                                    FocusScope.of(context).requestFocus(_myFocusNode);
+                                  },
+                                  splashColor: Colors.transparent,
+                                  icon: const Icon(Icons.clear),
+                                )
+                              : null,
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.07,
-                          child: Stack(
-                            children: [
-                              Positioned.fill(
-                                child: Align(
-                                    alignment: Alignment.center, child: CustomTextFiled(context)),
-                              ),
-                              Positioned.fill(
-                                child: Align(
-                                    alignment:
-                                        _isLeft ? Alignment.centerRight : Alignment.centerLeft,
-                                    child: IconButton(
-                                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                                      constraints: const BoxConstraints(),
-                                      onPressed: () async {
-                                        final result = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => const RecentWordList()),
-                                        );
-                                        if (result != null) {
-                                          setState(() {
-                                            isLoading = true;
-                                          });
-                                          _wordSearchController.text = result;
-                                          getWordSearchData(result);
-                                        }
-                                      },
-                                      icon: Icon(
-                                        FontAwesomeIcons.magnifyingGlass,
-                                        size: 18,
-                                        color: Theme.of(context).primaryColorDark,
-                                      ),
-                                    )),
-                              ),
-                              Align(
-                                alignment: _isLeft ? Alignment.centerLeft : Alignment.centerRight,
-                                child: _wordSearchController.text.isNotEmpty
-                                    ? IconButton(
-                                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                                        constraints: const BoxConstraints(),
-                                        onPressed: () {
-                                          _wordSearchController.text = ' ';
-                                          FocusScope.of(context).requestFocus(_myFocusNode);
-                                        },
-                                        splashColor: Colors.transparent,
-                                        icon: const Icon(Icons.clear),
-                                      )
-                                    : null,
-                              ),
-                            ],
-                          ),
-                        ),
-                        //const CustomDivider(),
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Colors.white,
-                            ),
-                            child: isLoading == true
-                                ? Center(
-                                    child: Center(
-                                      child: CupertinoActivityIndicator(
-                                        animating: isLoading,
-                                        radius: 20,
-                                      ),
-                                    ),
-                                  )
-                                : Scrollbar(
-                                    key: GlobalKey(debugLabel: 'search'),
-                                    controller: _scrollController,
-                                    child: ListView.builder(
-                                        padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context).size.height * 0.09),
-                                        controller: _scrollController,
-                                        itemCount: ((widget.wordModel.channel?.total ?? 0) >
-                                                (widget.wordModel.channel?.num ?? 0))
-                                            ? widget.wordModel.channel?.num ?? 0 + 1
-                                            : widget.wordModel.channel?.total ?? 0 + 1,
-                                        itemBuilder: (BuildContext context, int index) {
-                                          // if (index ==
-                                          //     (widget.wordModel.channel?.total ??
-                                          //             0) -
-                                          //         1) {
-                                          //   return const SizedBox(height: 70);
-                                          // }
-                                          if (index == widget.wordModel.channel?.total) {
-                                            return const SizedBox(height: 50);
-                                          } else {
-                                            return Slidable(
-                                              key: UniqueKey(),
-                                              endActionPane: ActionPane(
-                                                extentRatio: 1 / 6,
-                                                motion: const ScrollMotion(),
-                                                // dismissible: DismissiblePane(
-                                                //   onDismissed: () {},
-                                                // ),
-                                                children: [
-                                                  SlidableAction(
-                                                    autoClose: true,
-                                                    flex: 1,
-                                                    onPressed: (context) {
-                                                      Item item =
-                                                          widget.wordModel.channel?.item?[index] ??
-                                                              Item();
-                                                      if (WordBoxes.getWords()
-                                                          .containsKey(item.targetCode)) {
-                                                        SnackBar snackBar = SnackBar(
-                                                          content:
-                                                              Text('${item.word}는 이미 저장되었습니다.'),
-                                                          duration: const Duration(seconds: 1),
-                                                        );
-                                                        ScaffoldMessenger.of(context)
-                                                            .showSnackBar(snackBar);
-                                                      } else {
-                                                        WordBoxes.getWords().put(
-                                                            item.targetCode ?? '',
-                                                            wordtest(
-                                                                item.word ?? '',
-                                                                int.parse(item.supNo ?? ''),
-                                                                item.pos ?? '',
-                                                                item.sense?.definition ?? '',
-                                                                item.targetCode ?? '',
-                                                                widget.wordModel.channel
-                                                                    ?.lastbuilddate,
-                                                                null));
-                                                        SnackBar snackBar = SnackBar(
-                                                          content: Text('${item.word} 넣었습니다'),
-                                                          duration: const Duration(seconds: 1),
-                                                        );
-                                                        ScaffoldMessenger.of(context)
-                                                            .showSnackBar(snackBar);
-                                                      }
-                                                    },
-                                                    backgroundColor: Theme.of(context).primaryColor,
-                                                    foregroundColor:
-                                                        Theme.of(context).primaryColorDark,
-                                                    icon: FontAwesomeIcons.floppyDisk,
-                                                    padding: const EdgeInsets.all(0),
-                                                    borderRadius: BorderRadius.circular(10),
-                                                  ),
-                                                ],
-                                              ),
-                                              child: GestureDetector(
-                                                onTap: () async {
-                                                  if (widget.wordView[index] != null) {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) => WordViewInfo(
-                                                                item: widget.wordView[index]
-                                                                    ?.channel?.item)));
-                                                  } else {
-                                                    const snackBar = SnackBar(
-                                                      content: Text(
-                                                          '현재 국립국어원 Open API의 문제로\n 사진 자료가 있는 단어는 상세검색이 되지 않습니다.!'),
-                                                      duration: Duration(seconds: 2),
-                                                    );
-                                                    ScaffoldMessenger.of(context)
-                                                        .showSnackBar(snackBar);
-                                                  }
-                                                },
-                                                child: WordInfo(
-                                                  item: widget.wordModel.channel?.item?[index] ??
-                                                      search.Item(),
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                        }),
-                                  ),
-                          ),
-                        ), //const CustomDivider(),
                       ],
                     ),
-            ),
-          );
-        });
+                  ),
+                  //const CustomDivider(),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white,
+                      ),
+                      child: isLoading == true
+                          ? Center(
+                              child: Center(
+                                child: CupertinoActivityIndicator(
+                                  animating: isLoading,
+                                  radius: 20,
+                                ),
+                              ),
+                            )
+                          : Scrollbar(
+                              key: GlobalKey(debugLabel: 'search'),
+                              controller: _scrollController,
+                              child: ListView.builder(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context).size.height * 0.09),
+                                  controller: _scrollController,
+                                  itemCount: ((widget.wordModel.channel?.total ?? 0) >
+                                          (widget.wordModel.channel?.num ?? 0))
+                                      ? widget.wordModel.channel?.num ?? 0 + 1
+                                      : widget.wordModel.channel?.total ?? 0 + 1,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    // if (index ==
+                                    //     (widget.wordModel.channel?.total ??
+                                    //             0) -
+                                    //         1) {
+                                    //   return const SizedBox(height: 70);
+                                    // }
+                                    if (index == widget.wordModel.channel?.total) {
+                                      return const SizedBox(height: 50);
+                                    } else {
+                                      return Slidable(
+                                        key: UniqueKey(),
+                                        endActionPane: ActionPane(
+                                          extentRatio: 1 / 6,
+                                          motion: const ScrollMotion(),
+                                          // dismissible: DismissiblePane(
+                                          //   onDismissed: () {},
+                                          // ),
+                                          children: [
+                                            SlidableAction(
+                                              autoClose: true,
+                                              flex: 1,
+                                              onPressed: (context) {
+                                                Item item =
+                                                    widget.wordModel.channel?.item?[index] ??
+                                                        Item();
+                                                if (WordBoxes.getWords()
+                                                    .containsKey(item.targetCode)) {
+                                                  SnackBar snackBar = SnackBar(
+                                                    content: Text('${item.word}는 이미 저장되었습니다.'),
+                                                    duration: const Duration(seconds: 1),
+                                                  );
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(snackBar);
+                                                } else {
+                                                  WordBoxes.getWords().put(
+                                                      item.targetCode ?? '',
+                                                      wordtest(
+                                                          item.word ?? '',
+                                                          int.parse(item.supNo ?? ''),
+                                                          item.pos ?? '',
+                                                          item.sense?.definition ?? '',
+                                                          item.targetCode ?? '',
+                                                          widget.wordModel.channel?.lastbuilddate,
+                                                          null));
+                                                  SnackBar snackBar = SnackBar(
+                                                    content: Text('${item.word} 넣었습니다'),
+                                                    duration: const Duration(seconds: 1),
+                                                  );
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(snackBar);
+                                                }
+                                              },
+                                              backgroundColor: Theme.of(context).primaryColor,
+                                              foregroundColor: Theme.of(context).primaryColorDark,
+                                              icon: FontAwesomeIcons.floppyDisk,
+                                              padding: const EdgeInsets.all(0),
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                          ],
+                                        ),
+                                        child: GestureDetector(
+                                          onTap: () async {
+                                            if (widget.wordView[index] != null) {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => WordViewInfo(
+                                                          item: widget
+                                                              .wordView[index]?.channel?.item)));
+                                            } else {
+                                              const snackBar = SnackBar(
+                                                content: Text(
+                                                    '현재 국립국어원 Open API의 문제로\n 사진 자료가 있는 단어는 상세검색이 되지 않습니다.!'),
+                                                duration: Duration(seconds: 2),
+                                              );
+                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                            }
+                                          },
+                                          child: WordInfo(
+                                            item: widget.wordModel.channel?.item?[index] ??
+                                                search.Item(),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  }),
+                            ),
+                    ),
+                  ), //const CustomDivider(),
+                ],
+              ),
+      ),
+    );
   }
 
   // ignore: non_constant_identifier_names
-  TextField CustomTextFiled(BuildContext context) {
+  TextField CustomTextFiled(BuildContext context, bool isSecond) {
     return TextField(
-      //selectionHeightStyle: BoxHeightStyle.includeLineSpacingBottom,
+      key: const Key('textField'),
       controller: _wordSearchController,
       keyboardType: TextInputType.text,
       textAlign: TextAlign.center,
-      //textAlignVertical: TextAlignVertical.center,
       cursorColor: Theme.of(context).primaryColorDark,
-      //cursorHeight: ,
-      autofocus: _autoFocus,
+      autofocus: isSecond ? false : Provider.of<AppModel>(context).getAutoFocus(),
       focusNode: _myFocusNode,
       autocorrect: false,
       onSubmitted: (String text) {
         inputText = text;
         //print('입력하신 단어는 $inputText 입니다.');
-        setState(() {
-          isLoading = true;
-          //widget.wordView.clear();
-          getWordSearchData(inputText);
-          //FocusScope.of(context).unfocus();
-        });
+        // setState(() {
+        //   isLoading = true;
+        //   getWordSearchData(inputText);
+        //   //FocusScope.of(context).unfocus();
+        // });
+        isLoading = true;
+        getWordSearchData(inputText);
       },
       //scrollPadding: EdgeInsets.zero,
       decoration: InputDecoration.collapsed(
@@ -461,11 +444,11 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
         border: InputBorder.none,
       ),
       style: const TextStyle(
-        letterSpacing: 1.2,
-        fontWeight: FontWeight.bold,
-        fontSize: 20,
-        height: 1.5,
-      ),
+          letterSpacing: 1.2,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+          height: 1.5,
+          textBaseline: TextBaseline.alphabetic),
     );
   }
 }

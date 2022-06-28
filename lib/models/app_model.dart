@@ -2,23 +2,30 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
-class AppModel extends ChangeNotifier {
-  bool _autoFocus = false;
-  bool _method = true;
-  bool _left = false;
-  //final mediaQuery = MediaQuery.of().;
-  //ScrollController searchScrollController = ScrollController();
+class AppModel with ChangeNotifier {
+  bool _autoFocus;
+  bool _method;
+  bool _left;
+
+  AppModel(
+    this._autoFocus,
+    this._method,
+    this._left,
+  );
+  bool getAutoFocus() => _autoFocus;
+  bool getMethod() => _method;
+  bool getLeft() => _left;
 
   setAutoFocus(bool focus) async {
     final prefs = await SharedPreferences.getInstance();
     _autoFocus = focus;
     prefs.setBool('autoFocus', focus);
   }
-
-  getAutoFocus() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('autoFocus') ?? false;
-  }
+  //
+  // void getAutoFocus() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   return prefs.getBool('autoFocus') ?? false;
+  // }
 
   void setMethod(bool method) async {
     final prefs = await SharedPreferences.getInstance();

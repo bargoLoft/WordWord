@@ -85,9 +85,9 @@ class _WordViewInfoState extends State<WordViewInfo> {
                             ScaffoldMessenger.of(context).showSnackBar(snackBar);
                             setState(() {});
                           },
-                          child: const Icon(
+                          child: Icon(
                             Icons.check,
-                            color: Colors.grey,
+                            color: Theme.of(context).primaryColorDark,
                           ),
                         )
                       : TextButton(

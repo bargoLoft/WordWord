@@ -31,7 +31,12 @@ void main() async {
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => HiveService()),
-    ChangeNotifierProvider(create: (context) => AppModel()),
+    ChangeNotifierProvider(
+        create: (context) => AppModel(
+              (prefs.getBool('autoFocus')) ?? false,
+              (prefs.getBool('method')) ?? true,
+              (prefs.getBool('left')) ?? false,
+            )),
   ], child: const MyApp()));
 }
 

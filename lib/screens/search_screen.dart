@@ -30,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
       keepPage: true,
       initialPage: widget.getPage(),
     );
-    //init();
     super.initState();
   }
   //
@@ -48,10 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
   //         context, MaterialPageRoute(builder: (context) => HomeScreen()));
   //   });
   // }
-
-  Future init() async {
-    preference = await SharedPreferences.getInstance();
-  }
 
   @override
   void dispose() {
