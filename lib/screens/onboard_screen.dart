@@ -104,25 +104,29 @@ class _OnboardState extends State<Onboard> with TickerProviderStateMixin {
       pages: [
         PageViewModel(
           title: '단어를 검색하세요',
-          body: '한글로 된 단어를 검색하세요!',
+          body: '국립국어원 표준국어대사전 오픈 API를\n'
+              '이용해 만든 앱입니다!',
           image: _buildLottie('search.json'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: '단어를 넣어주세요',
-          body: '남기고 싶은 단어를 넣어주세요!',
+          body: '일상 속에서 또는 책 속에서\n'
+              '남기고 싶은 단어를 넣어주세요!',
           image: _buildLottie('empty_box.json'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: '단어에 남겨주세요',
-          body: '생각, 경험, 글을 남겨주세요!',
+          body: '단어를 보고 떠오른 모든 걸 남겨주세요!\n\n'
+              '모든 데이터는 기기에 저장되며 \n'
+              '인터넷은 단어 검색만을 위해 필요합니다.',
           image: _buildLottie('write.json'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: '언제나 어디서나 놓치지 마세요 ',
-          body: '사진처럼 단어를 남겨주세요',
+          title: '언제나 어디서나 놓치지 마세요!',
+          body: '한 장의 사진처럼 단어를 남겨주세요',
           image: _buildLottie('smartphone.json'),
           decoration: pageDecoration,
         ),
