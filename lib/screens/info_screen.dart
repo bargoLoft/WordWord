@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ios_utsname_ext/extension.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -204,11 +205,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                               SharedPreferences preferences = await SharedPreferences.getInstance();
                               await preferences.clear();
                               Navigator.pop(context);
-                              const snackBar = SnackBar(
-                                content: Text('다너다너가 초기화 되었습니다!'),
-                                duration: Duration(seconds: 1),
-                              );
-                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              showToast('다너다너가 초기화 되었습니다!');
                             },
                           )
                         ],
@@ -465,4 +462,16 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
     //print('${info.toMap()}');
     return {'OS 버전': '$systemName $version', '기기': '$machine'};
   }
+
+  void showToast(String msg) => Fluttertoast.showToast(
+        msg: msg,
+        //msg: '현재 국립국어원 Open API의 문제로\n 사진 자료가 있는 단어는 상세검색이 되지 않습니다.!',
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Theme.of(context).primaryColorLight,
+        textColor: Theme.of(context).primaryColorDark,
+        fontSize: 12.0,
+        toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 1,
+        webShowClose: false,
+      );
 }

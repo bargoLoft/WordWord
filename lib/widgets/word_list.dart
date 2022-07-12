@@ -5,10 +5,12 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lottie/lottie.dart';
 
 import 'package:word_word/main.dart';
 import 'package:word_word/models/app_model.dart';
@@ -34,19 +36,30 @@ class Word extends StatefulWidget {
   _WordState createState() => _WordState();
 }
 
-class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
+class _WordState extends State<Word> with SingleTickerProviderStateMixin {
   final _scrollController = ScrollController();
   final TextEditingController _wordSearchController = TextEditingController();
   final _myFocusNode = FocusNode();
+  late AnimationController lottieController;
 
   String inputText = '';
   bool isLoading = true;
-  @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
     isLoading = false;
+    lottieController = AnimationController(
+      duration: const Duration(seconds: 3),
+      vsync: this,
+    );
+
+    lottieController.addStatusListener((status) async {
+      if (status == AnimationStatus.completed) {
+        Navigator.pop(context);
+        lottieController.reset();
+      }
+    });
     super.initState();
     //Future.delayed(Duration(seconds: 2));
     //getWordData(widget.word).whenComplete(() => setState(() {}));
@@ -62,6 +75,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
   @override
   void dispose() {
     super.dispose();
+    lottieController.dispose();
     _myFocusNode.dispose();
     _scrollController.dispose();
     _wordSearchController.dispose();
@@ -78,11 +92,16 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
         setState(() {
           isLoading = false;
         });
-        const snackBar = SnackBar(
-          content: Text('검색 결과가 없습니다!'),
-          duration: Duration(seconds: 1),
+        Fluttertoast.showToast(
+          msg: "검색 결과가 없습니다!",
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.white,
+          textColor: Theme.of(context).primaryColorDark,
+          fontSize: 12.0,
+          toastLength: Toast.LENGTH_SHORT,
+          timeInSecForIosWeb: 1,
+          webShowClose: false,
         );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     });
     setState(() {
@@ -346,12 +365,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                                         Item();
                                                 if (WordBoxes.getWords()
                                                     .containsKey(item.targetCode)) {
-                                                  SnackBar snackBar = SnackBar(
-                                                    content: Text('${item.word}는 이미 저장되었습니다.'),
-                                                    duration: const Duration(seconds: 1),
-                                                  );
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(snackBar);
+                                                  showToast('${item.word}는 이미 저장되었습니다.');
                                                 } else {
                                                   WordBoxes.getWords().put(
                                                       item.targetCode ?? '',
@@ -363,12 +377,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                                           item.targetCode ?? '',
                                                           widget.wordModel.channel?.lastbuilddate,
                                                           null));
-                                                  SnackBar snackBar = SnackBar(
-                                                    content: Text('${item.word} 넣었습니다'),
-                                                    duration: const Duration(seconds: 1),
-                                                  );
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(snackBar);
+                                                  showToast('${item.word} 넣었습니다');
                                                 }
                                               },
                                               backgroundColor: Theme.of(context).primaryColor,
@@ -389,12 +398,7 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
                                                           item: widget
                                                               .wordView[index]?.channel?.item)));
                                             } else {
-                                              const snackBar = SnackBar(
-                                                content: Text(
-                                                    '현재 국립국어원 Open API의 문제로\n 사진 자료가 있는 단어는 상세검색이 되지 않습니다.!'),
-                                                duration: Duration(seconds: 2),
-                                              );
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                              showToast('조금만 천천히 눌러주세요');
                                             }
                                           },
                                           child: WordInfo(
@@ -414,6 +418,18 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
     );
   }
 
+  void showToast(String msg) => Fluttertoast.showToast(
+        msg: msg,
+        //msg: '현재 국립국어원 Open API의 문제로\n 사진 자료가 있는 단어는 상세검색이 되지 않습니다.!',
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Theme.of(context).primaryColorLight,
+        textColor: Theme.of(context).primaryColorDark,
+        fontSize: 12.0,
+        toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 1,
+        webShowClose: false,
+      );
+
   // ignore: non_constant_identifier_names
   TextField CustomTextFiled(BuildContext context, bool isSecond) {
     return TextField(
@@ -426,15 +442,13 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
       focusNode: _myFocusNode,
       autocorrect: false,
       onSubmitted: (String text) {
-        inputText = text;
-        //print('입력하신 단어는 $inputText 입니다.');
-        // setState(() {
-        //   isLoading = true;
-        //   getWordSearchData(inputText);
-        //   //FocusScope.of(context).unfocus();
-        // });
-        isLoading = true;
-        getWordSearchData(inputText);
+        if (text == '다너') {
+          showLottie();
+        } else {
+          inputText = text;
+          isLoading = true;
+          getWordSearchData(inputText);
+        }
       },
       //scrollPadding: EdgeInsets.zero,
       decoration: InputDecoration.collapsed(
@@ -451,6 +465,26 @@ class _WordState extends State<Word> with AutomaticKeepAliveClientMixin {
           textBaseline: TextBaseline.alphabetic),
     );
   }
+
+  void showLottie() => showDialog(
+      context: context,
+      builder: (context) => Dialog(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Lottie.asset('assets/lottie/fanfare.json',
+                    controller: lottieController, repeat: false, onLoaded: (composition) {
+                  lottieController.forward();
+                }),
+                const Text('다너다너를 사랑해주셔서 감사합니다.'),
+                const SizedBox(
+                  height: 30,
+                )
+              ],
+            ),
+          ));
 }
 
 class CustomDivider extends StatelessWidget {

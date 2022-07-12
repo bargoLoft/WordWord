@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:word_word/boxes.dart';
 import 'package:word_word/models/word.dart';
 import 'package:word_word/models/word_view.dart';
@@ -9,6 +10,7 @@ import 'package:word_word/providers/word_search.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:word_word/providers/hive_service.dart';
+import 'package:word_word/screens/info_screen.dart';
 
 import 'package:intl/intl.dart';
 
@@ -78,11 +80,7 @@ class _WordViewInfoState extends State<WordViewInfo> {
                           ),
                           onPressed: () async {
                             HiveService().deleteItem(widget.item?.targetCode ?? '');
-                            SnackBar snackBar = SnackBar(
-                              content: Text('${widget.item?.wordInfo?.word} 제거 했습니다.'),
-                              duration: const Duration(seconds: 1),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            showToast('${widget.item?.wordInfo?.word} 제거 했습니다.');
                             setState(() {});
                           },
                           child: Icon(
@@ -107,11 +105,7 @@ class _WordViewInfoState extends State<WordViewInfo> {
                                     widget.item?.targetCode ?? '',
                                     DateFormat('yyyyMMddhhmmss').format(DateTime.now()),
                                     null));
-                            SnackBar snackBar = SnackBar(
-                              content: Text('${widget.item?.wordInfo?.word} 넣었습니다'),
-                              duration: const Duration(seconds: 1),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            showToast('${widget.item?.wordInfo?.word} 넣었습니다');
                             setState(() {});
                           },
                           child: const Icon(
@@ -328,4 +322,16 @@ class _WordViewInfoState extends State<WordViewInfo> {
       ),
     );
   }
+
+  void showToast(String msg) => Fluttertoast.showToast(
+        msg: msg,
+        //msg: '현재 국립국어원 Open API의 문제로\n 사진 자료가 있는 단어는 상세검색이 되지 않습니다.!',
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Theme.of(context).primaryColorLight,
+        textColor: Theme.of(context).primaryColorDark,
+        fontSize: 13.0,
+        toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 1,
+        webShowClose: false,
+      );
 }
