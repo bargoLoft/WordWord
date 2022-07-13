@@ -54,20 +54,15 @@ class _SettingState extends State<Setting> {
                       '앱 시작시 바로 검색',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
-                    CupertinoSlidingSegmentedControl(
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
-                      groupValue: _autoFocus,
-                      children: const {
-                        true: Text(' 네 '),
-                        false: Text('아니요'),
-                      },
-                      onValueChanged: <bool>(newValue) {
+                    CupertinoSwitch(
+                      value: _autoFocus,
+                      onChanged: <bool>(value) {
                         setState(() {
-                          _autoFocus = newValue;
-                          _prefs.setBool('autoFocus', newValue);
+                          _autoFocus = value;
+                          _prefs.setBool('autoFocus', _autoFocus);
                         });
                       },
-                      thumbColor: Theme.of(context).primaryColorLight,
+                      activeColor: Theme.of(context).primaryColor,
                     ),
                   ],
                 ),
@@ -105,21 +100,31 @@ class _SettingState extends State<Setting> {
                       '왼손잡이입니까?',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
-                    CupertinoSlidingSegmentedControl(
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
-                      groupValue: _isLeftHanded,
-                      children: const {
-                        true: Text(' 네 '),
-                        false: Text('아니요'),
-                      },
-                      onValueChanged: <bool>(newValue) {
+                    CupertinoSwitch(
+                      value: _isLeftHanded,
+                      onChanged: <bool>(value) {
                         setState(() {
-                          _isLeftHanded = newValue;
+                          _isLeftHanded = value;
                           _prefs.setBool('left', _isLeftHanded);
                         });
                       },
-                      thumbColor: Theme.of(context).primaryColorLight,
+                      activeColor: Theme.of(context).primaryColor,
                     ),
+                    // CupertinoSlidingSegmentedControl(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+                    //   groupValue: _isLeftHanded,
+                    //   children: const {
+                    //     true: Text(' 네 '),
+                    //     false: Text('아니요'),
+                    //   },
+                    //   onValueChanged: <bool>(newValue) {
+                    //     setState(() {
+                    //       _isLeftHanded = newValue;
+                    //       _prefs.setBool('left', _isLeftHanded);
+                    //     });
+                    //   },
+                    //   thumbColor: Theme.of(context).primaryColorLight,
+                    // ),
                   ],
                 ),
               ],
