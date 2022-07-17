@@ -8,14 +8,15 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ios_utsname_ext/extension.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:word_word/boxes.dart';
-import 'package:lottie/lottie.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:word_word/screens/license.dart';
+import 'package:word_word/screens/setting_screen.dart';
 
-import '../screens/setting_screen.dart';
+import '../models/app_model.dart';
 
 class InfoScreen extends StatefulWidget {
   const InfoScreen({Key? key}) : super(key: key);
@@ -31,6 +32,11 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
   final instaUrl = 'https://www.instagram.com/2cup_2/';
   late final AnimationController _controller;
   final Completer<WebViewController> webController = Completer<WebViewController>();
+
+  bool _autoFocus = false;
+  bool _isLeftHanded = false;
+  //bool _method = true;
+  late SharedPreferences _prefs;
 
   bool _isInstaVisible = false;
 
@@ -49,6 +55,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     _controller = AnimationController(vsync: this);
+    _loadCounter();
     super.initState();
   }
 
@@ -56,6 +63,15 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  _loadCounter() async {
+    _prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _autoFocus = _prefs.getBool('autoFocus') ?? false;
+      //_method = _prefs.getBool('method') ?? true;
+      _isLeftHanded = _prefs.getBool('left') ?? false;
+    });
   }
 
   @override
@@ -66,7 +82,6 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       alignment: Alignment.centerLeft,
     );
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -160,7 +175,9 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
               padding: const EdgeInsets.only(left: 25),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const Setting()));
+                  //Navigator.push(
+                  //    context, MaterialPageRoute(builder: (context) => const Setting()));
+                  showBottomSheet(context);
                 },
                 style: buttonStyle,
                 child: SizedBox(
@@ -329,8 +346,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: const [
-                    Text(
-                        '본 앱은 표준국어대사전 오픈 API 서비스를 통해 제작되었으며,\n모든 사전정보의 저작권은 국립국어원에 있습니다.\n\n언뜻 스친 단어를 담아\n사색하고 음미하는 시간이 되었으면 좋겠습니다.'),
+                    Text('언뜻 스친 단어를 담아\n사색하고 음미하는 시간이 되었으면 좋겠습니다.'),
                   ],
                 )),
             // Center(
@@ -352,6 +368,120 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  void showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Consumer(
+                builder: (context, appModel, child) => Container(
+                  height: 200,
+                  color: Colors.white,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '앱 시작시 바로 검색',
+                                    style: Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  CupertinoSwitch(
+                                    value: _autoFocus,
+                                    onChanged: <bool>(value) {
+                                      setState(() {
+                                        _autoFocus = value;
+                                        _prefs.setBool('autoFocus', _autoFocus);
+                                      });
+                                    },
+                                    activeColor: Theme.of(context).primaryColor,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     Text(
+                              //       '단어 검색 조건',
+                              //       style: Theme.of(context).textTheme.bodyLarge,
+                              //     ),
+                              //     CupertinoSlidingSegmentedControl(
+                              //       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                              //       groupValue: _method,
+                              //       children: const {
+                              //         'exact': Text(' 일치 '),
+                              //         'include': Text(' 포함 '),
+                              //       },
+                              //       onValueChanged: <bool>(newValue) {
+                              //         setState(() {
+                              //           _method = newValue;
+                              //           _prefs.setString('method', _method);
+                              //         });
+                              //       },
+                              //       thumbColor: Theme.of(context).primaryColorLight,
+                              //       backgroundColor: CupertinoColors.extraLightBackgroundGray,
+                              //     ),
+                              //   ],
+                              // ),
+                              // const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '왼손잡이입니까?',
+                                    style: Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  CupertinoSwitch(
+                                    value: _isLeftHanded,
+                                    onChanged: <bool>(value) {
+                                      setState(() {
+                                        _isLeftHanded = value;
+                                        _prefs.setBool('left', _isLeftHanded);
+                                      });
+                                    },
+                                    activeColor: Theme.of(context).primaryColor,
+                                  ),
+                                  // CupertinoSlidingSegmentedControl(
+                                  //   padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+                                  //   groupValue: _isLeftHanded,
+                                  //   children: const {
+                                  //     true: Text(' 네 '),
+                                  //     false: Text('아니요'),
+                                  //   },
+                                  //   onValueChanged: <bool>(newValue) {
+                                  //     setState(() {
+                                  //       _isLeftHanded = newValue;
+                                  //       _prefs.setBool('left', _isLeftHanded);
+                                  //     });
+                                  //   },
+                                  //   thumbColor: Theme.of(context).primaryColorLight,
+                                  // ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        ElevatedButton(
+                          child: const Text('완료'),
+                          onPressed: () => Navigator.pop(context),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        });
   }
 
   //url 메소

@@ -14,7 +14,7 @@ class Setting extends StatefulWidget {
 class _SettingState extends State<Setting> {
   bool _autoFocus = false;
   bool _isLeftHanded = false;
-  bool _method = true;
+  //bool _method = true;
   late SharedPreferences _prefs;
 
   @override
@@ -28,7 +28,7 @@ class _SettingState extends State<Setting> {
     _prefs = await SharedPreferences.getInstance();
     setState(() {
       _autoFocus = _prefs.getBool('autoFocus') ?? false;
-      _method = _prefs.getBool('method') ?? true;
+      //_method = _prefs.getBool('method') ?? true;
       _isLeftHanded = _prefs.getBool('left') ?? false;
     });
   }

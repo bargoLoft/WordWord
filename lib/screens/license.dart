@@ -98,7 +98,7 @@ class Licence extends StatelessWidget {
 class MiscOssLicenseSingle extends StatelessWidget {
   final Package package;
 
-  MiscOssLicenseSingle({required this.package});
+  const MiscOssLicenseSingle({Key? key, required this.package}) : super(key: key);
 
   String _bodyText() {
     return package.license!.split('\n').map((line) {

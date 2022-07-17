@@ -26,7 +26,7 @@ class _OnboardState extends State<Onboard> with TickerProviderStateMixin {
     return Lottie.asset(
       'assets/lottie/$assetName',
       repeat: true,
-      height: 350,
+      height: width,
       controller: _lottieController,
       onLoaded: (composition) {
         // Configure the AnimationController with the duration of the

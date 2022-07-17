@@ -5,7 +5,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import '../boxes.dart';
 import '../models/word.dart';
-import '../widgets/word_list.dart';
 
 class WriteList extends StatefulWidget {
   const WriteList({Key? key}) : super(key: key);
