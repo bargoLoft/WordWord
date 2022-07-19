@@ -473,6 +473,13 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                         ElevatedButton(
                           child: const Text('완료'),
                           onPressed: () => Navigator.pop(context),
+                          style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all(Theme.of(context).primaryColorDark),
+                            backgroundColor:
+                                MaterialStateProperty.all(Theme.of(context).primaryColor),
+                            shadowColor: MaterialStateProperty.all(Colors.transparent),
+                          ),
                         )
                       ],
                     ),

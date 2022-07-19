@@ -89,16 +89,7 @@ class _WordState extends State<Word> with SingleTickerProviderStateMixin {
         setState(() {
           isLoading = false;
         });
-        Fluttertoast.showToast(
-          msg: "검색 결과가 없습니다!",
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.white,
-          textColor: Theme.of(context).primaryColorDark,
-          fontSize: 12.0,
-          toastLength: Toast.LENGTH_SHORT,
-          timeInSecForIosWeb: 1,
-          webShowClose: false,
-        );
+        showToast('검색 결과가 없습니다!', Colors.red.shade50);
       }
     });
     setState(() {
@@ -415,11 +406,11 @@ class _WordState extends State<Word> with SingleTickerProviderStateMixin {
     );
   }
 
-  void showToast(String msg) => Fluttertoast.showToast(
+  void showToast(String msg, [Color? backgroundColor]) => Fluttertoast.showToast(
         msg: msg,
         //msg: '현재 국립국어원 Open API의 문제로\n 사진 자료가 있는 단어는 상세검색이 되지 않습니다.!',
         gravity: ToastGravity.BOTTOM,
-        backgroundColor: Theme.of(context).primaryColorLight,
+        backgroundColor: backgroundColor ?? Theme.of(context).primaryColorLight,
         textColor: Theme.of(context).primaryColorDark,
         fontSize: 12.0,
         toastLength: Toast.LENGTH_SHORT,
