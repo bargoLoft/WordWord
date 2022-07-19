@@ -53,7 +53,7 @@ class _WordState extends State<Word> with SingleTickerProviderStateMixin {
 
     lottieController.addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
-        Navigator.pop(context);
+        //Navigator.pop(context);
         lottieController.reset();
       }
     });
@@ -411,7 +411,8 @@ class _WordState extends State<Word> with SingleTickerProviderStateMixin {
         //msg: '현재 국립국어원 Open API의 문제로\n 사진 자료가 있는 단어는 상세검색이 되지 않습니다.!',
         gravity: ToastGravity.BOTTOM,
         backgroundColor: backgroundColor ?? Theme.of(context).primaryColorLight,
-        textColor: Theme.of(context).primaryColorDark,
+        textColor:
+            backgroundColor != null ? Colors.red.shade300 : Theme.of(context).primaryColorDark,
         fontSize: 12.0,
         toastLength: Toast.LENGTH_SHORT,
         timeInSecForIosWeb: 1,

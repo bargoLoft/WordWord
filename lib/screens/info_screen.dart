@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:async';
 import 'dart:io';
 
@@ -14,9 +16,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:word_word/boxes.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:word_word/screens/license.dart';
-import 'package:word_word/screens/setting_screen.dart';
-
-import '../models/app_model.dart';
 
 class InfoScreen extends StatefulWidget {
   const InfoScreen({Key? key}) : super(key: key);
@@ -378,7 +377,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
             builder: (BuildContext context, StateSetter setState) {
               return Consumer(
                 builder: (context, appModel, child) => Container(
-                  height: 200,
+                  height: 230,
                   color: Colors.white,
                   child: Center(
                     child: Column(
@@ -386,6 +385,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                         Padding(
                           padding: const EdgeInsets.all(20),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -466,6 +466,14 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                                   //   thumbColor: Theme.of(context).primaryColorLight,
                                   // ),
                                 ],
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                '설정 변경 후 앱을 재시작 해주세요',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.grey.shade400,
+                                ),
                               ),
                             ],
                           ),
