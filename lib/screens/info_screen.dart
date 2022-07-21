@@ -25,7 +25,7 @@ class InfoScreen extends StatefulWidget {
 }
 
 class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
-  final blogUrl = 'https://blog.naver.com/qmak01';
+  final blogUrl = 'https://velog.io/@bargoloft';
   final dicKoreanUrl = 'https://stdict.korean.go.kr/main/main.do';
   final dicUrimalUrl = 'https://opendict.korean.go.kr/main';
   final instaUrl = 'https://www.instagram.com/2cup_2/';
@@ -285,7 +285,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                           child: Image(
                             width: 20,
                             height: 20,
-                            image: AssetImage('assets/images/naver_blog_icon.png'),
+                            image: AssetImage('assets/images/greenfavicon.png'),
                           ),
                         ),
                       ],
