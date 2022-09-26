@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ios_utsname_ext/extension.dart';
@@ -15,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:word_word/boxes.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:word_word/models/app_model.dart';
 import 'package:word_word/screens/license.dart';
 
 class InfoScreen extends StatefulWidget {
@@ -292,6 +294,9 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  width: 3,
+                ),
                 if (_isInstaVisible)
                   // const Padding(
                   //   padding: EdgeInsets.all(5),
@@ -399,7 +404,6 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                                     onChanged: <bool>(value) {
                                       setState(() {
                                         _autoFocus = value;
-                                        _prefs.setBool('autoFocus', _autoFocus);
                                       });
                                     },
                                     activeColor: Theme.of(context).primaryColor,
@@ -445,7 +449,6 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                                     onChanged: <bool>(value) {
                                       setState(() {
                                         _isLeftHanded = value;
-                                        _prefs.setBool('left', _isLeftHanded);
                                       });
                                     },
                                     activeColor: Theme.of(context).primaryColor,
@@ -480,7 +483,12 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                         ),
                         ElevatedButton(
                           child: const Text('완료'),
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () {
+                            HapticFeedback.lightImpact();
+                            Provider.of<AppModel>(context, listen: false).setAutoFocus(_autoFocus);
+                            Provider.of<AppModel>(context, listen: false).setLeft(_isLeftHanded);
+                            Navigator.pop(context);
+                          },
                           style: ButtonStyle(
                             foregroundColor:
                                 MaterialStateProperty.all(Theme.of(context).primaryColorDark),

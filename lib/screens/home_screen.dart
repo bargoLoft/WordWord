@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:word_word/providers/hive_service.dart';
 import 'package:word_word/screens/write_screen.dart';
@@ -48,6 +49,7 @@ class _HomeState extends State<Home> {
   }
 
   void _onItemTapped(int index) {
+    HapticFeedback.lightImpact();
     if (_selectedIndex != index) {
       setState(() {
         _selectedIndex = index;
@@ -88,7 +90,7 @@ class _HomeState extends State<Home> {
 
       //_widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.09,
+        height: MediaQuery.of(context).size.height * 0.095,
         child: BottomNavigationBar(
           iconSize: 23,
           items: <BottomNavigationBarItem>[

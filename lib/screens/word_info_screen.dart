@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:word_word/boxes.dart';
 import 'package:word_word/models/word.dart';
@@ -62,6 +63,8 @@ class _WordViewInfoState extends State<WordViewInfo> {
                       padding: MaterialStateProperty.all(EdgeInsets.zero),
                     ),
                     onPressed: () {
+                      HapticFeedback.lightImpact();
+
                       Navigator.pop(context);
                     },
                     child: const Icon(
@@ -78,13 +81,31 @@ class _WordViewInfoState extends State<WordViewInfo> {
                             padding: MaterialStateProperty.all(EdgeInsets.zero),
                           ),
                           onPressed: () async {
+                            HapticFeedback.lightImpact();
                             HiveService().deleteItem(widget.item?.targetCode ?? '');
                             showToast('${widget.item?.wordInfo?.word} 제거 했습니다', Colors.red.shade50);
                             setState(() {});
                           },
-                          child: Icon(
-                            Icons.check,
-                            color: Theme.of(context).primaryColorDark,
+                          child: Wrap(
+                            direction: Axis.vertical,
+                            alignment: WrapAlignment.center,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.check,
+                                color: Theme.of(context).primaryColorDark,
+                              ),
+                              Text(
+                                DateFormat('yy/MM/dd')
+                                    .format(DateTime.parse((WordBoxes.getWords()
+                                                .get(widget.item?.targetCode)
+                                                ?.saveTime ??
+                                            '')
+                                        .substring(0, 8)))
+                                    .toString(),
+                                style: TextStyle(fontSize: 9, color: Colors.grey),
+                              ),
+                            ],
                           ),
                         )
                       : TextButton(
@@ -92,6 +113,8 @@ class _WordViewInfoState extends State<WordViewInfo> {
                             padding: MaterialStateProperty.all(EdgeInsets.zero),
                           ),
                           onPressed: () {
+                            HapticFeedback.lightImpact();
+
                             HiveService().updateItem(
                                 widget.item?.targetCode ?? '',
                                 wordtest(

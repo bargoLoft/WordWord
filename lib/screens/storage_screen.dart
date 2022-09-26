@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -186,36 +187,36 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                     style: const TextStyle(
                         fontSize: 14, color: Colors.black87, fontFamily: 'KoPubBatang'),
                   ),
-                  // Center(
-                  //   child: CupertinoSlidingSegmentedControl(
-                  //     padding: const EdgeInsets.all(4),
-                  //     groupValue: groupValue,
-                  //     children: const {
-                  //       0: Icon(FontAwesomeIcons.listUl),
-                  //       1: Icon(FontAwesomeIcons.minus),
-                  //     },
-                  //     onValueChanged: (groupValue) {
-                  //       setState(() {
-                  //         this.groupValue = groupValue as int?;
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
+                  Center(
+                    child: CupertinoSlidingSegmentedControl(
+                      padding: const EdgeInsets.all(4),
+                      groupValue: groupValue,
+                      children: const {
+                        0: Icon(FontAwesomeIcons.listUl),
+                        1: Icon(FontAwesomeIcons.minus),
+                      },
+                      onValueChanged: (groupValue) {
+                        setState(() {
+                          this.groupValue = groupValue as int?;
+                        });
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
             const SizedBox(height: 5),
             Consumer<HiveService>(
               builder: (context, hiveService, child) => Expanded(
-                child: Scrollbar(
-                  child: ListView.builder(
-                      scrollDirection: groupValue == 0 ? Axis.vertical : Axis.vertical,
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      itemCount: WordBoxes.getWords().length,
-                      itemBuilder: (context, int index) {
-                        var word = words[index];
-                        return groupValue == 0
-                            ? Container(
+                child: groupValue == 0
+                    ? Scrollbar(
+                        child: ListView.builder(
+                            //scrollDirection: groupValue == 0 ? Axis.vertical : Axis.vertical,
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            itemCount: WordBoxes.getWords().length,
+                            itemBuilder: (context, int index) {
+                              var word = words[index];
+                              return Container(
                                 margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
                                 child: Slidable(
@@ -264,10 +265,27 @@ class _StorageScreenState extends State<StorageScreen> with TickerProviderStateM
                                       },
                                       child: buildListCard(context, word)),
                                 ),
-                              )
-                            : WordChip(word: word.word);
-                      }),
-                ),
+                              );
+                            }),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Wrap(
+                            spacing: 3,
+                            runSpacing: 5,
+                            alignment: WrapAlignment.spaceBetween,
+                            children: List.generate(
+                              WordBoxes.getWords().length,
+                              (index) {
+                                var word = words[index];
+                                return WordChip(word: word.word);
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
               ),
             ),
           ],

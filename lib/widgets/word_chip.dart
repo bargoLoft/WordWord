@@ -16,25 +16,25 @@ class _WordChipState extends State<WordChip> {
   bool _isSelected = false;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: ChoiceChip(
-        elevation: 5,
-        selectedColor: Colors.white,
-        backgroundColor: Colors.grey.shade300,
-// avatar: Image.,
-        label: Text('${widget.word}'),
-        labelPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-        labelStyle: const TextStyle(
-          fontSize: 20,
-        ),
-        selected: _isSelected,
-        onSelected: (newBoolValue) {
-          setState(() {
-            _isSelected = newBoolValue;
-          });
-        },
+    return ChoiceChip(
+      padding: const EdgeInsets.symmetric(vertical: 0),
+      elevation: 0.5,
+      selectedColor: Colors.white,
+      backgroundColor: Colors.white,
+      shape: const StadiumBorder(side: BorderSide()),
+      side: BorderSide(width: 0.5, color: Theme.of(context).primaryColor),
+      label: Text('${widget.word}'),
+      labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+      labelStyle: const TextStyle(
+        fontSize: 13,
       ),
+      selected: _isSelected,
+      onSelected: (newBoolValue) {
+        setState(() {
+          _isSelected = newBoolValue;
+        });
+      },
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     );
   }
 }

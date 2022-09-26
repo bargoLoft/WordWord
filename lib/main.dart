@@ -73,10 +73,12 @@ class MyApp extends StatelessWidget {
         //   '/2': (context) => const InfoScreen(),
         // },
         home: AnimatedSplashScreen(
-          duration: 100,
-          splash:
-              const Image(image: AssetImage('assets/launcher_icon/launcher_icon_1024_text.png')),
+          duration: 50,
+          splash: const Image(image: AssetImage('assets/images/splash_icon.png')),
           splashTransition: SplashTransition.fadeTransition,
+          //customTween: Tween(begin: 0, end: 2),
+          curve: Curves.easeInQuad,
+          //animationDuration: Duration(seconds: 1),
           //curve: Curves.fastLinearToSlowEaseIn,
           pageTransitionType: PageTransitionType.fade,
           splashIconSize: 250,

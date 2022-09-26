@@ -12,7 +12,7 @@ class WordInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 0.5,
+      elevation: 0,
       margin: const EdgeInsets.fromLTRB(5, 0, 3, 0),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),

@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -189,6 +190,7 @@ class _WordState extends State<Word> with SingleTickerProviderStateMixin {
                       alignment: Alignment.center,
                       child: GestureDetector(
                         onTap: () async {
+                          HapticFeedback.lightImpact();
                           setState(() {
                             isLoading = true;
                           });
@@ -224,6 +226,7 @@ class _WordState extends State<Word> with SingleTickerProviderStateMixin {
                     child: Center(
                       child: GestureDetector(
                         onTap: () async {
+                          HapticFeedback.lightImpact();
                           setState(() {
                             isLoading = true;
                           });
@@ -259,6 +262,7 @@ class _WordState extends State<Word> with SingleTickerProviderStateMixin {
                                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                                 constraints: const BoxConstraints(),
                                 onPressed: () async {
+                                  HapticFeedback.lightImpact();
                                   final result = await Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (context) => const RecentWordList()),
@@ -287,6 +291,7 @@ class _WordState extends State<Word> with SingleTickerProviderStateMixin {
                                   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                                   constraints: const BoxConstraints(),
                                   onPressed: () {
+                                    HapticFeedback.lightImpact();
                                     _wordSearchController.text = ' ';
                                     FocusScope.of(context).requestFocus(_myFocusNode);
                                   },
@@ -378,6 +383,7 @@ class _WordState extends State<Word> with SingleTickerProviderStateMixin {
                                         ),
                                         child: GestureDetector(
                                           onTap: () async {
+                                            HapticFeedback.lightImpact();
                                             if (widget.wordView[index] != null) {
                                               Navigator.push(
                                                   context,

@@ -13,7 +13,6 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '../boxes.dart';
 import '../models/word.dart';
-import '../providers/hive_service.dart';
 import '../screens/write_list.dart';
 
 class WriteScreen extends StatefulWidget {
@@ -156,6 +155,7 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
                         left: 5,
                         child: TextButton(
                             onPressed: () async {
+                              HapticFeedback.lightImpact();
                               int? result = await Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => const WriteList()),
@@ -193,6 +193,7 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
                               padding: MaterialStateProperty.all(EdgeInsets.zero),
                             ),
                             onPressed: () {
+                              HapticFeedback.lightImpact();
                               String json =
                                   jsonEncode(_quillController.document.toDelta().toJson());
                               words[currentIndex].write = json;
@@ -220,6 +221,7 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
                       children: [
                         GestureDetector(
                           onTap: () async {
+                            HapticFeedback.lightImpact();
                             await showCupertinoModalPopup(
                                 context: context,
                                 builder: (context) => SizedBox(
@@ -287,6 +289,7 @@ class _WriteScreenState extends State<WriteScreen> with TickerProviderStateMixin
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           child: GestureDetector(
                             onTap: () async {
+                              HapticFeedback.lightImpact();
                               // await showCupertinoModalPopup(
                               //     context: context,
                               //     builder: (context) => SizedBox(
@@ -431,6 +434,7 @@ class _CustomQuillToolbarState extends State<CustomQuillToolbar> {
         IconButton(
           iconSize: 20,
           onPressed: () {
+            HapticFeedback.lightImpact();
             Clipboard.setData(ClipboardData(text: widget._quillController.document.toPlainText()));
             const snackBar = SnackBar(
               content: Text('클립보드에 저장되었습니다!'),
