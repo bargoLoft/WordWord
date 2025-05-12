@@ -1,16 +1,93 @@
-# WordWord
+# 📚 다너다너 (DanuhDanuh)
 
-A new Flutter project.
+> 단어 다 넣어, 다 넣어, 다너다너  
+**표준국어대사전 OpenAPI 기반의 국어사전 앱**  
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🌐 다운로드
 
-A few resources to get you started if this is your first Flutter project:
+- **[Google Play Store](https://play.google.com/store/apps/details?id=com.WordWord)**
+- **[Apple App Store](https://apps.apple.com/kr/app/%EB%8B%A4%EB%84%88%EB%8B%A4%EB%84%88/id1632359307)**
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+> 조금만 사랑해 주세요. (하루 검색 5만 건 제한... 있습니다...)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## ✨ 주요 기능
+
+- 🔍 **빠른 단어 검색** – 표준국어대사전 OpenAPI 연동
+- 📝 **단어 상세 정보 제공** – 뜻, 발음, 품사 등
+- 🧠 **검색 기록 자동 저장**
+- 🎲 **랜덤 단어 추천** (숨겨진 기능! 아래 참고)
+- 📚 **사용자 단어 목록 기능** – 작성/저장 탭 제공
+
+---
+
+## 🕵️ 숨겨진 기능 (사실은 안 숨겼어요)
+
+1. 검색화면 상단 `다너다너` 로고 클릭 → **랜덤 단어 검색**
+2. 검색창 하단 돋보기 아이콘 클릭 → **검색 기록 보기** (클릭해도 검색 안 돼요)
+3. 세 번째 탭(작성) → 단어 누르면 저장된 단어 목록 표시됨
+4. 좌상단 목록 버튼 → 직접 작성한 단어만 표시됨 (속지 마세요!)
+5. 검색이 느릴 때가 있습니다… 표준국어대사전 API 속도 문제입니다… 앱 잘못은 아닙니다…
+
+---
+
+## 🛠️ 기술 스택 및 주요 사용 패키지
+
+- **개발 환경**: Flutter (Dart)
+- **API**: 표준국어대사전 OpenAPI
+- **상태 관리**: setState() 위주 (차후 Provider / Bloc 도입 예정)
+- **저장소**: Hive, SharedPreferences
+- **부가 기능**: email_sender, 검색 기록 로컬 저장 등
+
+---
+
+## 📦 개발 중 겪은 일들
+
+- JSON 디코딩에만 **1주일** 소요  
+- 수도관 터지고 막고 침수되는 듯한 디버깅의 연속  
+- API 오류 제보 → **국립국어원, 4달째 미해결**
+- 개발자보단 편집자 느낌…  
+- **클린 코드의 중요성 절실히 체감**  
+- spaghetti 코드 → 유지보수 난이도 최상
+
+---
+
+## 🔁 향후 개선 계획
+
+- 🔁 코드 리팩토링 (상태 관리 개선: Provider, Bloc 등)
+- ☁️ Firebase 로그인 및 서버 연동
+- 🌙 다크모드 및 UI 개선
+- 🛠️ 앱스토어 재출시 준비
+
+---
+
+## 🧠 제작 동기
+
+> "일상 속 단어에 스친 생각을 담는 사전”
+
+일상 속에서 단어가 생소하게 느껴지고 새로운 심상이 떠오를 때가 있습니다.
+자칫 스쳐 사라지는 생각들을 잘 담아 고이 간직할 수 있다면 좋을 것 같아 만들게 되었습니다. 
+
+---
+
+## 📸 스크린샷
+
+> (여기에 실제 앱 화면 캡처 넣어주세요: 검색 화면, 단어 상세, 작성 탭 등)
+
+---
+
+## 🧑‍💻 개발자 정보
+
+- **개발자**: 바르고
+- **GitHub**: [github.com/bargoLoft](https://github.com/bargoLoft)
+- **개발 블로그**: [다너다너 개발기 회고](https://blog.naver.com/qmak01/222638102502)
+
+---
+
+## 📄 라이선스
+
+MIT License  
+자세한 내용은 [LICENSE](./LICENSE) 파일을 참고하세요.
